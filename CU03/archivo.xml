@@ -1,0 +1,67 @@
+<ifml:ViewContainer xmlns:ifml="http://www.omg.org/spec/IFML/20131001"
+                     xmlns:ifmlc="http://www.omg.org/spec/IFML/20131001/IFMLCore"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xsi:schemaLocation="http://www.omg.org/spec/IFML/20131001 
+                                         http://www.omg.org/spec/IFML/20131001/IFMLCore.xsd">
+    <!-- Página Inicial -->
+    <ifml:ViewContainer id="homePage" name="Inicio">
+        <ifml:DisplayContainer>
+            <ifml:Content>
+                <ifml:DisplayElement id="welcomeMessage" name="Bienvenido">
+                    <ifml:Text>Esta es la página de inicio. Selecciona una opción del menú para continuar.</ifml:Text>
+                </ifml:DisplayElement>
+            </ifml:Content>
+        </ifml:DisplayContainer>
+        <ifml:InteractionFlow id="navigateToRegister" name="Ir a Registro">
+            <ifml:Event event="Click">
+                <ifml:Target target="registrationPage"/>
+            </ifml:Event>
+        </ifml:InteractionFlow>
+    </ifml:ViewContainer>
+
+    <!-- Página de Registro -->
+    <ifml:ViewContainer id="registrationPage" name="Registro de Docente">
+        <ifml:DisplayContainer>
+            <ifml:Content>
+                <ifml:Form id="registrationForm" name="Formulario de Registro">
+                    <ifml:Fieldset id="personalData" name="Datos Personales">
+                        <ifml:Field id="dni" name="DNI" type="Text" required="true"/>
+                        <ifml:Field id="firstName" name="Nombre" type="Text" required="true"/>
+                        <ifml:Field id="lastName" name="Apellido" type="Text" required="true"/>
+                        <ifml:Field id="phoneArea" name="Teléfono (Área)" type="Text" required="true"/>
+                        <ifml:Field id="phoneNumber" name="Número de Teléfono" type="Text" required="true"/>
+                        <ifml:Field id="address" name="Dirección" type="Text" required="true"/>
+                        <ifml:Field id="email" name="Email" type="Email" required="true"/>
+                    </ifml:Fieldset>
+                    <ifml:Fieldset id="academicData" name="Datos Académicos">
+                        <ifml:Field id="degreeName" name="Título" type="Text" required="true"/>
+                        <ifml:Field id="degreeInstitution" name="Institución" type="Text" required="true"/>
+                        <ifml:Field id="degreePdf" name="PDF del Título" type="File" accept=".pdf" required="true"/>
+                    </ifml:Fieldset>
+                    <ifml:Fieldset id="experienceData" name="Experiencia">
+                        <ifml:Field id="experience" name="Detalles de Experiencia" type="TextArea" required="true"/>
+                        <ifml:Field id="experiencePdf" name="PDF de Experiencia" type="File" accept=".pdf" required="true"/>
+                    </ifml:Fieldset>
+                    <ifml:Fieldset id="coursesData" name="Cursos">
+                        <ifml:Field id="courses" name="Detalles de Cursos" type="TextArea" required="true"/>
+                        <ifml:Field id="coursesPdf" name="PDF de Cursos" type="File" accept=".pdf" required="true"/>
+                    </ifml:Fieldset>
+                    <ifml:Fieldset id="accessData" name="Datos de Acceso">
+                        <ifml:Field id="username" name="Usuario" type="Text" required="true"/>
+                        <ifml:Field id="password" name="Contraseña" type="Password" required="true"/>
+                    </ifml:Fieldset>
+                    <ifml:Action id="submitRegistration" name="Registrar" type="Submit"/>
+                </ifml:Form>
+                <ifml:DisplayElement id="message" name="Mensaje">
+                    <ifml:Text>Mensaje de registro</ifml:Text>
+                </ifml:DisplayElement>
+            </ifml:Content>
+        </ifml:DisplayContainer>
+        <ifml:InteractionFlow id="navigateToHome" name="Ir a Inicio">
+            <ifml:Event event="Click">
+                <ifml:Target target="homePage"/>
+            </ifml:Event>
+        </ifml:InteractionFlow>
+    </ifml:ViewContainer>
+</ifml:ViewContainer>
+
