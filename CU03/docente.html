@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Registro de Docentes</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Sistema de Registro de Docentes</h1>
+        <nav>
+            <ul>
+                <li><a href="#" data-page="home">Inicio</a></li>
+                <li><a href="#" data-page="register">Registro de Docente</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="homeSection" class="content-section">
+            <h2>Bienvenido</h2>
+            <p>Esta es la página de inicio. Selecciona una opción del menú para continuar.</p>
+        </section>
+
+        <section id="registrationSection" class="content-section" style="display: none;">
+            <h2>Registro de Docente</h2>
+            <form id="registrationForm" enctype="multipart/form-data">
+                <fieldset>
+                    <legend>Datos Personales</legend>
+                    <label for="dni">DNI:</label>
+                    <input type="text" id="dni" name="dni" required pattern="\d{8,12}" title="Ingrese un DNI válido (8-12 dígitos)">
+
+                    <label for="firstName">Nombre:</label>
+                    <input type="text" id="firstName" name="firstName" required>
+
+                    <label for="lastName">Apellido:</label>
+                    <input type="text" id="lastName" name="lastName" required>
+
+                    <label for="phoneArea">Teléfono (Área):</label>
+                    <input type="text" id="phoneArea" name="phoneArea" required pattern="\d{2,4}" title="Ingrese el área del teléfono (2-4 dígitos)">
+
+                    <label for="phoneNumber">Número de Teléfono:</label>
+                    <input type="text" id="phoneNumber" name="phoneNumber" required pattern="\d{6,10}" title="Ingrese el número de teléfono (6-10 dígitos)">
+
+                    <label for="address">Dirección:</label>
+                    <input type="text" id="address" name="address" required>
+
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Datos Académicos</legend>
+                    <label for="degreeName">Título:</label>
+                    <input type="text" id="degreeName" name="degreeName" required>
+
+                    <label for="degreeInstitution">Institución:</label>
+                    <input type="text" id="degreeInstitution" name="degreeInstitution" required>
+
+                    <label for="degreePdf">PDF del Título:</label>
+                    <input type="file" id="degreePdf" name="degreePdf" accept=".pdf" required>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Experiencia</legend>
+                    <label for="experience">Detalles de Experiencia:</label>
+                    <textarea id="experience" name="experience" rows="4" required></textarea>
+
+                    <label for="experiencePdf">PDF de Experiencia:</label>
+                    <input type="file" id="experiencePdf" name="experiencePdf" accept=".pdf" required>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Cursos</legend>
+                    <label for="courses">Detalles de Cursos:</label>
+                    <textarea id="courses" name="courses" rows="4" required></textarea>
+
+                    <label for="coursesPdf">PDF de Cursos:</label>
+                    <input type="file" id="coursesPdf" name="coursesPdf" accept=".pdf" required>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Datos de Acceso</legend>
+                    <label for="username">Usuario:</label>
+                    <input type="text" id="username" name="username" required>
+
+                    <label for="password">Contraseña:</label>
+                    <input type="password" id="password" name="password" required>
+                </fieldset>
+
+                <button type="submit">Registrar</button>
+            </form>
+            <div id="message" style="display: none;"></div>
+        </section>
+    </main>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
