@@ -1,0 +1,200 @@
+<viewContainer id="DatosPersonales" name="Datos Personales" x="10" y="10" width="600" height="400">
+    <viewComponent id="DatosPersonalesTable" name="DatosPersonalesTable" type="table">
+        <table>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>DNI</th>
+                <th>Fecha de Nacimiento</th>
+            </tr>
+            <tr>
+                <td>Juan</td>
+                <td>Pérez</td>
+                <td>12345678</td>
+                <td>01/01/1980</td>
+            </tr>
+        </table>
+    </viewComponent>
+</viewContainer>
+
+<viewContainer id="Titulos" name="Títulos" x="10" y="200" width="600" height="400">
+    <viewComponent id="ListadoTitulos" name="ListadoTitulos" type="list">
+        <list>
+            <item>
+                <titulo>Profesor en Matemáticas</titulo>
+                <institucion>Universidad de La Plata</institucion>
+                <anio>2019</anio>
+                <pdf>path_to_pdf/profesor_matematicas.pdf</pdf>
+                <estado>Pendiente</estado>
+            </item>
+            <item>
+                <titulo>Licenciado en Física</titulo>
+                <institucion>Universidad Nacional de Córdoba</institucion>
+                <anio>2017</anio>
+                <pdf>path_to_pdf/licenciado_fisica.pdf</pdf>
+                <estado>Aprobado</estado>
+            </item>
+            <item>
+                <titulo>Doctor en Ciencias de la Computación</titulo>
+                <institucion>Universidad de Buenos Aires</institucion>
+                <anio>2021</anio>
+                <pdf>path_to_pdf/doctor_ciencias_computacion.pdf</pdf>
+                <estado>Pendiente</estado>
+            </item>
+            <item>
+                <titulo>Magíster en Educación</titulo>
+                <institucion>Universidad Nacional de Salta</institucion>
+                <anio>2018</anio>
+                <pdf>path_to_pdf/master_educacion.pdf</pdf>
+                <estado>Aprobado</estado>
+            </item>
+            <item>
+                <titulo>Especialista en Inteligencia Artificial</titulo>
+                <institucion>Universidad de La Plata</institucion>
+                <anio>2022</anio>
+                <pdf>path_to_pdf/especialista_ia.pdf</pdf>
+                <estado>Pendiente</estado>
+            </item>
+        </list>
+    </viewComponent>
+    <action id="AgregarTitulo" name="Agregar Título" type="button" />
+</viewContainer>
+
+<viewContainer id="ExperienciaDocente" name="Experiencia Docente" x="10" y="620" width="600" height="400">
+    <viewComponent id="ListadoExperienciaDocente" name="ListadoExperienciaDocente" type="list">
+        <list>
+            <item>
+                <anio>2021</anio>
+                <institucion>Universidad Nacional de Salta</institucion>
+                <materia>Programación I</materia>
+                <descripcion>Clases teóricas y prácticas sobre algoritmos básicos.</descripcion>
+                <pdf>path_to_pdf/programacion_1.pdf</pdf>
+                <estado>Pendiente</estado>
+            </item>
+            <item>
+                <anio>2019</anio>
+                <institucion>Universidad Nacional de Córdoba</institucion>
+                <materia>Álgebra</materia>
+                <descripcion>Enseñanza de álgebra avanzada.</descripcion>
+                <pdf>path_to_pdf/algebra.pdf</pdf>
+                <estado>Aprobado</estado>
+            </item>
+            <item>
+                <anio>2020</anio>
+                <institucion>Universidad Nacional de Tucumán</institucion>
+                <materia>Cálculo Numérico</materia>
+                <descripcion>Técnicas de cálculo numérico en matemáticas aplicadas.</descripcion>
+                <pdf>path_to_pdf/calculo_numerico.pdf</pdf>
+                <estado>Pendiente</estado>
+            </item>
+            <item>
+                <anio>2023</anio>
+                <institucion>Universidad de Buenos Aires</institucion>
+                <materia>Inteligencia Artificial</materia>
+                <descripcion>Cursos sobre IA y machine learning.</descripcion>
+                <pdf>path_to_pdf/ia.pdf</pdf>
+                <estado>Aprobado</estado>
+            </item>
+            <item>
+                <anio>2018</anio>
+                <institucion>Universidad Nacional de Rosario</institucion>
+                <materia>Estadística</materia>
+                <descripcion>Fundamentos de estadística y probabilidad.</descripcion>
+                <pdf>path_to_pdf/estadistica.pdf</pdf>
+                <estado>Pendiente</estado>
+            </item>
+        </list>
+    </viewComponent>
+    <action id="AgregarExperiencia" name="Agregar Experiencia" type="button" />
+</viewContainer>
+
+<viewContainer id="Investigacion" name="Investigación" x="10" y="1030" width="600" height="400">
+    <viewComponent id="ListadoInvestigacion" name="ListadoInvestigacion" type="list">
+        <list>
+            <item>
+                <anio>2023</anio>
+                <institucion>Universidad Nacional de Salta</institucion>
+                <titulo>Investigación en IA</titulo>
+                <descripcion>Estudio sobre aplicaciones de IA en la educación.</descripcion>
+                <pdf>path_to_pdf/investigacion_ia.pdf</pdf>
+                <estado>Pendiente</estado>
+            </item>
+            <item>
+                <anio>2020</anio>
+                <institucion>Universidad Nacional de Córdoba</institucion>
+                <titulo>Estudio de Matemáticas Avanzadas</titulo>
+                <descripcion>Investigación en teorías matemáticas avanzadas.</descripcion>
+                <pdf>path_to_pdf/matematicas_avanzadas.pdf</pdf>
+                <estado>Aprobado</estado>
+            </item>
+            <item>
+                <anio>2021</anio>
+                <institucion>Universidad Nacional de Tucumán</institucion>
+                <titulo>Proyectos en Física Cuántica</titulo>
+                <descripcion>Desarrollo de proyectos en física cuántica.</descripcion>
+                <pdf>path_to_pdf/fisica_cuantica.pdf</pdf>
+                <estado>Pendiente</estado>
+            </item>
+            <item>
+                <anio>2022</anio>
+                <institucion>Universidad de Buenos Aires</institucion>
+                <titulo>Investigación en Big Data</titulo>
+                <descripcion>Análisis y técnicas en Big Data.</descripcion>
+                <pdf>path_to_pdf/big_data.pdf</pdf>
+                <estado>Aprobado</estado>
+            </item>
+            <item>
+                <anio>2019</anio>
+                <institucion>Universidad Nacional de Rosario</institucion>
+                <titulo>Análisis Estadístico</titulo>
+                <descripcion>Métodos de análisis estadístico.</descripcion>
+                <pdf>path_to_pdf/analisis_estadistico.pdf</pdf>
+                <estado>Pendiente</estado>
+            </item>
+        </list>
+    </viewComponent>
+    <action id="AgregarInvestigacion" name="Agregar Investigación" type="button" />
+</viewContainer>
+
+<viewContainer id="CursosRealizados" name="Cursos Realizados" x="10" y="1440" width="600" height="400">
+    <viewComponent id="ListadoCursosRealizados" name="ListadoCursosRealizados" type="list">
+        <list>
+            <item>
+                <anio>2022</anio>
+                <nombre>Machine Learning</nombre>
+                <horas>40 horas</horas>
+                <pdf>path_to_pdf/machine_learning.pdf</pdf>
+                <estado>Pendiente</estado>
+            </item>
+            <item>
+                <anio>2021</anio>
+                <nombre>Deep Learning</nombre>
+                <horas>30 horas</horas>
+                <pdf>path_to_pdf/deep_learning.pdf</pdf>
+                <estado>Aprobado</estado>
+            </item>
+            <item>
+                <anio>2023</anio>
+                <nombre>Data Science</nombre>
+                <horas>50 horas</horas>
+                <pdf>path_to_pdf/data_science.pdf</pdf>
+                <estado>Pendiente</estado>
+            </item>
+            <item>
+                <anio>2020</anio>
+                <nombre>Estadística Avanzada</nombre>
+                <horas>25 horas</horas>
+                <pdf>path_to_pdf/estadistica_avanzada.pdf</pdf>
+                <estado>Aprobado</estado>
+            </item>
+            <item>
+                <anio>2022</anio>
+                <nombre>Big Data</nombre>
+                <horas>35 horas</horas>
+                <pdf>path_to_pdf/big_data.pdf</pdf>
+                <estado>Pendiente</estado>
+            </item>
+        </list>
+    </viewComponent>
+    <action id="AgregarCurso" name="Agregar Curso" type="button" />
+</viewContainer>

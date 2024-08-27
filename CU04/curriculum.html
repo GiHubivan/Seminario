@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Currículum</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#" onclick="mostrarDatosPersonales()">Datos Personales</a></li>
+                <li><a href="#" onclick="mostrarTitulos()">Títulos</a></li>
+                <li><a href="#" onclick="mostrarExperienciaDocente()">Experiencia Docente</a></li>
+                <li><a href="#" onclick="mostrarInvestigacion()">Investigación</a></li>
+                <li><a href="#" onclick="mostrarCursosRealizados()">Cursos Realizados</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main id="content">
+        <!-- El contenido se carga dinámicamente aquí -->
+    </main>
+
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="cerrarPopup()">&times;</span>
+            <div id="popup-body"></div>
+        </div>
+    </div>
+
+    <div id="form-container" class="form-container" style="display:none;">
+        <div id="form-content"></div>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
