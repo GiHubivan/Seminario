@@ -1,0 +1,74 @@
+[
+    {
+        "materia": "Matem\u00e1ticas",
+        "cargo": "Profesor Asociado",
+        "dedicacion": "Tiempo Completo",
+        "fecha_inscripcion": "2024-09-01"
+    },
+    {
+        "materia": "F\u00edsica",
+        "cargo": "Profesor Adjunto",
+        "dedicacion": "Medio Tiempo",
+        "fecha_inscripcion": "2024-09-05"
+    },
+    {
+        "materia": "Qu\u00edmica",
+        "cargo": "Profesor Titular",
+        "dedicacion": "Tiempo Completo",
+        "fecha_inscripcion": "2024-09-10"
+    },
+    {
+        "materia": "Biolog\u00eda",
+        "cargo": "Profesor Asociado",
+        "dedicacion": "Medio Tiempo",
+        "fecha_inscripcion": "2024-09-15"
+    },
+    {
+        "materia": "Historia",
+        "cargo": "Profesor Adjunto",
+        "dedicacion": "Tiempo Completo",
+        "fecha_inscripcion": "2024-09-20"
+    },
+    {
+        "materia": "Geograf\u00eda",
+        "cargo": "Profesor Titular",
+        "dedicacion": "Medio Tiempo",
+        "fecha_inscripcion": "2024-09-25"
+    },
+    {
+        "materia": "Literatura",
+        "cargo": "Profesor Asociado",
+        "dedicacion": "Tiempo Completo",
+        "fecha_inscripcion": "2024-09-30"
+    },
+    {
+        "materia": "Arte",
+        "cargo": "Profesor Adjunto",
+        "dedicacion": "Medio Tiempo",
+        "fecha_inscripcion": "2024-10-01"
+    },
+    {
+        "materia": "M\u00fasica",
+        "cargo": "Profesor Titular",
+        "dedicacion": "Tiempo Completo",
+        "fecha_inscripcion": "2024-10-05"
+    },
+    {
+        "materia": "Filosof\u00eda",
+        "cargo": "Profesor Asociado",
+        "dedicacion": "Medio Tiempo",
+        "fecha_inscripcion": "2024-10-10"
+    },
+    {
+        "materia": "programacion",
+        "cargo": "jtp",
+        "dedicacion": "exclusiva",
+        "fecha_inscripcion": "2024-08-28"
+    },
+    {
+        "materia": "calculos",
+        "cargo": "PAd",
+        "dedicacion": "simple",
+        "fecha_inscripcion": "2024-08-13"
+    }
+]

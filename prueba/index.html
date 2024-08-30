@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de Convocatorias</title>
+    <!-- Enlace a la hoja de estilos de DataTables -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <!-- Enlace a la hoja de estilos CSS personalizada -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Enlace a jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Enlace a DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Listado de Convocatorias</h1>
+        <button id="show-form">Añadir Nueva Convocatoria</button>
+        <table id="convocatorias" class="display">
+            <thead>
+                <tr>
+                    <th>Materia</th>
+                    <th>Cargo</th>
+                    <th>Dedicación</th>
+                    <th>Fecha de Inscripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Los datos serán cargados aquí mediante JavaScript -->
+            </tbody>
+        </table>
+
+        <!-- Modal para añadir nueva convocatoria -->
+        <div id="form-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-button" id="close-button">&times;</span>
+                <h2>Agregar Nueva Convocatoria</h2>
+                <form id="convocatoria-form">
+                    <label for="materia">Materia:</label>
+                    <input type="text" id="materia" name="materia" required><br>
+                    <label for="cargo">Cargo:</label>
+                    <input type="text" id="cargo" name="cargo" required><br>
+                    <label for="dedicacion">Dedicación:</label>
+                    <input type="text" id="dedicacion" name="dedicacion" required><br>
+                    <label for="fecha_inscripcion">Fecha de Inscripción:</label>
+                    <input type="date" id="fecha_inscripcion" name="fecha_inscripcion" required><br>
+                    <button type="button" id="save-button">Guardar</button>
+                    <button type="button" id="cancel-button">Cancelar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // Inicializar DataTable
+            const table = $('#convocatorias').DataTable({
+                "ajax": {
+                    "url": "convocatorias.json",
+                    "dataSrc": "",
+                    "error": function (xhr, textStatus, errorThrown) {
+                        console.error('Error cargando los datos: ', textStatus, errorThrown);
+                        alert('Hubo un error cargando los datos.');
+                    }
+                },
+                "columns": [
+                    { "data": "materia" },
+                    { "data": "cargo" },
+                    { "data": "dedicacion" },
+                    { "data": "fecha_inscripcion" }
+                ],
+                "processing": true,
+                "serverSide": false,
+                "paging": true,
+                "searching": true,
+                "ordering": true
+            });
+
+            // Mostrar el modal
+            $('#show-form').on('click', function() {
+                $('#form-modal').fadeIn();
+            });
+
+            // Cerrar el modal
+            $('#close-button, #cancel-button').on('click', function() {
+                $('#form-modal').fadeOut();
+            });
+
+            // Guardar el formulario
+            $('#save-button').on('click', function() {
+                const nuevaConvocatoria = {
+                    materia: $('#materia').val(),
+                    cargo: $('#cargo').val(),
+                    dedicacion: $('#dedicacion').val(),
+                    fecha_inscripcion: $('#fecha_inscripcion').val()
+                };
+
+                // Enviar los datos al servidor para actualizar el archivo JSON
+                $.ajax({
+                    url: 'save_convocatoria.php', // Cambia esto según tu configuración del servidor
+                    type: 'POST',
+                    data: JSON.stringify(nuevaConvocatoria),
+                    contentType: 'application/json',
+                    success: function(response) {
+                        // Ocultar el modal
+                        $('#form-modal').fadeOut();
+
+                        // Recargar la tabla
+                        table.ajax.reload();
+
+                        // Limpiar el formulario
+                        $('#convocatoria-form')[0].reset();
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        console.error('Error guardando los datos: ', textStatus, errorThrown);
+                        alert('Hubo un error guardando los datos.');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

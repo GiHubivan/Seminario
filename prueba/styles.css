@@ -1,0 +1,85 @@
+/* Estilo general para la tabla DataTables */
+table.dataTable {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table.dataTable thead th {
+    background-color: #0cb845; /* Color de fondo de los encabezados */
+    color: white; /* Color del texto de los encabezados */
+    text-align: left;
+    padding: 8px;
+}
+
+table.dataTable tbody td {
+    border: 1px solid #f0f0f0; /* Borde de las celdas */
+    padding: 8px;
+}
+
+/* Estilo para las filas de la tabla */
+table.dataTable tbody tr:nth-child(even) {
+    background-color: #d2e6e9; /* Color de fondo para filas pares */
+}
+
+table.dataTable tbody tr:nth-child(odd) {
+    background-color: #a5fd9d; /* Color de fondo para filas impares */
+}
+
+/* Estilo para la fila seleccionada (si se aplica alguna funcionalidad de selección) */
+table.dataTable tbody tr.selected {
+    background-color: #d9edf7; /* Color de fondo para la fila seleccionada */
+}
+
+/* Estilo para el modal */
+.modal {
+    display: none; /* Ocultar el modal por defecto */
+    position: fixed;
+    z-index: 1; /* Asegurarse de que esté encima de otros elementos */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Hacer que el modal sea desplazable si es necesario */
+    background-color: rgba(0,0,0,0.5); /* Fondo semitransparente */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* Centrar el modal */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Ajustar el ancho del modal */
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Estilo para los botones del formulario */
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 5px 2px;
+    cursor: pointer;
+    border-radius: 4px; /* Bordes redondeados */
+}
+
+button:hover {
+    background-color: #0056b3;
+}
