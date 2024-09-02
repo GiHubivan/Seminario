@@ -1,3 +1,5 @@
+el estilo del formulario es de https://www.jotform.com/es/form-templates/ficha-de-matricula
+
 Explicación de la Sintaxis
 actor y participant: Definen los actores y participantes del diagrama de secuencia. En este caso, NuevoUsuario es el actor, mientras que Sistema, DatosPersonales, y Usuario son participantes.
 
