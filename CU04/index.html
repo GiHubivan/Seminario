@@ -120,13 +120,80 @@
         </div>
     </div>
 
-    <!-- Modal para agregar y editar títulos, experiencias, investigaciones y cursos -->
-    <div class="modal" id="editModal" style="display: none;">
+    <!-- Modales para agregar y editar títulos, experiencias, investigaciones y cursos -->
+    <div class="modal" id="editTitleModal" style="display: none;">
         <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h2 id="modalTitle">Agregar Título</h2>
-            <form id="editForm">
-                <!-- Contenido del formulario se cargará dinámicamente -->
+            <span class="close" data-target="editTitleModal">&times;</span>
+            <h2>Agregar/Editar Título</h2>
+            <form id="editTitleForm">
+                <input type="hidden" id="titleId" name="titleId">
+                <label for="titleCareer">Carrera:</label>
+                <input type="text" id="titleCareer" name="titleCareer" required>
+                <label for="titleInstitution">Institución:</label>
+                <input type="text" id="titleInstitution" name="titleInstitution" required>
+                <label for="titleYear">Año de Egreso:</label>
+                <input type="number" id="titleYear" name="titleYear" required>
+                <label for="titlePDF">PDF:</label>
+                <input type="url" id="titlePDF" name="titlePDF" required>
+                <button type="submit">Guardar</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="editExperienceModal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" data-target="editExperienceModal">&times;</span>
+            <h2>Agregar/Editar Experiencia</h2>
+            <form id="editExperienceForm">
+                <input type="hidden" id="experienceId" name="experienceId">
+                <label for="expInstitution">Institución:</label>
+                <input type="text" id="expInstitution" name="expInstitution" required>
+                <label for="expSubject">Asignatura:</label>
+                <input type="text" id="expSubject" name="expSubject" required>
+                <label for="expFunction">Función:</label>
+                <input type="text" id="expFunction" name="expFunction" required>
+                <label for="expStartDate">Fecha de Inicio:</label>
+                <input type="date" id="expStartDate" name="expStartDate" required>
+                <label for="expPDF">PDF:</label>
+                <input type="url" id="expPDF" name="expPDF" required>
+                <button type="submit">Guardar</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="editResearchModal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" data-target="editResearchModal">&times;</span>
+            <h2>Agregar/Editar Investigación</h2>
+            <form id="editResearchForm">
+                <input type="hidden" id="researchId" name="researchId">
+                <label for="researchProject">Nombre del Proyecto:</label>
+                <input type="text" id="researchProject" name="researchProject" required>
+                <label for="researchDirector">Director:</label>
+                <input type="text" id="researchDirector" name="researchDirector" required>
+                <label for="researchYear">Año de Inicio:</label>
+                <input type="number" id="researchYear" name="researchYear" required>
+                <label for="researchPDF">PDF:</label>
+                <input type="url" id="researchPDF" name="researchPDF" required>
+                <button type="submit">Guardar</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="editCourseModal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" data-target="editCourseModal">&times;</span>
+            <h2>Agregar/Editar Curso</h2>
+            <form id="editCourseForm">
+                <input type="hidden" id="courseId" name="courseId">
+                <label for="courseName">Nombre del Curso:</label>
+                <input type="text" id="courseName" name="courseName" required>
+                <label for="courseCondition">Condición:</label>
+                <input type="text" id="courseCondition" name="courseCondition" required>
+                <label for="courseDate">Fecha de Realización:</label>
+                <input type="date" id="courseDate" name="courseDate" required>
+                <label for="coursePDF">PDF:</label>
+                <input type="url" id="coursePDF" name="coursePDF" required>
                 <button type="submit">Guardar</button>
             </form>
         </div>

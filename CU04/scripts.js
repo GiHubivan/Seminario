@@ -1,118 +1,185 @@
 $(document).ready(function() {
-    // Initialize DataTables
+    function openModal(modalId, data) {
+        $('#' + modalId).show();
+        if (data) {
+            for (let key in data) {
+                $('#' + modalId + ' [name="' + key + '"]').val(data[key]);
+            }
+        }
+        $('body').addClass('modal-open'); // Opcional: Para bloquear el scroll del fondo
+    }
+
+    function closeModal(modalId) {
+        $('#' + modalId).hide();
+        $('body').removeClass('modal-open'); // Opcional: Para desbloquear el scroll del fondo
+    }
+
+    function loadPersonalData() {
+        $.getJSON('datos.json', function(data) {
+            $('#profileForm [name="name"]').val(data.personalData.name);
+            $('#profileForm [name="surname"]').val(data.personalData.surname);
+            $('#profileForm [name="dni"]').val(data.personalData.dni);
+            $('#profileForm [name="address"]').val(data.personalData.address);
+        });
+    }
+
+    $('#addTitleBtn').on('click', function() {
+        openModal('editTitleModal', {}); // Abre el modal para agregar un nuevo título
+    });
+
+    $('#addExperienceBtn').on('click', function() {
+        openModal('editExperienceModal', {}); // Abre el modal para agregar nueva experiencia
+    });
+
+    $('#addResearchBtn').on('click', function() {
+        openModal('editResearchModal', {}); // Abre el modal para agregar nueva investigación
+    });
+
+    $('#addCourseBtn').on('click', function() {
+        openModal('editCourseModal', {}); // Abre el modal para agregar nuevo curso
+    });
+
+    $('.nav-link').on('click', function() {
+        var target = $(this).data('target');
+        $('.tab-content-section').hide(); // Oculta todas las secciones de contenido
+        $('#' + target).show(); // Muestra la sección seleccionada
+    });
+
+    $('#profileForm button[type="button"]').on('click', function() {
+        $('#profileForm input').prop('disabled', false); // Habilita los campos
+        $('#saveProfile').show(); // Muestra el botón de guardar
+        $(this).hide(); // Oculta el botón de modificar
+    });
+
+    $('.modal .close').on('click', function() {
+        var modalId = $(this).data('target');
+        closeModal(modalId);
+    });
+
+    $('#editTitleForm').on('submit', function(e) {
+        e.preventDefault();
+        $.post('update_title.php', $(this).serialize(), function(response) {
+            if (response.success) {
+                $('#titlesTable').DataTable().ajax.reload();
+                closeModal('editTitleModal');
+            } else {
+                alert('Error al guardar el título.');
+            }
+        }, 'json');
+    });
+
+    $('#editExperienceForm').on('submit', function(e) {
+        e.preventDefault();
+        $.post('update_experience.php', $(this).serialize(), function(response) {
+            if (response.success) {
+                $('#experienceTable').DataTable().ajax.reload();
+                closeModal('editExperienceModal');
+            } else {
+                alert('Error al guardar la experiencia.');
+            }
+        }, 'json');
+    });
+
+    $('#editResearchForm').on('submit', function(e) {
+        e.preventDefault();
+        $.post('update_research.php', $(this).serialize(), function(response) {
+            if (response.success) {
+                $('#researchTable').DataTable().ajax.reload();
+                closeModal('editResearchModal');
+            } else {
+                alert('Error al guardar la investigación.');
+            }
+        }, 'json');
+    });
+
+    $('#editCourseForm').on('submit', function(e) {
+        e.preventDefault();
+        $.post('update_course.php', $(this).serialize(), function(response) {
+            if (response.success) {
+                $('#coursesTable').DataTable().ajax.reload();
+                closeModal('editCourseModal');
+            } else {
+                alert('Error al guardar el curso.');
+            }
+        }, 'json');
+    });
+
     $('#titlesTable').DataTable({
         ajax: {
             url: 'datos.json',
-            dataSrc: 'titles.data'
+            dataSrc: 'titles' // Datos de títulos
         },
         columns: [
             { data: 'carrera' },
             { data: 'institucion' },
             { data: 'ano_egreso' },
-            { data: 'pdf', render: function(data) { return `<a href="${data}" target="_blank">Ver PDF</a>`; } },
-            { data: null, defaultContent: '<button class="btn btn-warning btn-sm edit-btn">Editar</button>' }
+            { data: 'pdf' },
+            {
+                data: null,
+                defaultContent: '<button class="edit">Editar</button>'
+            }
         ]
     });
 
     $('#experienceTable').DataTable({
         ajax: {
             url: 'datos.json',
-            dataSrc: 'experience.data'
+            dataSrc: 'experience' // Datos de experiencia
         },
         columns: [
             { data: 'institucion' },
             { data: 'asignatura' },
             { data: 'funcion' },
             { data: 'fecha_inicio' },
-            { data: 'pdf', render: function(data) { return `<a href="${data}" target="_blank">Ver PDF</a>`; } },
-            { data: null, defaultContent: '<button class="btn btn-warning btn-sm edit-btn">Editar</button>' }
+            { data: 'pdf' },
+            {
+                data: null,
+                defaultContent: '<button class="edit">Editar</button>'
+            }
         ]
     });
 
     $('#researchTable').DataTable({
         ajax: {
             url: 'datos.json',
-            dataSrc: 'research.data'
+            dataSrc: 'research' // Datos de investigación
         },
         columns: [
             { data: 'nombre_proyecto' },
             { data: 'director' },
             { data: 'ano_inicio' },
-            { data: 'pdf', render: function(data) { return `<a href="${data}" target="_blank">Ver PDF</a>`; } },
-            { data: null, defaultContent: '<button class="btn btn-warning btn-sm edit-btn">Editar</button>' }
+            { data: 'pdf' },
+            {
+                data: null,
+                defaultContent: '<button class="edit">Editar</button>'
+            }
         ]
     });
 
     $('#coursesTable').DataTable({
         ajax: {
             url: 'datos.json',
-            dataSrc: 'courses.data'
+            dataSrc: 'courses' // Datos de cursos
         },
         columns: [
             { data: 'nombre_curso' },
             { data: 'condicion' },
             { data: 'fecha_realizacion' },
-            { data: 'pdf', render: function(data) { return `<a href="${data}" target="_blank">Ver PDF</a>`; } },
-            { data: null, defaultContent: '<button class="btn btn-warning btn-sm edit-btn">Editar</button>' }
+            { data: 'pdf' },
+            {
+                data: null,
+                defaultContent: '<button class="edit">Editar</button>'
+            }
         ]
     });
 
-    // Handle menu navigation
-    $('.nav-link').on('click', function() {
-        var target = $(this).data('target');
-        $('.tab-content').hide();
-        $('#' + target).show();
-        $('.nav-link').removeClass('active');
-        $(this).addClass('active');
+    $('#titlesTable, #experienceTable, #researchTable, #coursesTable').on('click', 'button.edit', function() {
+        var table = $(this).closest('table').DataTable();
+        var data = table.row($(this).parents('tr')).data();
+        var modalId = $(this).closest('table').attr('id').replace('Table', 'Modal');
+        openModal(modalId, data);
     });
 
-    // Handle form display and submission
-    $('#addTitleBtn, #addExperienceBtn, #addResearchBtn, #addCourseBtn').on('click', function() {
-        var type = this.id.replace('add', '').replace('Btn', '');
-        $('#modalTitle').text('Agregar ' + capitalizeFirstLetter(type));
-        $('#editForm').attr('action', 'add_' + type + '.php');
-        $('#editModal').show();
-    });
-
-    $('#editForm').on('submit', function(event) {
-        event.preventDefault();
-        $.ajax({
-            type: 'POST',
-            url: $(this).attr('action'),
-            data: $(this).serialize(),
-            success: function(response) {
-                alert('Datos guardados correctamente');
-                $('#editModal').hide();
-                $('#titlesTable').DataTable().ajax.reload();
-                $('#experienceTable').DataTable().ajax.reload();
-                $('#researchTable').DataTable().ajax.reload();
-                $('#coursesTable').DataTable().ajax.reload();
-            }
-        });
-    });
-
-    // Handle row editing
-    $('#titlesTable, #experienceTable, #researchTable, #coursesTable').on('click', '.edit-btn', function() {
-        var table = $(this).closest('table').attr('id');
-        var data = $('#' + table).DataTable().row($(this).parents('tr')).data();
-        $('#editForm').attr('action', 'edit_' + table.replace('Table', '') + '.php');
-        $('#modalTitle').text('Editar ' + capitalizeFirstLetter(table.replace('Table', '')));
-        $('#editForm').find('input').each(function() {
-            $(this).val(data[$(this).attr('name')]);
-        });
-        $('#editModal').show();
-    });
-
-    function capitalizeFirstLetter(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    }
-
-    function enableEdit() {
-        $('#profileForm input').prop('disabled', false);
-        $('#saveProfile').show();
-    }
-
-    function closeModal() {
-        $('#editModal').hide();
-    }
+    // Cargar datos personales al iniciar
+    loadPersonalData();
 });
