@@ -1,0 +1,115 @@
+{
+    "profile": {
+        "data": [
+            {
+                "nombre": "Juan",
+                "apellido": "Pérez",
+                "dni": "12345678",
+                "domicilio": "Av. Siempre Viva 742, Springfield, 12345"
+            },
+            {
+                "nombre": "María",
+                "apellido": "García",
+                "dni": "87654321",
+                "domicilio": "Calle Falsa 123, Ciudad Falsa, 54321"
+            },
+            {
+                "nombre": "Carlos",
+                "apellido": "López",
+                "dni": "11223344",
+                "domicilio": "Avenida del Libertador 567, Buenos Aires, 1010"
+            }
+        ]
+    },
+    "titles": {
+        "data": [
+            {
+                "carrera": "Licenciatura en Matemáticas",
+                "institucion": "Universidad Nacional de Matemáticas",
+                "ano_egreso": "2010",
+                "pdf": "https://example.com/titulo1.pdf"
+            },
+            {
+                "carrera": "Maestría en Educación",
+                "institucion": "Universidad de la Educación",
+                "ano_egreso": "2015",
+                "pdf": "https://example.com/titulo2.pdf"
+            },
+            {
+                "carrera": "Doctorado en Ciencias",
+                "institucion": "Universidad de las Ciencias",
+                "ano_egreso": "2020",
+                "pdf": "https://example.com/titulo3.pdf"
+            }
+        ]
+    },
+    "experience": {
+        "data": [
+            {
+                "institucion": "Escuela Primaria Springfield",
+                "asignatura": "Matemáticas",
+                "funcion": "Profesor",
+                "fecha_inicio": "2011-03-01",
+                "pdf": "https://example.com/experiencia1.pdf"
+            },
+            {
+                "institucion": "Instituto Secundario Ciudad Falsa",
+                "asignatura": "Historia",
+                "funcion": "Coordinador",
+                "fecha_inicio": "2016-05-15",
+                "pdf": "https://example.com/experiencia2.pdf"
+            },
+            {
+                "institucion": "Universidad de la Educación",
+                "asignatura": "Educación Avanzada",
+                "funcion": "Docente",
+                "fecha_inicio": "2020-08-01",
+                "pdf": "https://example.com/experiencia3.pdf"
+            }
+        ]
+    },
+    "research": {
+        "data": [
+            {
+                "nombre_proyecto": "Estudio sobre Educación Matemática",
+                "director": "Dr. Ana Martínez",
+                "ano_inicio": "2019",
+                "pdf": "https://example.com/investigacion1.pdf"
+            },
+            {
+                "nombre_proyecto": "Impacto de las Tecnologías en la Educación",
+                "director": "Dr. Luis Fernández",
+                "ano_inicio": "2021",
+                "pdf": "https://example.com/investigacion2.pdf"
+            },
+            {
+                "nombre_proyecto": "Nuevas Metodologías en la Enseñanza",
+                "director": "Dra. Clara Gómez",
+                "ano_inicio": "2022",
+                "pdf": "https://example.com/investigacion3.pdf"
+            }
+        ]
+    },
+    "courses": {
+        "data": [
+            {
+                "nombre_curso": "Curso de Didáctica de las Matemáticas",
+                "condicion": "Completado",
+                "fecha_realizacion": "2020-11-01",
+                "pdf": "https://example.com/curso1.pdf"
+            },
+            {
+                "nombre_curso": "Seminario de Innovación Educativa",
+                "condicion": "Pendiente",
+                "fecha_realizacion": "2024-06-01",
+                "pdf": "https://example.com/curso2.pdf"
+            },
+            {
+                "nombre_curso": "Capacitación en Nuevas Tecnologías",
+                "condicion": "Completado",
+                "fecha_realizacion": "2022-02-15",
+                "pdf": "https://example.com/curso3.pdf"
+            }
+        ]
+    }
+}
