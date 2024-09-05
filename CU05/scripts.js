@@ -1,31 +1,12 @@
 $(document).ready(function() {
+    var selectedConvocatoriaId; // Variable global para almacenar la convocatoria seleccionada
+    var currentUsername; // Variable para almacenar el nombre de usuario actual
+
     // Función para mostrar las vistas
     function showView(viewId) {
         $('.view').removeClass('active').addClass('hidden');
         $('#' + viewId).removeClass('hidden').addClass('active');
     }
-
-    // Manejo del formulario de login
-    $('#loginForm').on('submit', function(e) {
-        e.preventDefault();
-        var username = $('#username').val();
-        var password = $('#password').val();
-
-        $.ajax({
-            url: 'auth.php',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({ username: username, password: password }),
-            success: function(response) {
-                if (response.success) {
-                    showView('convocatoriasView');
-                    loadConvocatorias();
-                } else {
-                    alert('Usuario o contraseña incorrectos.');
-                }
-            }
-        });
-    });
 
     // Función para abrir el modal
     function openModal(modalId) {
@@ -39,21 +20,73 @@ $(document).ready(function() {
         $('body').removeClass('modal-open');
     }
 
-    // Manejo de los botones de cerrar modal
-    $('.modal .close').on('click', function() {
-        var modalId = $(this).data('target');
-        closeModal(modalId);
+    // Manejo del formulario de login
+    $('#loginForm').on('submit', function(e) {
+        e.preventDefault();
+        currentUsername = $('#username').val(); // Guardar el nombre de usuario actual
+        var password = $('#password').val();
+
+        $.ajax({
+            url: 'auth.php',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ username: currentUsername, password: password }),
+            success: function(response) {
+                if (response.success) {
+                    showView('convocatoriasView');
+                    loadConvocatorias();
+                } else {
+                    alert('Usuario o contraseña incorrectos.');
+                }
+            }
+        });
     });
 
     // Manejo del botón de inscripción
     $('#inscribirBtn').on('click', function() {
-        openModal('uploadCurriculumModal');
+        checkIfUserIsAlreadyRegistered();
     });
+
+    // Verificar si el usuario ya está inscrito en la convocatoria
+    function checkIfUserIsAlreadyRegistered() {
+        $.ajax({
+            url: 'convocatorias.json',
+            dataType: 'json',
+            success: function(data) {
+                var isRegistered = false;
+                $.each(data, function(index, convocatoria) {
+                    if (convocatoria.id === selectedConvocatoriaId) {
+                        var curriculums = convocatoria.curriculums || [];
+                        $.each(curriculums, function(_, curriculum) {
+                            if (curriculum.username === currentUsername) {
+                                isRegistered = true;
+                                return false; // Rompe el bucle interno
+                            }
+                        });
+                        return false; // Rompe el bucle externo
+                    }
+                });
+                if (isRegistered) {
+                    alert('Ya estás inscrito en esta convocatoria.');
+                } else {
+                    openModal('uploadCurriculumModal');
+                }
+            }
+        });
+    }
 
     // Manejo del formulario de carga de currículum
     $('#uploadCurriculumForm').on('submit', function(e) {
         e.preventDefault();
         var formData = new FormData(this);
+        formData.append('convocatoriaId', selectedConvocatoriaId);
+        formData.append('username', currentUsername);
+
+        uploadCurriculum(formData);
+    });
+
+    // Función para subir el currículum
+    function uploadCurriculum(formData) {
         $.ajax({
             url: 'upload_curriculum.php',
             type: 'POST',
@@ -65,13 +98,16 @@ $(document).ready(function() {
                     closeModal('uploadCurriculumModal');
                     alert('Currículum cargado exitosamente.');
                 } else {
-                    alert('Error al cargar el currículum.');
+                    handleServerError(response.message);
                 }
+            },
+            error: function() {
+                alert('Error al enviar el formulario. Por favor, inténtelo de nuevo más tarde.');
             }
         });
-    });
+    }
 
-    // Cargar convocatorias
+    // Función para cargar convocatorias
     function loadConvocatorias() {
         $('#convocatoriasTable').DataTable({
             ajax: {
@@ -94,6 +130,7 @@ $(document).ready(function() {
     $('#convocatoriasTable').on('click', 'button.view-details', function() {
         var table = $('#convocatoriasTable').DataTable();
         var data = table.row($(this).parents('tr')).data();
+        selectedConvocatoriaId = data.id; // Guardar ID de la convocatoria seleccionada
         $('#convocatoriaDetails').html(`
             <p><strong>ID:</strong> ${data.id}</p>
             <p><strong>Nombre:</strong> ${data.nombre}</p>
@@ -109,114 +146,14 @@ $(document).ready(function() {
         `);
         showView('convocatoriaDetailView');
     });
-});
-// Variable global para almacenar la convocatoria seleccionada
-var selectedConvocatoriaId;
 
-$('#convocatoriasTable').on('click', 'button.view-details', function() {
-    var table = $('#convocatoriasTable').DataTable();
-    var data = table.row($(this).parents('tr')).data();
-    selectedConvocatoriaId = data.id; // Guardar ID de la convocatoria seleccionada
-    $('#convocatoriaDetails').html(`
-        <p><strong>ID:</strong> ${data.id}</p>
-        <p><strong>Nombre:</strong> ${data.nombre}</p>
-        <p><strong>Institución:</strong> ${data.institucion}</p>
-        <p><strong>Fecha de Inicio:</strong> ${data.fecha_inicio}</p>
-        <p><strong>Fecha de Fin:</strong> ${data.fecha_fin}</p>
-        <p><strong>Estado:</strong> ${data.estado}</p>
-        <p><strong>Cargo:</strong> ${data.cargo}</p>
-        <p><strong>Materia:</strong> ${data.materia}</p>
-        <p><strong>Dedicación:</strong> ${data.dedicacion}</p>
-        <p><strong>Fecha de Inscripción:</strong> ${data.fecha_inscripcion}</p>
-        <p><strong>Condición:</strong> ${data.condicion}</p>
-    `);
-    showView('convocatoriaDetailView');
-});
-$('#uploadCurriculumForm').on('submit', function(e) {
-    e.preventDefault();
-    var formData = new FormData(this);
-    formData.append('convocatoriaId', selectedConvocatoriaId);
-    formData.append('username', $('#username').val());
-
-    $.ajax({
-        url: 'upload_curriculum.php',
-        type: 'POST',
-        data: formData,
-        contentType: false,
-        processData: false,
-        success: function(response) {
-            if (response.success) {
-                closeModal('uploadCurriculumModal');
-                alert('Currículum cargado exitosamente.');
-            } else {
-                alert('Error al cargar el currículum.');
-            }
-        }
-    });
-});
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('submitForm').addEventListener('click', function(event) {
-        event.preventDefault();
-        
-        const formData = new FormData();
-        formData.append('username', document.getElementById('username').value);
-        formData.append('convocatoriaId', document.getElementById('convocatoriaId').value);
-        formData.append('curriculumFile', document.getElementById('curriculumFile').files[0]);
-
-        fetch('ruta_del_archivo_php.php', { // Cambia 'ruta_del_archivo_php.php' por la ruta a tu archivo PHP
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('Currículum enviado con éxito.');
-            } else {
-                alert('Error: ' + data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Error al enviar el formulario.');
-        });
-    });
-});
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('submitForm').addEventListener('click', function(event) {
-        event.preventDefault();
-        
-        // Crear un nuevo objeto FormData
-        const formData = new FormData();
-        formData.append('username', document.getElementById('username').value);
-        formData.append('convocatoriaId', document.getElementById('convocatoriaId').value);
-        formData.append('curriculumFile', document.getElementById('curriculumFile').files[0]);
-
-        // Enviar la solicitud al servidor
-        fetch('upload_curriculum.php', { // Cambia 'ruta_del_archivo_php.php' por la ruta a tu archivo PHP
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('Currículum enviado con éxito.');
-            } else {
-                // Mostrar mensaje de error basado en el código de error
-                handleServerError(data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error en la solicitud:', error);
-            alert('Error al enviar el formulario. Por favor, inténtelo de nuevo más tarde.');
-        });
+    // Manejo del botón de cerrar detalles
+    $('#convocatoriaDetailView').on('click', 'button.close-details', function() {
+        showView('convocatoriasView'); // Regresar a la vista de convocatorias
     });
 
-    /**
-     * Maneja y muestra mensajes de error específicos del servidor.
-     * @param {string} errorMessage - Mensaje de error recibido del servidor.
-     */
+    // Manejo de errores del servidor
     function handleServerError(errorMessage) {
-        // Define mensajes de error más detallados si es necesario
         const errorMessages = {
             'El archivo de convocatorias no es escribible.': 'No se puede escribir en el archivo de convocatorias. Verifique los permisos.',
             'Error al mover el archivo a la ubicación final.': 'No se pudo mover el archivo a la ubicación final. Intente nuevamente.',
@@ -227,7 +164,6 @@ document.addEventListener('DOMContentLoaded', function() {
             'Método no permitido.': 'Método de solicitud no permitido. Intente de nuevo.'
         };
 
-        // Mostrar el mensaje de error detallado
         let userFriendlyMessage = errorMessages[errorMessage] || 'Error desconocido. Por favor, inténtelo de nuevo.';
         alert(userFriendlyMessage);
     }
