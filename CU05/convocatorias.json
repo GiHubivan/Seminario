@@ -10,7 +10,8 @@
         "materia": "Matemáticas Avanzadas",
         "dedicacion": "Exclusiva",
         "fecha_inscripcion": "2024-09-01",
-        "condicion": "Regular"
+        "condicion": "Regular",
+        "curriculums": []
     },
     {
         "id": "2",
@@ -23,7 +24,8 @@
         "materia": "Biología Molecular",
         "dedicacion": "Semi-exclusiva",
         "fecha_inscripcion": "2024-08-15",
-        "condicion": "Interino"
+        "condicion": "Interino",
+        "curriculums": []
     },
     {
         "id": "3",
@@ -36,7 +38,8 @@
         "materia": "Historia Contemporánea",
         "dedicacion": "Simple",
         "fecha_inscripcion": "2024-10-01",
-        "condicion": "Regular"
+        "condicion": "Regular",
+        "curriculums": []
     },
     {
         "id": "4",
@@ -49,7 +52,8 @@
         "materia": "Química Orgánica",
         "dedicacion": "Exclusiva",
         "fecha_inscripcion": "2024-09-25",
-        "condicion": "Regular"
+        "condicion": "Regular",
+        "curriculums": []
     },
     {
         "id": "5",
@@ -62,7 +66,8 @@
         "materia": "Desarrollo de Software",
         "dedicacion": "Semi-exclusiva",
         "fecha_inscripcion": "2024-09-10",
-        "condicion": "Interino"
+        "condicion": "Interino",
+        "curriculums": []
     },
     {
         "id": "6",
@@ -75,7 +80,8 @@
         "materia": "Electrónica Digital",
         "dedicacion": "Simple",
         "fecha_inscripcion": "2024-08-30",
-        "condicion": "Regular"
+        "condicion": "Regular",
+        "curriculums": []
     },
     {
         "id": "7",
@@ -88,7 +94,8 @@
         "materia": "Filosofía Moderna",
         "dedicacion": "Exclusiva",
         "fecha_inscripcion": "2024-11-01",
-        "condicion": "Regular"
+        "condicion": "Regular",
+        "curriculums": []
     },
     {
         "id": "8",
@@ -101,7 +108,8 @@
         "materia": "Administración de Redes",
         "dedicacion": "Semi-exclusiva",
         "fecha_inscripcion": "2024-09-20",
-        "condicion": "Interino"
+        "condicion": "Interino",
+        "curriculums": []
     },
     {
         "id": "9",
@@ -114,7 +122,8 @@
         "materia": "Psicología Clínica",
         "dedicacion": "Simple",
         "fecha_inscripcion": "2024-10-10",
-        "condicion": "Regular"
+        "condicion": "Regular",
+        "curriculums": []
     },
     {
         "id": "10",
@@ -127,6 +136,8 @@
         "materia": "Física Teórica",
         "dedicacion": "Exclusiva",
         "fecha_inscripcion": "2024-08-30",
-        "condicion": "Interino"
+        "condicion": "Interino",
+        "curriculums": []
     }
 ]
+

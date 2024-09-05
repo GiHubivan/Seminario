@@ -110,3 +110,125 @@ $(document).ready(function() {
         showView('convocatoriaDetailView');
     });
 });
+// Variable global para almacenar la convocatoria seleccionada
+var selectedConvocatoriaId;
+
+$('#convocatoriasTable').on('click', 'button.view-details', function() {
+    var table = $('#convocatoriasTable').DataTable();
+    var data = table.row($(this).parents('tr')).data();
+    selectedConvocatoriaId = data.id; // Guardar ID de la convocatoria seleccionada
+    $('#convocatoriaDetails').html(`
+        <p><strong>ID:</strong> ${data.id}</p>
+        <p><strong>Nombre:</strong> ${data.nombre}</p>
+        <p><strong>Institución:</strong> ${data.institucion}</p>
+        <p><strong>Fecha de Inicio:</strong> ${data.fecha_inicio}</p>
+        <p><strong>Fecha de Fin:</strong> ${data.fecha_fin}</p>
+        <p><strong>Estado:</strong> ${data.estado}</p>
+        <p><strong>Cargo:</strong> ${data.cargo}</p>
+        <p><strong>Materia:</strong> ${data.materia}</p>
+        <p><strong>Dedicación:</strong> ${data.dedicacion}</p>
+        <p><strong>Fecha de Inscripción:</strong> ${data.fecha_inscripcion}</p>
+        <p><strong>Condición:</strong> ${data.condicion}</p>
+    `);
+    showView('convocatoriaDetailView');
+});
+$('#uploadCurriculumForm').on('submit', function(e) {
+    e.preventDefault();
+    var formData = new FormData(this);
+    formData.append('convocatoriaId', selectedConvocatoriaId);
+    formData.append('username', $('#username').val());
+
+    $.ajax({
+        url: 'upload_curriculum.php',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            if (response.success) {
+                closeModal('uploadCurriculumModal');
+                alert('Currículum cargado exitosamente.');
+            } else {
+                alert('Error al cargar el currículum.');
+            }
+        }
+    });
+});
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('submitForm').addEventListener('click', function(event) {
+        event.preventDefault();
+        
+        const formData = new FormData();
+        formData.append('username', document.getElementById('username').value);
+        formData.append('convocatoriaId', document.getElementById('convocatoriaId').value);
+        formData.append('curriculumFile', document.getElementById('curriculumFile').files[0]);
+
+        fetch('ruta_del_archivo_php.php', { // Cambia 'ruta_del_archivo_php.php' por la ruta a tu archivo PHP
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Currículum enviado con éxito.');
+            } else {
+                alert('Error: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error al enviar el formulario.');
+        });
+    });
+});
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('submitForm').addEventListener('click', function(event) {
+        event.preventDefault();
+        
+        // Crear un nuevo objeto FormData
+        const formData = new FormData();
+        formData.append('username', document.getElementById('username').value);
+        formData.append('convocatoriaId', document.getElementById('convocatoriaId').value);
+        formData.append('curriculumFile', document.getElementById('curriculumFile').files[0]);
+
+        // Enviar la solicitud al servidor
+        fetch('upload_curriculum.php', { // Cambia 'ruta_del_archivo_php.php' por la ruta a tu archivo PHP
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Currículum enviado con éxito.');
+            } else {
+                // Mostrar mensaje de error basado en el código de error
+                handleServerError(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error en la solicitud:', error);
+            alert('Error al enviar el formulario. Por favor, inténtelo de nuevo más tarde.');
+        });
+    });
+
+    /**
+     * Maneja y muestra mensajes de error específicos del servidor.
+     * @param {string} errorMessage - Mensaje de error recibido del servidor.
+     */
+    function handleServerError(errorMessage) {
+        // Define mensajes de error más detallados si es necesario
+        const errorMessages = {
+            'El archivo de convocatorias no es escribible.': 'No se puede escribir en el archivo de convocatorias. Verifique los permisos.',
+            'Error al mover el archivo a la ubicación final.': 'No se pudo mover el archivo a la ubicación final. Intente nuevamente.',
+            'El archivo de convocatorias no existe.': 'El archivo de convocatorias no se encuentra. Verifique su existencia.',
+            'Error al leer el archivo de convocatorias.': 'Hubo un problema al leer el archivo de convocatorias.',
+            'Convocatoria no encontrada.': 'La convocatoria seleccionada no se encuentra.',
+            'Error al guardar los datos en el archivo JSON.': 'No se pudo guardar la información en el archivo JSON.',
+            'Método no permitido.': 'Método de solicitud no permitido. Intente de nuevo.'
+        };
+
+        // Mostrar el mensaje de error detallado
+        let userFriendlyMessage = errorMessages[errorMessage] || 'Error desconocido. Por favor, inténtelo de nuevo.';
+        alert(userFriendlyMessage);
+    }
+});
