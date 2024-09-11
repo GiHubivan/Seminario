@@ -1,0 +1,51 @@
+<ifml:ViewContainer xmlns:ifml="http://www.webratio.com/ifml/1.0"
+                    xmlns:wd="http://www.webratio.com/wd/1.0">
+    <ifml:View name="PaginaPrincipal">
+        <ifml:Content>
+            <ifml:Text text="Bienvenido al sistema de gestión de convocatorias y resoluciones"/>
+            <ifml:Navigation>
+                <ifml:NavigationItem name="Convocatorias" destination="ConvocatoriasView"/>
+                <ifml:NavigationItem name="Resoluciones" destination="ResolucionesView"/>
+                <ifml:NavigationItem name="Docentes" destination="DocentesView"/>
+                <ifml:NavigationItem name="Inicio" destination="PaginaPrincipal"/>
+            </ifml:Navigation>
+        </ifml:Content>
+    </ifml:View>
+
+    <ifml:View name="ConvocatoriasView">
+        <ifml:Content>
+            <ifml:DataList source="convocatorias.json">
+                <ifml:DataItem>
+                    <ifml:Text text="Número de Resolución"/>
+                    <ifml:Text text="Expediente"/>
+                    <ifml:Text text="Cargo"/>
+                    <ifml:Text text="Materia"/>
+                    <ifml:Text text="Carrera"/>
+                    <ifml:Text text="Dedicación"/>
+                    <ifml:Text text="Estado"/>
+                    <ifml:Button action="showDetails" label="Detalle"/>
+                </ifml:DataItem>
+            </ifml:DataList>
+        </ifml:Content>
+    </ifml:View>
+
+    <ifml:View name="ResolucionesView">
+        <ifml:Content>
+            <ifml:DataList source="resoluciones.json">
+                <ifml:DataItem>
+                    <ifml:Text text="Número de Expediente"/>
+                    <ifml:Text text="Número de Resolución"/>
+                    <ifml:Text text="Tipo"/>
+                    <ifml:Text text="Cargo"/>
+                    <ifml:Text text="Materia"/>
+                    <ifml:Text text="Carrera"/>
+                    <ifml:Text text="Dedicación"/>
+                    <ifml:Text text="Condición"/>
+                    <ifml:Text text="Estado"/>
+                    <ifml:Link url="{pdfUrl}" text="Ver PDF"/>
+                </ifml:DataItem>
+            </ifml:DataList>
+            <ifml:Button action="newResolution" label="Nueva Resolución"/>
+        </ifml:Content>
+    </ifml:View>
+</ifml:ViewContainer>
