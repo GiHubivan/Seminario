@@ -1,0 +1,106 @@
+
+sequenceDiagram
+    actor A as Administrativo
+    participant S as Sistema
+    participant P as Pedido
+
+    A->>S: Completar datos del pedido
+    S->>S: Validar archivo PDF
+    alt Archivo válido
+        S->>P: Almacenar datos del pedido
+        P-->>S: Confirmación de almacenamiento
+        S-->>A: Confirmación de pedido agregado
+    else Archivo inválido
+        S-->>A: Mensaje de error
+    end
+
+
+sequenceDiagram
+    actor A as Administrativo
+    participant S as Sistema
+    participant C as Cargos
+
+    A->>S: seleccionarCargo(cargoId)
+    S->>C: mostrarDetalles(cargoId)
+
+    A->>S: ingresarDatosCargo(datos)
+    S->>C: validarYGuardarCargo(datos)
+
+    alt Si válido
+        C->>C: verificarExistenciaCargo(datos.numeroExpediente)
+        C->>C: guardarCargo(datos)
+        S->>A: mostrarMensaje("Guardado exitoso")
+        C->>C: actualizarLista()
+    else Si error
+        S->>A: mostrarMensaje("Error: Cargo ya existente")
+    end
+
+
+//comunicación
+
+classDiagram
+    class Administrativo {
+        +completarDatosPedido()
+    }
+
+    class sistema {
+        +validarArchivoPDF()
+        +almacenarDatosPedido()
+        +confirmarPedidoAgregado()
+        +mensajeError()
+    }
+
+    class pedido {
+        +confirmarAlmacenamiento()
+    }
+
+    Administrativo --|> sistema : Completar datos del pedido
+    sistema --|> sistema : Validar archivo PDF
+    sistema --|> pedido : Almacenar datos del pedido
+ pedido --|> sistema : Confirmación de almacenamiento
+    sistema--|> Administrativo : Confirmación de pedido agregado
+    sistema--|> Administrativo : Mensaje de error
+
+
+//clases de diseño
+classDiagram
+    class Administrativo {
+        +completarDatosPedido()
+        +agregarPedido()
+    }
+
+    class Sistema {
+        +validarArchivoPDF(): boolean
+        +almacenarDatosPedido(pedido: Pedido): void
+        +confirmarPedidoAgregado(): void
+        +mensajeError(mensaje: String): void
+        +cargarPedidos(): List<Pedido>
+    }
+
+    class Pedido {
+        +numeroNota: String
+        +numeroExpediente: String
+        +causante: String
+        +personaAutoriza: String
+        +archivoPDF: String
+        +fecha: Date
+        +confirmarAlmacenamiento(): boolean
+    }
+
+    class Auditoria {
+        +usuario: String
+        +pedido: Pedido
+        +fechaHora: Date
+        +registrarCarga(usuario: String, pedido: Pedido): void
+    }
+
+    Administrativo --|> Sistema : Completar datos del pedido
+    Sistema --|> Pedido : Almacenar datos del pedido
+    Pedido --|> Sistema : Confirmación de almacenamiento
+    Sistema --|> Administrativo : Confirmación de pedido agregado
+    Sistema --|> Administrativo : Mensaje de error
+
+    Administrativo "1" -- "0..*" Pedido : Agregar
+    Sistema "1" -- "0..*" Pedido : Gestionar
+    Auditoria "1" -- "0..*" Pedido : Registrar
+    Auditoria "1" -- "1" Administrativo : Cargar
