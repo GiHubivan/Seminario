@@ -1,0 +1,242 @@
+sequenceDiagram
+    participant A as Administrativo
+    participant S as Sistema
+    participant C as Convocatorias
+    participant G as Cargos
+    participant M as Materia
+    participant R as Carrera
+    participant F as Facultad
+
+    A->>S: Selecciona "Convocatorias"
+    S->>C: Muestra tabla de convocatorias
+    C->>S: Retorna datos de convocatorias
+    S->>A: Muestra tabla de convocatorias
+
+    A->>S: Selecciona "Agregar Convocatoria"
+    S->>A: Solicita datos (Cargo, Fecha de Inicio, Fecha de Cierre)
+    
+    A->>S: Selecciona Cargo
+    S->>G: Muestra listado de cargos vacantes
+    G->>R: Obtiene carreras relacionadas
+    G->>M: Obtiene materias relacionadas
+    G->>F: Obtiene facultades relacionadas
+    R-->>G: Retorna datos de carreras
+    M-->>G: Retorna datos de materias
+    F-->>G: Retorna datos de facultades
+    G-->>S: Retorna listado de cargos vacantes
+    S->>A: Muestra listado de cargos vacantes
+
+    A->>S: Elige cargo o selecciona "Registrar Cargo"
+    
+    alt Cargo Seleccionado
+        S->>G: Autocompleta campos (Categoría, Materia, Carrera, Condición, Dedicación)
+    else Registrar Cargo
+        S->>A: Redirige a CU16
+    end
+    
+    A->>S: Ingresa Documentación Relacionada
+    A->>S: Envía datos para guardar
+    S->>C: Valida datos (completitud, unicidad)
+    
+    alt Datos válidos
+        C->>S: Guarda convocatoria
+        S->>G: Actualiza estado del cargo
+        S->>A: Muestra mensaje de confirmación
+    else Número de Convocatoria Duplicado
+        S->>A: Muestra error (Número de convocatoria ya existe)
+    else Datos Incompletos
+        S->>A: Muestra error (Datos incompletos o incorrectos)
+    end
+////
+
+sequenceDiagram
+    Actor A as Administrativo
+    participant S as Sistema
+    participant C as Convocatorias
+    participant G as Cargos
+    participant M as Materia
+    participant R as Carrera
+    participant F as Facultad
+
+    A->>S: Selecciona "Convocatorias"
+    S->>C: Muestra tabla de convocatorias
+    C->>S: Retorna datos
+    S->>A: Muestra tabla
+
+    A->>S: Selecciona "Agregar Convocatoria"
+    S->>A: Solicita datos (Cargo, Fechas)
+
+    A->>S: Selecciona Cargo
+    S->>G: Muestra cargos vacantes
+    G->>R: Obtiene carreras
+    G->>M: Obtiene materias
+    G->>F: Obtiene facultades
+    R-->>G: Retorna carreras
+    M-->>G: Retorna materias
+    F-->>G: Retorna facultades
+    G-->>S: Retorna cargos vacantes
+    S->>A: Muestra cargos vacantes
+
+    A->>S: Elige cargo o "Registrar Cargo"
+    
+    alt Cargo Seleccionado
+        S->>G: Autocompleta campos
+    else Registrar Cargo
+        S->>A: Redirige a CU16
+    end
+
+    A->>S: Ingresa documentación
+    A->>S: Envía datos
+    S->>C: Valida datos
+    
+    alt Datos válidos
+        C->>S: Guarda convocatoria
+        S->>G: Actualiza estado del cargo
+        S->>A: Muestra confirmación
+    else Número Duplicado
+        S->>A: Muestra error
+    else Datos Incompletos
+        S->>A: Muestra error
+    end
+
+sequenceDiagram
+    Actor A as Administrativo
+    participant S as Sistema
+    participant C as Convocatorias
+    participant G as Cargos
+    participant M as Materia
+    participant R as Carrera
+    participant F as Facultad
+    participant D as Docentes
+
+    A->>S: Selecciona "Convocatorias"
+    S->>C: Muestra tabla de convocatorias
+    C->>S: Retorna datos
+    S->>A: Muestra tabla
+
+    A->>S: Selecciona "Agregar Convocatoria"
+    S->>A: Solicita datos (Cargo, Fechas)
+
+    A->>S: Selecciona Cargo
+    S->>G: Muestra cargos vacantes
+    G->>R: Obtiene carreras
+    G->>M: Obtiene materias
+    G->>F: Obtiene facultades
+    R-->>G: Retorna carreras
+    M-->>G: Retorna materias
+    F-->>G: Retorna facultades
+    G-->>S: Retorna cargos vacantes
+    S->>A: Muestra cargos vacantes
+
+    A->>S: Elige cargo o "Registrar Cargo"
+    
+    alt Cargo Seleccionado
+        S->>G: Autocompleta campos
+    else Registrar Cargo
+        S->>A: Redirige a CU16
+    end
+
+    A->>S: Ingresa documentación
+    A->>S: Solicita selección de 5 docentes
+    
+    loop Selección de Docentes
+        S->>D: Muestra listado de docentes
+        A->>D: Selecciona docente
+        D-->>C: Devuelve datos del docente
+        C->>C: Incluye datos del docente en la convocatoria
+    end
+
+    alt Docente no encontrado
+        A->>D: Registra docente manualmente (nombre, DNI)
+    end
+
+    A->>S: Envía datos
+    S->>C: Valida datos
+    
+    alt Datos válidos
+        C->>S: Guarda convocatoria
+        S->>G: Actualiza estado del cargo
+        S->>A: Muestra confirmación
+    else Número Duplicado
+        S->>A: Muestra error
+    else Datos Incompletos
+        S->>A: Muestra error
+    end
+///
+classDiagram
+    class Administrativo {
+        +id: int
+        +nombre: String
+        +email: String
+        +seleccionarConvocatorias()
+        +agregarConvocatoria()
+    }
+
+    class Convocatoria {
+        +id: int
+        +numeroConvocatoria: String
+        +cargo: Cargo
+        +fechaInicio: Date
+        +fechaCierre: Date
+        +documentoURL: String
+        +validarDatos()
+        +guardar()
+        +mostrarConfirmacion()
+    }
+
+    class Cargo {
+        +id: int
+        +nombre: String
+        +estado: String
+        +categoria: String
+        +materia: Materia
+        +carrera: Carrera
+        +obtenerCargosVacantes()
+        +actualizarEstado()
+    }
+
+    class Materia {
+        +id: int
+        +nombre: String
+        +obtenerMaterias()
+    }
+
+    class Carrera {
+        +id: int
+        +nombre: String
+        +obtenerCarreras()
+    }
+
+    class Facultad {
+        +id: int
+        +nombre: String
+        +obtenerFacultades()
+    }
+
+    class Docente {
+        +id: int
+        +nombre: String
+        +dni: String
+        +registrarDocente()
+    }
+
+    class AuditoriaConvocatorias {
+        +id: int
+        +convocatoriaId: int
+        +usuarioId: int
+        +fechaRegistro: Date
+        +registrarCarga()
+    }
+
+    Administrativo "1" -- "*" Convocatoria : crea 
+    Convocatoria "1" -- "1" Cargo : cubre
+    Convocatoria "*" -- "5" Docente : incluye 
+    Cargo "1" -- "1" Materia : dicta
+    
+    Materia "1" -- "1" Carrera : pertenece a 
+    Carrera "*" -- "1" Facultad : pertenece a 
+    Convocatoria "1" -- "1" AuditoriaConvocatorias : registra 
+    AuditoriaConvocatorias "1" -- "1" Administrativo : carga realizada por >
+/////
+ifml
+{"elements":[{"attributes":{"name":"Cconvocatorias","default":false,"landmark":true,"xor":false},"metadata":{"graphics":{"position":{"x":310,"y":100},"size":{"height":130,"width":200}}},"id":"contacts","type":"ifml.ViewContainer"},{"attributes":{"name":"Inicio","default":true,"landmark":true,"xor":false},"metadata":{"graphics":{"position":{"x":40,"y":100},"size":{"height":100,"width":200}}},"id":"mails","type":"ifml.ViewContainer"},{"attributes":{"name":"menu","stereotype":"list","fields":["convocatorias","inicio"],"collection":"opciones","filters":[]},"metadata":{"graphics":{"position":{"x":60,"y":130},"size":{"height":60,"width":150}}},"id":"6fd3dcf0-3d3e-4923-a9a9-0c2342664005","type":"ifml.ViewComponent"},{"attributes":{"name":"selected","stereotype":"selection"},"metadata":{"graphics":{"position":{"x":200,"y":180},"name":{"horizontal":"right","vertical":"bottom"}}},"id":"c78727da-34bd-4809-a8f5-713f8430dab5","type":"ifml.Event"},{"attributes":{"name":"View Component","stereotype":"list","fields":[],"collection":"","filters":[]},"metadata":{"graphics":{"position":{"x":310,"y":130},"size":{"height":60,"width":150}}},"id":"646a5569-7037-4833-b836-3429a015b88e","type":"ifml.ViewComponent"},{"attributes":{"name":"agregar"},"metadata":{"graphics":{"position":{"x":370,"y":220},"name":{"horizontal":"left-outer","vertical":"top"}}},"id":"c42b9f1e-02b7-4295-b8a8-4a81604745e7","type":"ifml.Event"},{"attributes":{"name":"View Container","default":false,"landmark":false,"xor":false},"metadata":{"graphics":{"position":{"x":290,"y":300},"size":{"height":160,"width":200}}},"id":"4a2f6a16-1d76-4f85-8f65-303589810eb6","type":"ifml.ViewContainer"},{"attributes":{"name":"nueva convocatoria","stereotype":"form","fields":["cargo","fecha cierre","fecha inicio","url resolucion"]},"metadata":{"graphics":{"position":{"x":300,"y":360},"size":{"height":70,"width":170}}},"id":"07fdbb71-a2b2-4b99-b438-3c77fed5a276","type":"ifml.ViewComponent"},{"attributes":{"name":"guardar"},"metadata":{"graphics":{"position":{"x":450,"y":420},"name":{"horizontal":"left-outer","vertical":"top"}}},"id":"7e85a707-5753-43a2-ab86-7d6c85ed815a","type":"ifml.Event"},{"attributes":{"name":"registrar_convocatoria","parameters":[],"results":[]},"metadata":{"graphics":{"position":{"x":520,"y":290},"size":{"height":50,"width":75}}},"id":"864c25ed-7964-4624-a009-607fdea283cf","type":"ifml.Action"},{"attributes":{"name":"confirmar"},"metadata":{"graphics":{"position":{"x":530,"y":280},"name":{"horizontal":"left-outer","vertical":"top"}}},"id":"45d6b813-592d-4149-9088-bd750e2387da","type":"ifml.Event"},{"attributes":{"bindings":[]},"metadata":{"graphics":{}},"id":"c4a67bf4-1b01-4117-bfee-721420ba7225","type":"ifml.NavigationFlow"},{"attributes":{"bindings":[]},"metadata":{"graphics":{}},"id":"adeb5286-57bf-45e4-aac5-2257496f643e","type":"ifml.NavigationFlow"},{"attributes":{"bindings":[]},"metadata":{"graphics":{}},"id":"940e833f-429f-4ab3-8085-b6a36624454a","type":"ifml.NavigationFlow"},{"attributes":{"bindings":[]},"metadata":{"graphics":{}},"id":"730074ec-ca7b-47ad-8e53-ac7e3ec3a7b8","type":"ifml.NavigationFlow"}],"relations":[{"type":"hierarchy","parent":"mails","child":"6fd3dcf0-3d3e-4923-a9a9-0c2342664005"},{"type":"hierarchy","parent":"6fd3dcf0-3d3e-4923-a9a9-0c2342664005","child":"c78727da-34bd-4809-a8f5-713f8430dab5"},{"type":"hierarchy","parent":"contacts","child":"646a5569-7037-4833-b836-3429a015b88e"},{"type":"hierarchy","parent":"contacts","child":"c42b9f1e-02b7-4295-b8a8-4a81604745e7"},{"type":"hierarchy","parent":"4a2f6a16-1d76-4f85-8f65-303589810eb6","child":"07fdbb71-a2b2-4b99-b438-3c77fed5a276"},{"type":"hierarchy","parent":"07fdbb71-a2b2-4b99-b438-3c77fed5a276","child":"7e85a707-5753-43a2-ab86-7d6c85ed815a"},{"type":"hierarchy","parent":"864c25ed-7964-4624-a009-607fdea283cf","child":"45d6b813-592d-4149-9088-bd750e2387da"},{"type":"source","flow":"c4a67bf4-1b01-4117-bfee-721420ba7225","source":"c78727da-34bd-4809-a8f5-713f8430dab5"},{"type":"source","flow":"adeb5286-57bf-45e4-aac5-2257496f643e","source":"c42b9f1e-02b7-4295-b8a8-4a81604745e7"},{"type":"source","flow":"940e833f-429f-4ab3-8085-b6a36624454a","source":"7e85a707-5753-43a2-ab86-7d6c85ed815a"},{"type":"source","flow":"730074ec-ca7b-47ad-8e53-ac7e3ec3a7b8","source":"45d6b813-592d-4149-9088-bd750e2387da"},{"type":"target","flow":"c4a67bf4-1b01-4117-bfee-721420ba7225","target":"contacts"},{"type":"target","flow":"adeb5286-57bf-45e4-aac5-2257496f643e","target":"4a2f6a16-1d76-4f85-8f65-303589810eb6"},{"type":"target","flow":"940e833f-429f-4ab3-8085-b6a36624454a","target":"864c25ed-7964-4624-a009-607fdea283cf"},{"type":"target","flow":"730074ec-ca7b-47ad-8e53-ac7e3ec3a7b8","target":"contacts"}],"statistics":{"session":{"started_at":"2024-10-07T23:13:12.404Z","ended_at":"2024-10-07T23:20:21.512Z"}}}
