@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Personal Administrativo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Vista de Inicio de Sesión -->
+    <div id="loginView" class="view active">
+        <h1>Iniciar Sesión</h1>
+        <form id="loginForm">
+            <label for="username">Usuario:</label>
+            <input type="text" id="username" name="username" required>
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">Iniciar Sesión</button>
+            <button type="button" id="recoverAccountBtn">Recuperar Cuenta</button>
+        </form>
+        <p id="loginError" class="hidden">Credenciales incorrectas o error en el envío del código.</p>
+    </div>
+
+    <!-- Vista de Verificación -->
+    <div id="verificationView" class="view hidden">
+        <h1>Verificación de Código</h1>
+        <label for="verificationChannel">Seleccionar Canal de Verificación:</label>
+        <select id="verificationChannel">
+            <option value="sms">SMS</option>
+            <option value="email">Correo Electrónico</option>
+        </select>
+        <button type="button" id="sendCodeBtn">Enviar Código</button>
+        <div id="verificationInput" class="hidden">
+            <label for="otp">Código OTP:</label>
+            <input type="text" id="otp" name="otp" required>
+            <button type="button" id="verifyCodeBtn">Verificar Código</button>
+        </div>
+        <p id="verificationError" class="hidden">Error en el código OTP o en el envío del código.</p>
+        <button type="button" id="resendCodeBtn" class="hidden">Reenviar Código</button>
+    </div>
+
+    <!-- Vista de Recuperación de Cuenta -->
+    <div id="recoveryView" class="view hidden">
+        <h1>Recuperar Cuenta</h1>
+        <form id="recoveryForm">
+            <label for="recoveryContact">Email o Teléfono:</label>
+            <input type="text" id="recoveryContact" name="recoveryContact" required>
+            <button type="submit">Enviar</button>
+        </form>
+        <p id="recoveryMessage" class="hidden">Verifique su correo electrónico o SMS.</p>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
