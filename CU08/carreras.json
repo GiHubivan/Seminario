@@ -1,0 +1,36 @@
+{
+    "carreras": [
+        {
+            "nombre": "Enfermería",
+            "facultad": "F. Salud"
+        },
+        {
+            "nombre": "Análisis de Sistemas",
+            "facultad": "F. Exactas"
+        },
+        {
+            "nombre": "IRMA",
+            "facultad": "F. Naturales"
+        },
+        {
+            "nombre": "TULC",
+            "facultad": "F. Salud"
+        },
+        {
+            "nombre": "TURF",
+            "facultad": "F. Naturales"
+        },
+        {
+            "nombre": "TEA",
+            "facultad": "F. Naturales"
+        },
+        {
+            "nombre": "TUP",
+            "facultad": "F.Exactas"
+        },
+        {
+            "nombre": "TIG",
+            "facultad": "F. Exactas"
+        }
+    ]
+}

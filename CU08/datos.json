@@ -1,0 +1,64 @@
+{
+    "cargos": [
+        {
+            "categoria": "Auxiliar de Primera",
+            "materia": "Matem\u00e1ticas",
+            "numeroExpediente": "12345",
+            "carrera": "Ingenier\u00eda",
+            "facultad": "Facultad de Ciencias Exactas",
+            "dedicacion": "simple",
+            "condicion": "Regular",
+            "estado": "Vacante"
+        },
+        {
+            "categoria": "Jefe de Trabajos Pr\u00e1cticos",
+            "materia": "F\u00edsica",
+            "numeroExpediente": "12346",
+            "carrera": "Ingenier\u00eda",
+            "facultad": "Facultad de Ciencias Exactas",
+            "dedicacion": "semi-exclusiva",
+            "condicion": "Interino",
+            "estado": "Ocupado"
+        },
+        {
+            "categoria": "Adjunto",
+            "materia": "Qu\u00edmica",
+            "numeroExpediente": "12347",
+            "carrera": "Qu\u00edmica",
+            "facultad": "Facultad de Qu\u00edmica",
+            "dedicacion": "exclusiva",
+            "condicion": "Regular",
+            "estado": "En Concurso"
+        },
+        {
+            "categoria": "Titular",
+            "materia": "Biolog\u00eda",
+            "numeroExpediente": "12348",
+            "carrera": "Biolog\u00eda",
+            "facultad": "Facultad de Ciencias",
+            "dedicacion": "simple",
+            "condicion": "Interino",
+            "estado": "Vacante"
+        },
+        {
+            "categoria": "Jefe de Trabajos Pr\u00e1cticos",
+            "materia": "1",
+            "numeroExpediente": "12350",
+            "carrera": "An\u00e1lisis de Sistemas",
+            "facultad": "F. Exactas",
+            "dedicacion": "simple",
+            "condicion": "Regular",
+            "estado": "Vacante"
+        },
+        {
+            "categoria": "Titular",
+            "materia": "Qu\u00edmica General",
+            "numeroExpediente": "2143",
+            "carrera": "Enfermer\u00eda",
+            "facultad": "F. Salud",
+            "dedicacion": "semiexclusiva",
+            "condicion": "Interino",
+            "estado": "Vacante"
+        }
+    ]
+}

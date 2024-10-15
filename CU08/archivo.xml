@@ -1,0 +1,41 @@
+<ifml:InteractionFlowModel xmlns:ifml="http://www.omg.org/spec/IFML/20131001"
+                            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                            xsi:schemaLocation="http://www.omg.org/spec/IFML/20131001
+                                                http://www.omg.org/spec/IFML/20131001/IFML.xsd"
+                            name="RegistrarCargoDocente">
+    <ifml:ViewComponent name="LoginView">
+        <ifml:InputParameter name="username"/>
+        <ifml:InputParameter name="password"/>
+    </ifml:ViewComponent>
+    
+    <ifml:ViewComponent name="CargosListView">
+        <ifml:OutputParameter name="cargos"/>
+    </ifml:ViewComponent>
+    
+    <ifml:ViewComponent name="CargoFormView">
+        <ifml:InputParameter name="categoria"/>
+        <ifml:InputParameter name="materia"/>
+        <ifml:InputParameter name="facultad"/>
+        <ifml:InputParameter name="dedicacion"/>
+        <ifml:InputParameter name="condicion"/>
+        <ifml:InputParameter name="urlResolucion"/>
+        <ifml:InputParameter name="fuenteFinanciamiento"/>
+        <ifml:InputParameter name="estado"/>
+        <ifml:InputParameter name="numeroExpediente"/>
+        <ifml:InputParameter name="numeroResolucion"/>
+    </ifml:ViewComponent>
+    
+    <ifml:Flow name="LoginFlow">
+        <ifml:InputEvent source="LoginView" target="CargosListView" />
+    </ifml:Flow>
+    
+    <ifml:Flow name="AddCargoFlow">
+        <ifml:InputEvent source="CargoFormView" target="CargosListView" />
+    </ifml:Flow>
+    
+    <ifml:InteractionFlow>
+        <ifml:Flow source="LoginView" target="CargosListView"/>
+        <ifml:Flow source="CargosListView" target="CargoFormView"/>
+        <ifml:Flow source="CargoFormView" target="CargosListView"/>
+    </ifml:InteractionFlow>
+</ifml:InteractionFlowModel>

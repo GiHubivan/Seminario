@@ -1,0 +1,20 @@
+{
+    "facultades": [
+        {
+            "codigo": "F. Exactas",
+            "nombre": "Facultad de Ciencias Exactas"
+        },
+        {
+            "codigo": "F. Salud",
+            "nombre": "Facultad de Ciencias de la Salud"
+        },
+        {
+            "codigo": "F. Naturales",
+            "nombre": "Facultad de Ciencias Naturales"
+        },
+        {
+            "codigo": "FRO",
+            "nombre": "Facultad Regional Oeste"
+        }
+    ]
+}

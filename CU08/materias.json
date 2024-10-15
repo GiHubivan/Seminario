@@ -1,0 +1,54 @@
+{
+    "materias": [
+        {
+            "numero": 1,
+            "nombre": "Matemáticas I",
+            "carrera": "Análisis de Sistemas"
+        },
+        {
+            "numero": 2,
+            "nombre": "Física I",
+            "carrera": "Análisis de Sistemas"
+        },
+        {
+            "numero": 3,
+            "nombre": "Química General",
+            "carrera": "Enfermería"
+        },
+        {
+            "numero": 4,
+            "nombre": "Anatomía Humana",
+            "carrera": "Enfermería"
+        },
+        {
+            "numero": 5,
+            "nombre": "Programación I",
+            "carrera": "Análisis de Sistemas"
+        },
+        {
+            "numero": 6,
+            "nombre": "Gestión de Proyectos",
+            "carrera": "IRMA"
+        },
+        {
+            "numero": 7,
+            "nombre": "Metodología de la Investigación",
+            "carrera": "TULC"
+        },
+        {
+            "numero": 8,
+            "nombre": "Fisiología",
+            "carrera": "Enfermería"
+        },
+        {
+            "numero": 9,
+            "nombre": "Diseño Gráfico",
+            "carrera": "TURF"
+        },
+        {
+            "numero": 10,
+            "nombre": "Terapia Ocupacional",
+            "carrera": "TEA"
+        }
+    ]
+}

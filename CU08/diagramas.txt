@@ -1,0 +1,125 @@
+sequenceDiagram
+    actor A as Administrativo
+    participant S as Sistema
+    participant C as Cargos
+
+    A->>S: Iniciar sesión
+    S->>A: Validar credenciales
+
+    A->>S: Seleccionar "Cargos"
+    S->>A: Mostrar lista de cargos
+
+    A->>S: Elegir "Agregar Nuevo Cargo"
+    S->>A: Mostrar formulario
+
+    A->>S: Completar formulario
+    S->>C: Validar datos del formulario
+    C-->>S: Datos válidos / No válidos
+
+    alt Datos no válidos
+        S->>A: Mostrar mensaje de error
+    else Datos válidos
+        S->>C: Verificar duplicados
+        alt Duplicado encontrado
+            S->>A: Mostrar mensaje de error
+        else No duplicado
+            S->>C: Guardar nuevo cargo
+            S->>A: Mostrar mensaje de éxito
+        end
+    end
+
+    S->>A: Actualizar lista de cargos
+///
+ifml
+{"elements":[{"attributes":{"name":"Cargos","landmark":true,"xor":false},"metadata":{"graphics":{"position":{"x":460,"y":150},"size":{"height":160,"width":200}}},"id":"6cf8f52b-1c93-4870-a8ea-edbdaa94a166","type":"ifml.ViewContainer"},{"attributes":{"name":"View Component","stereotype":"list","fields":["categoria","condicion","dedicación","estado","expediente","facultad","id","materia","url resolucion"],"collection":"cargos","filters":[]},"metadata":{"graphics":{"position":{"x":470,"y":180},"size":{"height":60,"width":150}}},"id":"a3b375b0-820c-4db1-b722-9dc0638540c6","type":"ifml.ViewComponent"},{"attributes":{"name":"agregar"},"metadata":{"graphics":{"position":{"x":510,"y":300},"name":{"horizontal":"left-outer","vertical":"top"}}},"id":"92cfe386-dfac-497d-8635-336be3a07d9f","type":"ifml.Event"},{"attributes":{"name":"nuevo cargo","default":false,"landmark":false,"xor":false},"metadata":{"graphics":{"position":{"x":450,"y":420},"size":{"height":160,"width":200}}},"id":"c2a15527-4923-49c5-a6b2-114a672dd291","type":"ifml.ViewContainer"},{"attributes":{"name":"View Component","stereotype":"form","fields":["categoria","condicion","dedicación","estado","expediente","facultad","materia","resolucion"]},"metadata":{"graphics":{"position":{"x":470,"y":490},"size":{"height":60,"width":150}}},"id":"35dbbf69-8165-4f8b-949c-d9e1ce0b73ad","type":"ifml.ViewComponent"},{"attributes":{"name":"guardar"},"metadata":{"graphics":{"position":{"x":460,"y":530},"name":{"horizontal":"left-outer","vertical":"top"}}},"id":"4904585e-9d8c-401a-b17e-68bf511003b8","type":"ifml.Event"},{"attributes":{"name":"Action","parameters":[],"results":[]},"metadata":{"graphics":{"position":{"x":270,"y":430},"size":{"height":50,"width":75}}},"id":"3056a8e4-692d-4251-92ca-f4e2640b9e55","type":"ifml.Action"},{"attributes":{"name":"confirmar"},"metadata":{"graphics":{"position":{"x":335,"y":430},"name":{"horizontal":"left-outer","vertical":"top"}}},"id":"cde73d0c-e7da-4450-a789-068bfb1e952b","type":"ifml.Event"},{"attributes":{"name":"Inicio","default":true,"landmark":true,"xor":false},"metadata":{"graphics":{"position":{"x":180,"y":150},"size":{"height":160,"width":200}}},"id":"f0e98ccc-96d4-4e9d-8efd-15b07c417255","type":"ifml.ViewContainer"},{"attributes":{"bindings":[]},"metadata":{"graphics":{}},"id":"f498e8b3-3fbc-452b-a60f-fd3bf1676cb5","type":"ifml.NavigationFlow"},{"attributes":{"bindings":[]},"metadata":{"graphics":{}},"id":"d92cd416-cf0e-498e-802f-4e37ed01c07b","type":"ifml.NavigationFlow"},{"attributes":{"bindings":[]},"metadata":{"graphics":{}},"id":"959b1488-9451-44bb-9c02-b8fb2501e68d","type":"ifml.NavigationFlow"},{"attributes":{"name":"menu","stereotype":"list","fields":["inicio"],"collection":"opciones","filters":[]},"metadata":{"graphics":{"position":{"x":210,"y":210},"size":{"height":60,"width":150}}},"id":"af23b575-b82f-45ce-8d3a-920cd41140d9","type":"ifml.ViewComponent"}],"relations":[{"type":"hierarchy","parent":"6cf8f52b-1c93-4870-a8ea-edbdaa94a166","child":"a3b375b0-820c-4db1-b722-9dc0638540c6"},{"type":"hierarchy","parent":"6cf8f52b-1c93-4870-a8ea-edbdaa94a166","child":"92cfe386-dfac-497d-8635-336be3a07d9f"},{"type":"hierarchy","parent":"c2a15527-4923-49c5-a6b2-114a672dd291","child":"35dbbf69-8165-4f8b-949c-d9e1ce0b73ad"},{"type":"hierarchy","parent":"35dbbf69-8165-4f8b-949c-d9e1ce0b73ad","child":"4904585e-9d8c-401a-b17e-68bf511003b8"},{"type":"hierarchy","parent":"3056a8e4-692d-4251-92ca-f4e2640b9e55","child":"cde73d0c-e7da-4450-a789-068bfb1e952b"},{"type":"hierarchy","parent":"f0e98ccc-96d4-4e9d-8efd-15b07c417255","child":"af23b575-b82f-45ce-8d3a-920cd41140d9"},{"type":"source","flow":"f498e8b3-3fbc-452b-a60f-fd3bf1676cb5","source":"92cfe386-dfac-497d-8635-336be3a07d9f"},{"type":"source","flow":"d92cd416-cf0e-498e-802f-4e37ed01c07b","source":"4904585e-9d8c-401a-b17e-68bf511003b8"},{"type":"source","flow":"959b1488-9451-44bb-9c02-b8fb2501e68d","source":"cde73d0c-e7da-4450-a789-068bfb1e952b"},{"type":"target","flow":"f498e8b3-3fbc-452b-a60f-fd3bf1676cb5","target":"c2a15527-4923-49c5-a6b2-114a672dd291"},{"type":"target","flow":"d92cd416-cf0e-498e-802f-4e37ed01c07b","target":"3056a8e4-692d-4251-92ca-f4e2640b9e55"},{"type":"target","flow":"959b1488-9451-44bb-9c02-b8fb2501e68d","target":"6cf8f52b-1c93-4870-a8ea-edbdaa94a166"}],"statistics":{"session":{"started_at":"2024-10-03T21:35:07.204Z","ended_at":"2024-10-03T21:50:46.870Z"}}}
+
+classDiagram
+    class Administrativo {
+        +String nombre
+        +String usuario
+        +String password
+        +iniciarSesion()
+        +agregarCargo(cargo: Cargo)
+    }
+
+    class Cargo {
+        +String categoria
+        +String materia
+        +String facultad
+        +String carrera
+        +String dedicacion
+        +String condicion
+        +String urlResolucion
+        +String fuenteFinanciamiento
+        +String estado
+        +String numeroExpediente
+        +String numeroResolucion
+        +validarDatos() 
+        +verificarDuplicados()
+    }
+
+    class Sistema {
+        +mostrarListadoCargos()
+        +mostrarFormularioNuevoCargo()
+        +guardarCargo(cargo: Cargo)
+        +notificarExito()
+        +notificarError()
+    }
+
+    class ClaseCargos {
+        +List<Cargo> cargos
+        +agregarCargo(cargo: Cargo)
+        +verificarDuplicados(cargo: Cargo): boolean
+        +listarCargos(): List<Cargo>
+    }
+
+    Administrativo --> Sistema : utiliza
+    Sistema --> ClaseCargos : interactúa
+    ClaseCargos --> Cargo : contiene
+
+classDiagram
+    class Administrativo {
+        +String nombre
+        +String usuario
+        +String password
+        +iniciarSesion()
+        +agregarCargo(cargo: Cargo)
+    }
+
+    class Cargo {
+        +String categoria
+        +String materia
+        +String facultad
+        +String carrera
+        +String dedicacion
+        +String condicion
+        +String urlResolucion
+        +String fuenteFinanciamiento
+        +String estado
+        +String numeroExpediente
+        +String numeroResolucion
+        +validarDatos() 
+        +verificarDuplicados()
+        +agregarCargo(cargo: Cargo)
+        +listarCargos(): List<Cargo>
+    }
+
+    class AuditoriaCargos {
+        +String usuario
+        +String fecha
+        +String accion
+        +registrarCarga(cargo: Cargo, usuario: String)
+    }
+
+    class Sistema {
+        +mostrarListadoCargos()
+        +mostrarFormularioNuevoCargo()
+        +guardarCargo(cargo: Cargo)
+        +notificarExito()
+        +notificarError()
+    }
+
+    Administrativo --> Sistema : utiliza
+    Sistema --> Cargo : interactúa
+    Administrativo "1" --> "0..*" Cargo : agrega
+    Cargo "1" --> "0..*" AuditoriaCargos : registra
