@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currículum Docente</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Menu de navegación -->
+        <nav>
+            <ul>
+                <li><a href="#" class="nav-link" data-target="home">Inicio</a></li>
+                <li><a href="#" class="nav-link" data-target="curriculum">Currículum</a></li>
+                <li><a href="#" class="nav-link" data-target="call">Convocatorias</a></li>
+            </ul>
+        </nav>
+
+        <!-- Sección de contenido -->
+        <div id="home" class="tab-content">
+            <h1>Bienvenido a la Plataforma de Currículum Docente</h1>
+            <p>Información relevante sobre el sistema.</p>
+        </div>
+
+        <div id="curriculum" class="tab-content" style="display: none;">
+            <div class="nav">
+                <a href="#" class="nav-link" data-target="profile">Datos Personales</a>
+                <a href="#" class="nav-link" data-target="titles">Títulos</a>
+                <a href="#" class="nav-link" data-target="experience">Experiencia</a>
+                <a href="#" class="nav-link" data-target="research">Investigación</a>
+                <a href="#" class="nav-link" data-target="courses">Cursos</a>
+            </div>
+            <div id="profile" class="tab-content-section">
+                <h2>Datos Personales</h2>
+                <form id="profileForm">
+                    <label for="name">Nombre:</label>
+                    <input type="text" id="name" name="name" value="Juan" disabled>
+                    <label for="surname">Apellido:</label>
+                    <input type="text" id="surname" name="surname" value="Pérez" disabled>
+                    <label for="dni">DNI:</label>
+                    <input type="text" id="dni" name="dni" value="12345678" disabled>
+                    <label for="address">Domicilio:</label>
+                    <input type="text" id="address" name="address" value="Av. Siempre Viva 742, Springfield, 12345" disabled>
+                    <button type="button" onclick="enableEdit()">Modificar</button>
+                    <button type="submit" style="display: none;" id="saveProfile">Guardar</button>
+                </form>
+            </div>
+
+            <div id="titles" class="tab-content-section" style="display: none;">
+                <h2>Títulos</h2>
+                <table id="titlesTable" class="display">
+                    <thead>
+                        <tr>
+                            <th>Carrera</th>
+                            <th>Institución</th>
+                            <th>Año de Egreso</th>
+                            <th>PDF</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                </table>
+                <button type="button" id="addTitleBtn">Agregar Título</button>
+            </div>
+
+            <div id="experience" class="tab-content-section" style="display: none;">
+                <h2>Experiencia</h2>
+                <table id="experienceTable" class="display">
+                    <thead>
+                        <tr>
+                            <th>Institución</th>
+                            <th>Asignatura</th>
+                            <th>Función</th>
+                            <th>Fecha de Inicio</th>
+                            <th>PDF</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                </table>
+                <button type="button" id="addExperienceBtn">Agregar Experiencia</button>
+            </div>
+
+            <div id="research" class="tab-content-section" style="display: none;">
+                <h2>Investigación</h2>
+                <table id="researchTable" class="display">
+                    <thead>
+                        <tr>
+                            <th>Nombre del Proyecto</th>
+                            <th>Director</th>
+                            <th>Año de Inicio</th>
+                            <th>PDF</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                </table>
+                <button type="button" id="addResearchBtn">Agregar Investigación</button>
+            </div>
+
+            <div id="courses" class="tab-content-section" style="display: none;">
+                <h2>Cursos Realizados</h2>
+                <table id="coursesTable" class="display">
+                    <thead>
+                        <tr>
+                            <th>Nombre del Curso</th>
+                            <th>Condición</th>
+                            <th>Fecha de Realización</th>
+                            <th>PDF</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                </table>
+                <button type="button" id="addCourseBtn">Agregar Curso</button>
+            </div>
+        </div>
+
+        <div id="call" class="tab-content" style="display: none;">
+            <h2>Convocatorias Abiertas</h2>
+            <p>Listado de convocatorias abiertas.</p>
+        </div>
+    </div>
+
+    <!-- Modales para agregar y editar títulos, experiencias, investigaciones y cursos -->
+    <div class="modal" id="editTitleModal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" data-target="editTitleModal">&times;</span>
+            <h2>Agregar/Editar Título</h2>
+            <form id="editTitleForm">
+                <input type="hidden" id="titleId" name="titleId">
+                <label for="titleCareer">Carrera:</label>
+                <input type="text" id="titleCareer" name="titleCareer" required>
+                <label for="titleInstitution">Institución:</label>
+                <input type="text" id="titleInstitution" name="titleInstitution" required>
+                <label for="titleYear">Año de Egreso:</label>
+                <input type="number" id="titleYear" name="titleYear" required>
+                <label for="titlePDF">PDF:</label>
+                <input type="url" id="titlePDF" name="titlePDF" required>
+                <button type="submit">Guardar</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="editExperienceModal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" data-target="editExperienceModal">&times;</span>
+            <h2>Agregar/Editar Experiencia</h2>
+            <form id="editExperienceForm">
+                <input type="hidden" id="experienceId" name="experienceId">
+                <label for="expInstitution">Institución:</label>
+                <input type="text" id="expInstitution" name="expInstitution" required>
+                <label for="expSubject">Asignatura:</label>
+                <input type="text" id="expSubject" name="expSubject" required>
+                <label for="expFunction">Función:</label>
+                <input type="text" id="expFunction" name="expFunction" required>
+                <label for="expStartDate">Fecha de Inicio:</label>
+                <input type="date" id="expStartDate" name="expStartDate" required>
+                <label for="expPDF">PDF:</label>
+                <input type="url" id="expPDF" name="expPDF" required>
+                <button type="submit">Guardar</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="editResearchModal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" data-target="editResearchModal">&times;</span>
+            <h2>Agregar/Editar Investigación</h2>
+            <form id="editResearchForm">
+                <input type="hidden" id="researchId" name="researchId">
+                <label for="researchProject">Nombre del Proyecto:</label>
+                <input type="text" id="researchProject" name="researchProject" required>
+                <label for="researchDirector">Director:</label>
+                <input type="text" id="researchDirector" name="researchDirector" required>
+                <label for="researchYear">Año de Inicio:</label>
+                <input type="number" id="researchYear" name="researchYear" required>
+                <label for="researchPDF">PDF:</label>
+                <input type="url" id="researchPDF" name="researchPDF" required>
+                <button type="submit">Guardar</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="editCourseModal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" data-target="editCourseModal">&times;</span>
+            <h2>Agregar/Editar Curso</h2>
+            <form id="editCourseForm">
+                <input type="hidden" id="courseId" name="courseId">
+                <label for="courseName">Nombre del Curso:</label>
+                <input type="text" id="courseName" name="courseName" required>
+                <label for="courseCondition">Condición:</label>
+                <input type="text" id="courseCondition" name="courseCondition" required>
+                <label for="courseDate">Fecha de Realización:</label>
+                <input type="date" id="courseDate" name="courseDate" required>
+                <label for="coursePDF">PDF:</label>
+                <input type="url" id="coursePDF" name="coursePDF" required>
+                <button type="submit">Guardar</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>
