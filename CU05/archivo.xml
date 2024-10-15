@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ifml:ViewContainer xmlns:ifml="http://www.omg.org/spec/IFML/20131001"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xmlns:ifmlc="http://www.omg.org/spec/IFML/20131001/IFMLCore"
+                     xsi:schemaLocation="http://www.omg.org/spec/IFML/20131001
+                                         http://www.omg.org/spec/IFML/20131001/IFMLCore.xsd">
+    <!-- View for the main page -->
+    <ifml:View id="MainPage" name="Página Inicial">
+        <!-- Menu for managing convocatorias -->
+        <ifml:Component id="Menu" name="Menú Principal">
+            <ifml:Action name="Acceder a Convocatorias" />
+        </ifml:Component>
+    </ifml:View>
+
+    <!-- View for the list of convocatorias -->
+    <ifml:View id="ConvocatoriasListView" name="Lista de Convocatorias">
+        <ifml:Component id="ConvocatoriasList" name="Lista de Convocatorias">
+            <ifml:Action name="Seleccionar Convocatoria" />
+        </ifml:Component>
+    </ifml:View>
+
+    <!-- View for the details of a convocatoria -->
+    <ifml:View id="ConvocatoriaDetailView" name="Detalles de Convocatoria">
+        <ifml:Component id="ConvocatoriaDetails" name="Detalles de Convocatoria">
+            <ifml:Action name="Modificar Inscripción" />
+            <ifml:Action name="Cancelar Inscripción" />
+        </ifml:Component>
+    </ifml:View>
+
+    <!-- View for confirmation messages -->
+    <ifml:View id="ConfirmationView" name="Confirmación">
+        <ifml:Component id="ConfirmationMessage" name="Mensaje de Confirmación">
+            <ifml:Action name="Confirmar Modificación" />
+            <ifml:Action name="Confirmar Cancelación" />
+        </ifml:Component>
+    </ifml:View>
+
+    <!-- View for error messages -->
+    <ifml:View id="ErrorView" name="Error">
+        <ifml:Component id="ErrorMessage" name="Mensaje de Error" />
+    </ifml:View>
+
+    <!-- View container flow -->
+    <ifml:ViewContainer id="MainContainer" name="Contenedor Principal">
+        <ifml:ViewTransition from="MainPage" to="ConvocatoriasListView" event="Acceder a Convocatorias"/>
+        <ifml:ViewTransition from="ConvocatoriasListView" to="ConvocatoriaDetailView" event="Seleccionar Convocatoria"/>
+        <ifml:ViewTransition from="ConvocatoriaDetailView" to="ConfirmationView" event="Modificar Inscripción" />
+        <ifml:ViewTransition from="ConvocatoriaDetailView" to="ConfirmationView" event="Cancelar Inscripción" />
+        <ifml:ViewTransition from="ConfirmationView" to="ErrorView" event="Error en la Modificación/Cancelación"/>
+        <ifml:ViewTransition from="ErrorView" to="ConvocatoriaDetailView" event="Intentar Nuevamente" />
+    </ifml:ViewContainer>
+</ifml:ViewContainer>
