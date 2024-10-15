@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscripción en Convocatoria</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    <style>
+        .hidden { display: none; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); }
+        .modal-content { background: #fff; margin: 15% auto; padding: 20px; width: 80%; max-width: 600px; }
+        .close { float: right; font-size: 1.5em; cursor: pointer; }
+        .modal-open { overflow: hidden; }
+        .active { display: block; }
+    </style>
+</head>
+<body>
+    <!-- Vista Principal -->
+    <div id="loginView" class="view active">
+        <h1>Iniciar Sesión</h1>
+        <form id="loginForm">
+            <label for="username">Usuario:</label>
+            <input type="text" id="username" name="username" maxlength="20">
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" maxlength="10">
+            <button type="submit">Iniciar Sesión</button>
+        </form>
+    </div>
+
+    <div id="convocatoriasView" class="view hidden">
+        <h1>Convocatorias Abiertas</h1>
+        <table id="convocatoriasTable" class="display">
+            <thead>
+                <tr>
+                    <th>Cargo</th>
+                    <th>Materia</th>
+                    <th>Fecha de Inicio</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    <div id="convocatoriaDetailView" class="view hidden">
+        <h1>Detalles de la Convocatoria</h1>
+        <div id="convocatoriaDetails">
+            <!-- Detalles de la convocatoria seleccionada -->
+        </div>
+        <button id="inscribirBtn">Inscribirse</button>
+        <button class="close-details">Cerrar</button>
+    </div>
+
+    <!-- Modal para Cargar Currículum -->
+    <div id="uploadCurriculumModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close" data-target="uploadCurriculumModal">&times;</span>
+            <h2>Cargar Currículum</h2>
+            <form id="uploadCurriculumForm">
+                <label for="curriculumFile">Archivo de Currículum:</label>
+                <input type="file" id="curriculumFile" name="curriculumFile">
+                <button type="submit">Cargar Currículum</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para Confirmación de Inscripción -->
+    <div id="confirmationModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close" data-target="confirmationModal">&times;</span>
+            <h2>Confirmación de Inscripción</h2>
+            <p>¿Está seguro de que desea confirmar su inscripción?</p>
+            <button id="confirmInscriptionBtn">Confirmar</button>
+        </div>
+    </div>
+
+    <!-- Modal para Comprobante de Inscripción -->
+    <div id="comprobanteModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close" data-target="comprobanteModal">&times;</span>
+            <h2>Comprobante de Inscripción</h2>
+            <p>Su inscripción ha sido confirmada exitosamente.</p>
+        </div>
+    </div>
+
+    <!-- Modal para Documentación No Confirmada -->
+    <div id="documentCheckModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close" data-target="documentCheckModal">&times;</span>
+            <h2>Documentación No Confirmada</h2>
+            <p>Por favor, regularice su documentación antes de proceder con la inscripción.</p>
+            <button id="regulateDocumentsBtn">Regularizar Documentos</button>
+        </div>
+    </div>
+
+    <!-- Modal para Cargar Currículum Inicial -->
+    <div id="firstInscriptionModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close" data-target="firstInscriptionModal">&times;</span>
+            <h2>Cargar Currículum Inicial</h2>
+            <form id="initialUploadCurriculumForm">
+                <label for="initialCurriculumFile">Archivo de Currículum:</label>
+                <input type="file" id="initialCurriculumFile" name="initialCurriculumFile">
+                <button type="submit">Cargar Currículum</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>
