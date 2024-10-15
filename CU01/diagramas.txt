@@ -1,0 +1,37 @@
+classDiagram
+    class Usuario {
+        +consultarConvocatorias()
+        +seleccionarConvocatoria()
+    }
+
+    class Convocatoria {
+        +id: String
+        +titulo: String
+        +descripcion: String
+        +requisitos: String
+        +fechas: String
+        +documentosNecesarios: String
+        +mostrarDetalles()
+    }
+
+    class Sistema {
+        +mostrarConvocatorias()
+        +actualizarInformacion()
+        +verificarDisponibilidad()
+    }
+
+    Usuario --> Sistema : accede a
+    Usuario --> Convocatoria : selecciona
+    Sistema --> Convocatoria : muestra
+///
+sequenceDiagram
+Actor Usuario
+    participant Sistema
+    participant Convocatoria
+
+    Usuario ->> Sistema: Accede a la página de convocatorias
+    Sistema -->> Usuario: Muestra lista de convocatorias
+    Usuario ->> Sistema: Selecciona convocatoria específica
+    Sistema ->> Convocatoria: Obtiene detalles de la convocatoria
+    Convocatoria -->> Sistema: Devuelve información detallada
+    Sistema -->> Usuario: Muestra información detallada
