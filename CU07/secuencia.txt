@@ -1,0 +1,110 @@
+
+sequenceDiagram
+    actor A as Administrativo
+    participant S as Sistema
+    participant P as Pedido
+
+    A->>S: Completar datos del pedido
+    S->>S: Validar archivo PDF
+    alt Archivo válido
+        S->>P: Almacenar datos del pedido
+        P-->>S: Confirmación de almacenamiento
+        S-->>A: Confirmación de pedido agregado
+    else Archivo inválido
+        S-->>A: Mensaje de error
+    end
+
+
+sequenceDiagram
+    actor A as Administrativo
+    participant S as Sistema
+    participant C as Cargos
+
+    A->>S: seleccionarCargo(cargoId)
+    S->>C: mostrarDetalles(cargoId)
+
+    A->>S: ingresarDatosCargo(datos)
+    S->>C: validarYGuardarCargo(datos)
+
+    alt Si válido
+        C->>C: verificarExistenciaCargo(datos.numeroExpediente)
+        C->>C: guardarCargo(datos)
+        S->>A: mostrarMensaje("Guardado exitoso")
+        C->>C: actualizarLista()
+    else Si error
+        S->>A: mostrarMensaje("Error: Cargo ya existente")
+    end
+
+
+//comunicación
+
+classDiagram
+    class Administrativo {
+        +completarDatosPedido()
+    }
+
+    class sistema {
+        +validarArchivoPDF()
+        +almacenarDatosPedido()
+        +confirmarPedidoAgregado()
+        +mensajeError()
+    }
+
+    class pedido {
+        +confirmarAlmacenamiento()
+    }
+
+    Administrativo --|> sistema : Completar datos del pedido
+    sistema --|> sistema : Validar archivo PDF
+    sistema --|> pedido : Almacenar datos del pedido
+ pedido --|> sistema : Confirmación de almacenamiento
+    sistema--|> Administrativo : Confirmación de pedido agregado
+    sistema--|> Administrativo : Mensaje de error
+
+
+//clases de diseño
+classDiagram
+    class Administrativo {
+        +completarDatosPedido()
+        +agregarPedido()
+    }
+
+    class Sistema {
+        +validarArchivoPDF(): boolean
+        +almacenarDatosPedido(pedido: Pedido): void
+        +confirmarPedidoAgregado(): void
+        +mensajeError(mensaje: String): void
+        +cargarPedidos(): List<Pedido>
+    }
+
+    class Pedido {
+        +numeroNota: String
+        +numeroExpediente: String
+        +causante: String
+        +personaAutoriza: String
+        +archivoPDF: String
+        +fecha: Date
+        +confirmarAlmacenamiento(): boolean
+    }
+
+    class Auditoria {
+        +usuario: String
+        +pedido: Pedido
+        +fechaHora: Date
+        +registrarCarga(usuario: String, pedido: Pedido): void
+    }
+
+    Administrativo --|> Sistema : Completar datos del pedido
+    Sistema --|> Pedido : Almacenar datos del pedido
+    Pedido --|> Sistema : Confirmación de almacenamiento
+    Sistema --|> Administrativo : Confirmación de pedido agregado
+    Sistema --|> Administrativo : Mensaje de error
+
+    Administrativo "1" -- "0..*" Pedido : Agregar
+    Sistema "1" -- "0..*" Pedido : Gestionar
+    Auditoria "1" -- "0..*" Pedido : Registrar
+    Auditoria "1" -- "1" Administrativo : Cargar
+
+
+//ifml
+{"elements":[{"attributes":{"name":"nuevo pedido","default":false,"landmark":false,"xor":false},"metadata":{"graphics":{"position":{"x":160,"y":290},"size":{"height":160,"width":200}}},"id":"92949b5e-15a3-4db6-8e67-e5a4aa4a5e93","type":"ifml.ViewContainer"},{"attributes":{"name":"nuevo pedido","stereotype":"form","fields":["Autoridad","causante","expediente","fecha","nota","pdf"]},"metadata":{"graphics":{"position":{"x":190,"y":320},"size":{"height":60,"width":150}}},"id":"ac00fbfe-4bb3-4db0-8406-94d4abc33e94","type":"ifml.ViewComponent"},{"attributes":{"name":"guardar"},"metadata":{"graphics":{"position":{"x":280,"y":370},"name":{"horizontal":"left-outer","vertical":"top"}}},"id":"9fca5673-2617-4f83-8ecd-dded37df8122","type":"ifml.Event"},{"attributes":{"name":"guardar_pedidos","parameters":[],"results":[]},"metadata":{"graphics":{"position":{"x":460,"y":270},"size":{"height":50,"width":75}}},"id":"f1cc7f0c-45b2-4fd2-bfa1-a611da7f04fb","type":"ifml.Action"},{"attributes":{"name":"confirmar"},"metadata":{"graphics":{"position":{"x":450,"y":270},"name":{"horizontal":"left-outer","vertical":"top"}}},"id":"315ba8b8-bab7-46a5-abc2-74a9fb1f6672","type":"ifml.Event"},{"attributes":{"name":"inicio","default":true,"landmark":true,"xor":false},"metadata":{"graphics":{"position":{"x":-30,"y":70},"size":{"height":160,"width":200}}},"id":"b59f0600-5286-4dbd-8bd0-f0bc3fcfb50a","type":"ifml.ViewContainer"},{"attributes":{"name":"listado de pedidos","default":false,"landmark":true,"xor":false},"metadata":{"graphics":{"position":{"x":280,"y":70},"size":{"height":160,"width":200}}},"id":"022bd139-c151-42dc-9af5-a34a4f24d9b5","type":"ifml.ViewContainer"},{"attributes":{"name":"lista de pedidos","stereotype":"list","fields":["Autoridad que avala","causante","expediente","fecha","pdf","resolucion"],"collection":"Pedidos","filters":[]},"metadata":{"graphics":{"position":{"x":290,"y":120},"size":{"height":60,"width":150}}},"id":"43a7c359-48a5-4552-9639-3b02d0af3aaf","type":"ifml.ViewComponent"},{"attributes":{"name":"agregar"},"metadata":{"graphics":{"position":{"x":330,"y":220},"name":{"horizontal":"left-outer","vertical":"top"}}},"id":"dec1cff0-2cc4-470a-b9bd-fbab49c6c492","type":"ifml.Event"},{"attributes":{"bindings":[]},"metadata":{"graphics":{}},"id":"67a16c64-30b0-4a32-b147-32ac16a1ad40","type":"ifml.NavigationFlow"},{"attributes":{"bindings":[]},"metadata":{"graphics":{}},"id":"194e0ae7-5326-41b4-84ea-0280a4562a22","type":"ifml.NavigationFlow"},{"attributes":{"bindings":[]},"metadata":{"graphics":{}},"id":"ace09aef-0268-4ed5-90c8-50e59e0ab14e","type":"ifml.NavigationFlow"},{"attributes":{"name":"View Component","stereotype":"list","fields":["pedidos"],"collection":"opciones","filters":[]},"metadata":{"graphics":{"position":{"x":-20,"y":120},"size":{"height":60,"width":150}}},"id":"49e7cf9f-6c11-436b-968c-ebcc97b67653","type":"ifml.ViewComponent"},{"attributes":{"name":"pedidos","stereotype":"selection"},"metadata":{"graphics":{"position":{"x":120,"y":170},"name":{"horizontal":"right","vertical":"bottom"}}},"id":"09730ecd-54fd-4e11-a43e-aad1ba8c8367","type":"ifml.Event"},{"attributes":{"bindings":[]},"metadata":{"graphics":{}},"id":"9e0c4f28-d16a-4b68-8647-7ce9a2daaae1","type":"ifml.NavigationFlow"}],"relations":[{"type":"hierarchy","parent":"92949b5e-15a3-4db6-8e67-e5a4aa4a5e93","child":"ac00fbfe-4bb3-4db0-8406-94d4abc33e94"},{"type":"hierarchy","parent":"ac00fbfe-4bb3-4db0-8406-94d4abc33e94","child":"9fca5673-2617-4f83-8ecd-dded37df8122"},{"type":"hierarchy","parent":"f1cc7f0c-45b2-4fd2-bfa1-a611da7f04fb","child":"315ba8b8-bab7-46a5-abc2-74a9fb1f6672"},{"type":"hierarchy","parent":"022bd139-c151-42dc-9af5-a34a4f24d9b5","child":"43a7c359-48a5-4552-9639-3b02d0af3aaf"},{"type":"hierarchy","parent":"022bd139-c151-42dc-9af5-a34a4f24d9b5","child":"dec1cff0-2cc4-470a-b9bd-fbab49c6c492"},{"type":"hierarchy","parent":"b59f0600-5286-4dbd-8bd0-f0bc3fcfb50a","child":"49e7cf9f-6c11-436b-968c-ebcc97b67653"},{"type":"hierarchy","parent":"49e7cf9f-6c11-436b-968c-ebcc97b67653","child":"09730ecd-54fd-4e11-a43e-aad1ba8c8367"},{"type":"source","flow":"67a16c64-30b0-4a32-b147-32ac16a1ad40","source":"dec1cff0-2cc4-470a-b9bd-fbab49c6c492"},{"type":"source","flow":"194e0ae7-5326-41b4-84ea-0280a4562a22","source":"9fca5673-2617-4f83-8ecd-dded37df8122"},{"type":"source","flow":"ace09aef-0268-4ed5-90c8-50e59e0ab14e","source":"315ba8b8-bab7-46a5-abc2-74a9fb1f6672"},{"type":"source","flow":"9e0c4f28-d16a-4b68-8647-7ce9a2daaae1","source":"09730ecd-54fd-4e11-a43e-aad1ba8c8367"},{"type":"target","flow":"67a16c64-30b0-4a32-b147-32ac16a1ad40","target":"92949b5e-15a3-4db6-8e67-e5a4aa4a5e93"},{"type":"target","flow":"194e0ae7-5326-41b4-84ea-0280a4562a22","target":"f1cc7f0c-45b2-4fd2-bfa1-a611da7f04fb"},{"type":"target","flow":"ace09aef-0268-4ed5-90c8-50e59e0ab14e","target":"022bd139-c151-42dc-9af5-a34a4f24d9b5"},{"type":"target","flow":"9e0c4f28-d16a-4b68-8647-7ce9a2daaae1","target":"43a7c359-48a5-4552-9639-3b02d0af3aaf"}],"statistics":{"session":{"started_at":"2024-10-03T17:51:04.495Z","ended_at":"2024-10-03T18:06:04.954Z"}}}
