@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ifml="http://www.omg.org/spec/IFML/20130501">
+
+  <!-- Plantilla principal para aplicar a todo el documento -->
+  <xsl:template match="/ifml:Model">
+    <html>
+      <head>
+        <title>IFML to HTML Transformation</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+          }
+          .view {
+            margin-bottom: 30px;
+          }
+          .view h2 {
+            color: #4CAF50;
+          }
+          .flow {
+            margin-left: 20px;
+          }
+          .event {
+            color: #FF5722;
+          }
+          .action {
+            color: #2196F3;
+          }
+        </style>
+        <script>
+          // Funciones para manejar las interacciones
+          function handleEvent(eventName) {
+            switch(eventName) {
+              case 'loginAttempt':
+                alert('Intentando iniciar sesión...');
+                break;
+              case 'selectCargo':
+                alert('Cargo seleccionado');
+                break;
+              case 'liberarCargo':
+                alert('Liberando cargo...');
+                break;
+              case 'submitLiberacion':
+                alert('Liberación enviada');
+                break;
+              case 'retryLogin':
+                alert('Reintentando inicio de sesión...');
+                break;
+              default:
+                console.log('Evento no manejado: ' + eventName);
+            }
+          }
+
+          // Función para manejar el cambio de vista
+          function navigateToView(viewName) {
+            alert('Navegando a: ' + viewName);
+            // Aquí podrías agregar lógica real de navegación entre vistas
+          }
+        </script>
+      </head>
+      <body>
+        <h1>IFML to HTML Transformation</h1>
+        <xsl:apply-templates select="ifml:View"/>
+      </body>
+    </html>
+  </xsl:template>
+
+  <!-- Plantilla para procesar las vistas -->
+  <xsl:template match="ifml:View">
+    <div class="view">
+      <h2>
+        <xsl:value-of select="@name"/>
+      </h2>
+      <xsl:apply-templates select="ifml:InteractionFlow"/>
+    </div>
+  </xsl:template>
+
+  <!-- Plantilla para procesar los flujos de interacción -->
+  <xsl:template match="ifml:InteractionFlow">
+    <div class="flow">
+      <h3>Interaction Flow: <xsl:value-of select="@name"/></h3>
+      <xsl:apply-templates select="ifml:Event"/>
+    </div>
+  </xsl:template>
+
+  <!-- Plantilla para procesar los eventos -->
+  <xsl:template match="ifml:Event">
+    <div class="event">
+      <p>
+        <strong>Event:</strong> <xsl:value-of select="@name"/>
+      </p>
+      <xsl:attribute name="onclick">
+        <xsl:value-of select="concat('handleEvent(\'', @trigger, '\')')"/>
+      </xsl:attribute>
+      <xsl:apply-templates select="ifml:Action"/>
+    </div>
+  </xsl:template>
+
+  <!-- Plantilla para procesar las acciones -->
+  <xsl:template match="ifml:Action">
+    <div class="action">
+      <p><strong>Action:</strong> <xsl:value-of select="@name"/></p>
+    </div>
+  </xsl:template>
+
+</xsl:stylesheet>

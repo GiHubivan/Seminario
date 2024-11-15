@@ -1,0 +1,49 @@
+<html>
+  <head>
+    <title>IFML to HTML Transformation</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 20px; padding: 0; }
+      .view { margin-bottom: 30px; }
+      .view h2 { color: #4CAF50; }
+      .flow { margin-left: 20px; }
+      .event { color: #FF5722; }
+      .action { color: #2196F3; }
+    </style>
+  </head>
+  <body>
+    <h1>IFML to HTML Transformation</h1>
+
+    <div class="view">
+      <h2>Login</h2>
+      <div class="flow">
+        <h3>Interaction Flow: LoginFlow</h3>
+        <div class="event">
+          <p><strong>Event:</strong> loginAttempt</p>
+          <div class="action">
+            <p><strong>Action:</strong> authenticateUser</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="view">
+      <h2>Cargos</h2>
+      <div class="flow">
+        <h3>Interaction Flow: CargosFlow</h3>
+        <div class="event">
+          <p><strong>Event:</strong> selectCargo</p>
+          <div class="action">
+            <p><strong>Action:</strong> showCargoDetails</p>
+          </div>
+        </div>
+        <div class="event">
+          <p><strong>Event:</strong> liberarCargo</p>
+          <div class="action">
+            <p><strong>Action:</strong> showLiberacionForm</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

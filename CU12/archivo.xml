@@ -1,0 +1,66 @@
+<ifml:InteractionFlowModel xmlns:ifml="http://www.omg.org/spec/IFML/20130501"
+                            xmlns:xmi="http://www.omg.org/spec/XMI/20131001"
+                            xmlns:uml="http://www.omg.org/spec/UML/20131001"
+                            xmi:version="2.4.1">
+
+    <ifml:ViewContainer id="CargoManagementView">
+        <ifml:View id="CargoListView" name="Administración de Cargos">
+            <ifml:OutputParameter name="cargoList" type="Cargo" />
+            <ifml:Action id="selectCargo" name="Seleccionar Cargo" />
+            <ifml:Action id="releaseCargo" name="Liberar Cargo" />
+        </ifml:View>
+
+        <ifml:View id="InformationInputView" name="Ingreso de Información">
+            <ifml:InputParameter name="selectedCargo" />
+            <ifml:Action id="submitInformation" name="Enviar Información" />
+            <ifml:Action id="cancelInput" name="Cancelar" />
+        </ifml:View>
+
+        <ifml:View id="ConfirmationView" name="Confirmación">
+            <ifml:InputParameter name="selectedCargo" />
+            <ifml:Action id="confirmRelease" name="Confirmar Liberación" />
+            <ifml:Action id="cancelRelease" name="Cancelar Liberación" />
+        </ifml:View>
+
+        <ifml:View id="SuccessView" name="Éxito">
+            <ifml:InputParameter name="releaseMessage" />
+            <ifml:Action id="backToList" name="Regresar a la Lista" />
+        </ifml:View>
+    </ifml:ViewContainer>
+
+    <ifml:InteractionFlow id="CargoListToInformationInputFlow" name="Flujo a Ingreso de Información">
+        <ifml:SourceView id="CargoListView" />
+        <ifml:TargetView id="InformationInputView" />
+        <ifml:TriggeringEvent event="releaseCargo" />
+    </ifml:InteractionFlow>
+
+    <ifml:InteractionFlow id="InformationInputToConfirmationFlow" name="Flujo de Ingreso a Confirmación">
+        <ifml:SourceView id="InformationInputView" />
+        <ifml:TargetView id="ConfirmationView" />
+        <ifml:TriggeringEvent event="submitInformation" />
+    </ifml:InteractionFlow>
+
+    <ifml:InteractionFlow id="InformationInputToCargoListFlow" name="Flujo de Ingreso a Lista">
+        <ifml:SourceView id="InformationInputView" />
+        <ifml:TargetView id="CargoListView" />
+        <ifml:TriggeringEvent event="cancelInput" />
+    </ifml:InteractionFlow>
+
+    <ifml:InteractionFlow id="ConfirmationToSuccessFlow" name="Flujo de Confirmación a Éxito">
+        <ifml:SourceView id="ConfirmationView" />
+        <ifml:TargetView id="SuccessView" />
+        <ifml:TriggeringEvent event="confirmRelease" />
+    </ifml:InteractionFlow>
+
+    <ifml:InteractionFlow id="ConfirmationToCargoListFlow" name="Flujo de Confirmación a Lista">
+        <ifml:SourceView id="ConfirmationView" />
+        <ifml:TargetView id="CargoListView" />
+        <ifml:TriggeringEvent event="cancelRelease" />
+    </ifml:InteractionFlow>
+
+    <ifml:InteractionFlow id="SuccessToCargoListFlow" name="Flujo de Éxito a Lista">
+        <ifml:SourceView id="SuccessView" />
+        <ifml:TargetView id="CargoListView" />
+        <ifml:TriggeringEvent event="backToList" />
+    </ifml:InteractionFlow>
+</ifml:InteractionFlowModel>

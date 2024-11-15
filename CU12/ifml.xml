@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ifml:Model xmlns:ifml="http://www.omg.org/spec/IFML/20130501" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/spec/IFML/20130501 http://www.omg.org/spec/IFML/20130501/IFML.xsd">
+    <!-- Vista de Inicio de Sesión -->
+    <ifml:View id="LoginView" name="Login">
+        <ifml:InteractionFlow name="LoginFlow">
+            <ifml:Event trigger="loginAttempt" action="authenticateUser"/>
+            <ifml:ViewEvent name="successEvent" target="CargosView"/>
+            <ifml:ViewEvent name="errorEvent" target="ErrorView"/>
+        </ifml:InteractionFlow>
+    </ifml:View>
+
+    <!-- Vista para gestión de Cargos -->
+    <ifml:View id="CargosView" name="Cargos">
+        <ifml:InteractionFlow name="CargosFlow">
+            <ifml:Event trigger="selectCargo" action="showCargoDetails"/>
+            <ifml:Event trigger="liberarCargo" action="showLiberacionForm"/>
+        </ifml:InteractionFlow>
+    </ifml:View>
+
+    <!-- Vista para el formulario de Liberación -->
+    <ifml:View id="LiberacionFormView" name="LiberacionForm">
+        <ifml:InteractionFlow name="LiberacionFormFlow">
+            <ifml:Event trigger="submitLiberacion" action="submitLiberacion"/>
+            <ifml:ViewEvent name="successEvent" target="CargosView"/>
+            <ifml:ViewEvent name="errorEvent" target="ErrorView"/>
+        </ifml:InteractionFlow>
+    </ifml:View>
+
+    <!-- Vista de Error -->
+    <ifml:View id="ErrorView" name="Error">
+        <ifml:InteractionFlow name="ErrorFlow">
+            <ifml:Event trigger="retryLogin" action="retryLogin"/>
+        </ifml:InteractionFlow>
+    </ifml:View>
+
+    <!-- Definición de acciones -->
+    <ifml:Action id="authenticateUser" name="Authenticate User" type="system">
+        <ifml:ActionOutput action="validateCredentials"/>
+    </ifml:Action>
+
+    <ifml:Action id="showCargoDetails" name="Show Cargo Details" type="system">
+        <ifml:ActionOutput action="displayCargo"/>
+    </ifml:Action>
+
+    <ifml:Action id="showLiberacionForm" name="Show Liberacion Form" type="system">
+        <ifml:ActionOutput action="displayLiberacionForm"/>
+    </ifml:Action>
+
+    <ifml:Action id="submitLiberacion" name="Submit Liberacion" type="system">
+        <ifml:ActionOutput action="updateCargoStatus"/>
+        <ifml:ActionOutput action="createLiberacion"/>
+        <ifml:ActionOutput action="logAuditoria"/>
+    </ifml:Action>
+
+    <ifml:Action id="validateCredentials" name="Validate Credentials" type="system">
+        <ifml:ActionOutput action="success"/>
+    </ifml:Action>
+
+    <ifml:Action id="displayCargo" name="Display Cargo" type="system">
+        <ifml:ActionOutput action="showCargoDetailsInView"/>
+    </ifml:Action>
+
+    <ifml:Action id="displayLiberacionForm" name="Display Liberacion Form" type="system">
+        <ifml:ActionOutput action="showLiberacionFormInView"/>
+    </ifml:Action>
+
+    <ifml:Action id="updateCargoStatus" name="Update Cargo Status" type="system">
+        <ifml:ActionOutput action="updateCargoState"/>
+    </ifml:Action>
+
+    <ifml:Action id="createLiberacion" name="Create Liberacion" type="system">
+        <ifml:ActionOutput action="createLiberacionEntry"/>
+    </ifml:Action>
+
+    <ifml:Action id="logAuditoria" name="Log Auditoria" type="system">
+        <ifml:ActionOutput action="logLiberacion"/>
+    </ifml:Action>
+
+    <!-- Definición de eventos -->
+    <ifml:Event id="loginAttempt" name="Login Attempt" type="userAction"/>
+    <ifml:Event id="selectCargo" name="Select Cargo" type="userAction"/>
+    <ifml:Event id="liberarCargo" name="Liberar Cargo" type="userAction"/>
+    <ifml:Event id="submitLiberacion" name="Submit Liberacion" type="userAction"/>
+    <ifml:Event id="retryLogin" name="Retry Login" type="userAction"/>
+</ifml:Model>

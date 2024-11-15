@@ -1,0 +1,132 @@
+//secuencias
+@startuml
+
+actor Administrativo
+entity "Sistema de Cargos" as Sistema
+entity "Base de Datos (Cargos)" as BD
+
+== Flujos Principales ==
+
+Administrativo -> Sistema: Accede a la opción "Cargos"
+Sistema -> BD: Obtener listado de cargos activos
+BD -> Sistema: Retorna listado de cargos activos
+Sistema -> Administrativo: Muestra listado de cargos activos
+
+Administrativo -> Sistema: Selecciona cargo activo y elige "Liberar"
+Sistema -> Administrativo: Solicita información (resolución, expediente, causa, etc.)
+Administrativo -> Sistema: Ingresa los datos solicitados (resolución, expediente, causa, fecha, PDF)
+Sistema -> BD: Verifica si el par (resolución, expediente) es único
+BD -> Sistema: Retorna resultado de la verificación
+alt Si el par es único
+    Sistema -> Administrativo: Solicita confirmación para liberar el cargo
+    Administrativo -> Sistema: Confirma liberación
+    Sistema -> BD: Actualiza estado de cargo a "vacante"
+    BD -> Sistema: Confirma actualización
+    Sistema -> Administrativo: Muestra mensaje de éxito
+else
+    Sistema -> Administrativo: Informa que el par ya existe, solicita nuevo par
+end
+
+== Flujos de Error ==
+
+alt Error al guardar la información
+    Sistema -> Administrativo: Muestra mensaje de error y permite reintentar
+end
+
+@enduml
+
+//Clases conceptuales
+@startuml
+class Administrativo {
+    +id: int
+    +nombre: string
+    +email: string
+}
+
+class Cargo {
+    +id: int
+    +estado: string // ("activo", "vacante", etc.)
+    +numeroExpediente: string
+    +materia: string
+    +facultad: string
+    +dedicacion: string
+}
+
+class Resolucion {
+    +id: int
+    +numeroResolucion: string
+    +fecha: Date
+    +causaLiberacion: string // ("jubilación", "renuncia", etc.)
+    +urlPDF: string
+}
+
+class AuditoriaCargos {
+    +id: int
+    +fecha: Date
+    +usuario: string // ID del usuario que realiza la operación
+    +operacion: string // Descripción de la operación ("liberación", "actualización", etc.)
+}
+
+
+Administrativo "1" -- "0..*" Cargo : "gestiona"
+Cargo "1" -- "0..*" Resolucion : "tiene"
+Resolucion "0..1" -- "1" Cargo : "libera"
+Resolucion "0..1" -- "1" Administrativo : "realiza"
+Cargo "1" -- "0..*" AuditoriaCargos : "tiene"
+AuditoriaCargos "0..1" -- "1" Administrativo : "realiza"
+@enduml
+//diseño
+@startuml
+class Administrativo {
+    +id: int
+    +nombre: string
+    +email: string
+    +login(): boolean
+    +gestionarCargo(cargo: Cargo): void
+}
+
+class Cargo {
+    +id: int
+    +estado: string // ("activo", "vacante", etc.)
+    +numeroExpediente: string
+    +materia: string
+    +facultad: string
+    +dedicacion: string
+    +actualizarEstado(nuevoEstado: string): void
+    +asociarResolucion(resolucion: Resolucion): void
+    +registrarAuditoria(auditoria: AuditoriaCargos): void
+    +guardarCargo(cargo: Cargo): void
+    +obtenerCargos(): List<Cargo>
+}
+
+class Resolucion {
+    +id: int
+    +numeroResolucion: string
+    +fecha: Date
+    +causaLiberacion: string // ("jubilación", "renuncia", etc.)
+    +urlPDF: string
+    +asociarCargo(cargo: Cargo): void
+    +asociarAdministrativo(admin: Administrativo): void
+ +obtenerResoluciones(): List<Resolucion>
+    +validarExistenciaResolucion(numResolucion: string, numExpediente: string): boolean
+
+}
+
+class AuditoriaCargos {
+    +id: int
+    +fecha: Date
+    +usuario: string // ID del usuario que realiza la operación
+    +operacion: string // Descripción de la operación ("liberación", "actualización", etc.)
+    +registrarAuditoria(): void
+   +guardarAuditoria(auditoria: AuditoriaCargos): void
+}
+
+
+
+Administrativo "1" -- "0..*" Cargo : "gestiona"
+Cargo "1" -- "0..*" Resolucion : "tiene"
+Resolucion "0..1" -- "1" Cargo : "libera"
+Resolucion "0..1" -- "1" Administrativo : "realiza"
+Cargo "1" -- "0..*" AuditoriaCargos : "tiene"
+AuditoriaCargos "0..1" -- "1" Administrativo : "realiza"
+@enduml

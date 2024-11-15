@@ -1,0 +1,79 @@
+<html>
+  <head>
+    <title>IFML to HTML Transformation</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        padding: 0;
+      }
+      .view {
+        margin-bottom: 30px;
+      }
+      .view h2 {
+        color: #4CAF50;
+      }
+      .flow {
+        margin-left: 20px;
+      }
+      .event {
+        color: #FF5722;
+      }
+      .action {
+        color: #2196F3;
+      }
+    </style>
+    <script>
+      function handleEvent(eventName) {
+        switch(eventName) {
+          case 'loginAttempt':
+            alert('Intentando iniciar sesión...');
+            break;
+          case 'selectCargo':
+            alert('Cargo seleccionado');
+            break;
+          case 'liberarCargo':
+            alert('Liberando cargo...');
+            break;
+          case 'submitLiberacion':
+            alert('Liberación enviada');
+            break;
+          case 'retryLogin':
+            alert('Reintentando inicio de sesión...');
+            break;
+          default:
+            console.log('Evento no manejado: ' + eventName);
+        }
+      }
+
+      function navigateToView(viewName) {
+        alert('Navegando a: ' + viewName);
+      }
+    </script>
+  </head>
+  <body>
+    <h1>IFML to HTML Transformation</h1>
+
+    <div class="view">
+      <h2>Login</h2>
+      <div class="flow">
+        <h3>Interaction Flow: LoginFlow</h3>
+        <div class="event" onclick="handleEvent('loginAttempt')">
+          <p><strong>Event:</strong> Login Attempt</p>
+          <div class="action">
+            <p><strong>Action:</strong> Authenticate User</p>
+          </div>
+        </div>
+        <div class="event" onclick="handleEvent('successEvent')">
+          <p><strong>Event:</strong> successEvent</p>
+        </div>
+        <div class="event" onclick="handleEvent('errorEvent')">
+          <p><strong>Event:</strong> errorEvent</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Otras vistas aquí -->
+
+  </body>
+</html>

@@ -1,0 +1,43 @@
+{
+    "cargos": [
+        {
+            "id": "1",
+            "nombre": "Profesor de Matemáticas",
+            "descripcion": "Encargado de enseñar matemáticas en nivel secundario.",
+            "categoria": "Docente",
+            "condicion": "Planta permanente",
+            "dedicacion": "Completa",
+            "materia": "Matemáticas",
+            "facultad": "Facultad de Ciencias Exactas",
+            "estado": "Activo",
+            "numeroResolucion": "1234/2023",
+            "expediente": "456789"
+        },
+        {
+            "id": "2",
+            "nombre": "Asistente de Investigación",
+            "descripcion": "Apoyo en proyectos de investigación.",
+            "categoria": "Investigación",
+            "condicion": "Contrato",
+            "dedicacion": "Parcial",
+            "materia": "Física",
+            "facultad": "Facultad de Ciencias",
+            "estado": "Activo",
+            "numeroResolucion": "5678/2023",
+            "expediente": "987654"
+        },
+        {
+            "id": "3",
+            "nombre": "Coordinador de Proyectos",
+            "descripcion": "Responsable de la coordinación de proyectos académicos.",
+            "categoria": "Administrativo",
+            "condicion": "Planta temporaria",
+            "dedicacion": "Completa",
+            "materia": "N/A",
+            "facultad": "Facultad de Ciencias Sociales",
+            "estado": "Inactivo",
+            "numeroResolucion": "91011/2023",
+            "expediente": "112233"
+        }
+    ]
+}
