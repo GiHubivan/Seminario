@@ -1,0 +1,20 @@
+{
+    "convocatorias": [
+        {
+            "cargo": "Ingeniero de Software",
+            "cierre": "2024-12-31",
+            "expediente": "EXP001",
+            "inicio": "2024-01-01",
+            "aspirantes": ["Juan Pérez", "Ana Gómez"]
+        },
+        {
+            "cargo": "Diseñador Gráfico",
+            "cierre": "2024-11-15",
+            "expediente": "EXP002",
+            "inicio": "2024-02-01",
+            "aspirantes": ["Carlos Ruiz", "María López"]
+        }
+    ]
+    
+}
+

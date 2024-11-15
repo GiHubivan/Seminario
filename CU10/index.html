@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de Designaciones</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Listado de Designaciones</h1>
+        <table id="designacionesTable" class="display">
+            <thead>
+                <tr>
+                    <th>Cargo</th>
+                    <th>Materia</th>
+                    <th>Carrera</th>
+                    <th>Facultad</th>
+                    <th>Fecha de la designación</th>
+                    <th>Nombre del docente</th>
+                    <th>DNI</th>
+                    <th>Número de resolución</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Los datos se cargarán aquí dinámicamente -->
+            </tbody>
+        </table>
+        <button id="agregarBtn">Agregar Nueva Designación</button>
+
+        <div id="nuevaDesignacion" style="display:none;">
+            <h2>Nueva Designación</h2>
+            <form id="designacionForm">
+                <label for="cargo">Cargo:</label>
+                <input type="text" id="cargo" required>
+                <label for="dni">DNI:</label>
+                <input type="text" id="dni" required>
+                <label for="expediente">Expediente:</label>
+                <input type="text" id="expediente" required>
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" required>
+                <label for="resolucion">Número de Resolución:</label>
+                <input type="text" id="resolucion" required>
+                <button type="submit">Guardar</button>
+                <button type="button" id="cancelarBtn">Cancelar</button>
+            </form>
+        </div>
+
+        <div id="convocatorias">
+            <h2>Convocatorias</h2>
+            <ul id="convocatoriasList">
+                <!-- Las convocatorias se llenarán dinámicamente -->
+            </ul>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="script.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            // Inicializa la tabla
+            $('#designacionesTable').DataTable();
+
+            // Manejo del botón agregar
+            $('#agregarBtn').on('click', function() {
+                $('#nuevaDesignacion').toggle(); // Mostrar/Ocultar el formulario
+            });
+
+            // Manejo del formulario
+            $('#designacionForm').on('submit', function(e) {
+                e.preventDefault(); // Prevenir el envío del formulario
+
+                // Aquí puedes agregar la lógica para guardar la designación
+                // y actualizar la tabla.
+            });
+
+            $('#cancelarBtn').on('click', function() {
+                $('#nuevaDesignacion').hide(); // Ocultar el formulario
+            });
+        });
+    </script>
+</body>
+</html>

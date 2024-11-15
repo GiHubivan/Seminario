@@ -1,0 +1,170 @@
+{
+    "elements": [
+      {
+        "attributes": {
+          "name": "Registrar Designación",
+          "default": true,
+          "landmark": false,
+          "xor": false
+        },
+        "metadata": {
+          "graphics": {
+            "position": {
+              "x": -120,
+              "y": 40
+            },
+            "size": {
+              "height": 300,
+              "width": 380
+            }
+          }
+        },
+        "id": "registrar-designacion",
+        "type": "ifml.ViewContainer"
+      },
+      {
+        "attributes": {
+          "name": "Formulario de Designación",
+          "stereotype": "details",
+          "fields": ["cargo", "resolucion", "urlResolucion"],
+          "collection": "designacion"
+        },
+        "metadata": {
+          "graphics": {
+            "position": {
+              "x": -110,
+              "y": 70
+            },
+            "size": {
+              "height": 100,
+              "width": 150
+            }
+          }
+        },
+        "id": "formulario-designacion",
+        "type": "ifml.ViewComponent"
+      },
+      {
+        "attributes": {
+          "name": "Lista de Cargos",
+          "stereotype": "list",
+          "fields": ["categoria", "materia", "carrera", "dedicacion"],
+          "collection": "cargos",
+          "filters": []
+        },
+        "metadata": {
+          "graphics": {
+            "position": {
+              "x": 90,
+              "y": 70
+            },
+            "size": {
+              "height": 160,
+              "width": 150
+            }
+          }
+        },
+        "id": "lista-cargos",
+        "type": "ifml.ViewComponent"
+      },
+      {
+        "attributes": {
+          "name": "Enviar",
+          "stereotype": "action"
+        },
+        "metadata": {
+          "graphics": {
+            "position": {
+              "x": 160,
+              "y": 250
+            },
+            "name": {
+              "horizontal": "left-outer",
+              "vertical": "top"
+            }
+          }
+        },
+        "id": "enviar-designacion",
+        "type": "ifml.Event"
+      },
+      {
+        "attributes": {
+          "name": "Volver"
+        },
+        "metadata": {
+          "graphics": {
+            "position": {
+              "x": 250,
+              "y": 130
+            },
+            "name": {
+              "horizontal": "left-outer",
+              "vertical": "top"
+            }
+          }
+        },
+        "id": "volver",
+        "type": "ifml.Event"
+      },
+      {
+        "attributes": {
+          "bindings": []
+        },
+        "metadata": {},
+        "id": "volver-a-lista",
+        "type": "ifml.NavigationFlow"
+      },
+      {
+        "attributes": {
+          "bindings": []
+        },
+        "metadata": {},
+        "id": "enviar-a-lista",
+        "type": "ifml.NavigationFlow"
+      }
+    ],
+    "relations": [
+      {
+        "type": "hierarchy",
+        "parent": "registrar-designacion",
+        "child": "formulario-designacion"
+      },
+      {
+        "type": "hierarchy",
+        "parent": "registrar-designacion",
+        "child": "lista-cargos"
+      },
+      {
+        "type": "hierarchy",
+        "parent": "registrar-designacion",
+        "child": "enviar-designacion"
+      },
+      {
+        "type": "source",
+        "flow": "volver-a-lista",
+        "source": "volver"
+      },
+      {
+        "type": "target",
+        "flow": "volver-a-lista",
+        "target": "registrar-designacion"
+      },
+      {
+        "type": "source",
+        "flow": "enviar-a-lista",
+        "source": "enviar-designacion"
+      },
+      {
+        "type": "target",
+        "flow": "enviar-a-lista",
+        "target": "lista-cargos"
+      }
+    ],
+    "statistics": {
+      "session": {
+        "started_at": "2024-10-25T21:20:00.000Z",
+        "ended_at": "2024-10-25T21:20:15.000Z"
+      }
+    }
+  }
+  

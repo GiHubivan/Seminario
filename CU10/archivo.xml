@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<IFMLModel xmlns="http://www.omg.org/spec/IFML/20130501/IFML.xmi" 
+            xmlns:xmi="http://www.omg.org/spec/XMI/20110701" 
+            xmlns:ifml="http://www.omg.org/spec/IFML/20130501" 
+            xmi:version="2.4">
+    <IFMLModel name="Carga de Designación de Docente">
+        <InteractionFlow>
+            <InteractionFlowElement name="Carga de Designación">
+                <Flow>
+                    <InteractionFlowElement name="Acceso al Módulo de Designaciones">
+                        <Action name="Acceder">
+                            <Event type="UserEvent" name="Administrativo"/>
+                        </Action>
+                    </InteractionFlowElement>
+                    <InteractionFlowElement name="Mostrar Lista de Designaciones">
+                        <Action name="Mostrar Lista"/>
+                    </InteractionFlowElement>
+                    <InteractionFlowElement name="Agregar Nueva Designación">
+                        <Action name="Agregar"/>
+                        <Flow>
+                            <InteractionFlowElement name="Consultar Convocatoria">
+                                <Action name="Consultar"/>
+                            </InteractionFlowElement>
+                            <InteractionFlowElement name="Seleccionar Aspirante">
+                                <Action name="Seleccionar"/>
+                            </InteractionFlowElement>
+                            <InteractionFlowElement name="Ingresar Resolución">
+                                <Action name="Ingresar"/>
+                            </InteractionFlowElement>
+                            <InteractionFlowElement name="Validar Datos">
+                                <Action name="Validar"/>
+                                <Decision name="Datos Válidos">
+                                    <Flow>
+                                        <InteractionFlowElement name="Guardar Designación">
+                                            <Action name="Guardar"/>
+                                        </InteractionFlowElement>
+                                        <InteractionFlowElement name="Mostrar Mensaje de Éxito">
+                                            <Action name="Éxito"/>
+                                        </InteractionFlowElement>
+                                        <InteractionFlowElement name="Refrescar Lista">
+                                            <Action name="Refrescar"/>
+                                        </InteractionFlowElement>
+                                    </Flow>
+                                    <Flow>
+                                        <InteractionFlowElement name="Mostrar Mensaje de Error">
+                                            <Action name="Error"/>
+                                        </InteractionFlowElement>
+                                    </Flow>
+                                </Decision>
+                            </InteractionFlowElement>
+                        </Flow>
+                    </InteractionFlowElement>
+                </Flow>
+            </InteractionFlowElement>
+        </InteractionFlow>
+    </IFMLModel>
+</IFMLModel>

@@ -1,0 +1,140 @@
+@startuml
+actor Administrativo
+participant "Sistema de Gestión de Designaciones" as SGGD
+participant "Convocatoria" as Convocatoria
+participant "Aspirante" as Aspirante
+participant "Docente" as Docente
+participant "Designación" as Designacion
+participant "Cargos" as Cargos
+
+Administrativo -> SGGD : accederModuloDesignaciones()
+SGGD -> Administrativo : mostrarListaDesignaciones()
+
+Administrativo -> SGGD : agregarNuevaDesignacion()
+SGGD -> Administrativo : mostrarFormulario()
+
+Administrativo -> SGGD : consultarConvocatoria(numeroExpediente)
+SGGD -> Convocatoria : obtenerDatosConvocatoria()
+Convocatoria -> SGGD : datosDelCargo()
+SGGD -> Administrativo : mostrarDatosDelCargo()
+
+Administrativo -> Aspirante : seleccionarAspirante()
+SGGD -> Aspirante : obtenerDatosAspirante()
+Aspirante -> SGGD : datosDelAspirante()
+
+SGGD -> Docente : completarDatosDocente()
+Docente -> SGGD : datosDelDocente()
+
+Administrativo -> SGGD : ingresarNumeroResolucion(urlResolucion)
+SGGD -> SGGD : validarDatos()
+
+alt Datos Válidos
+    SGGD -> Designacion : crearDesignacion()
+    Designacion -> SGGD : guardarDesignacion()
+    SGGD -> Cargos : cambiarEstadoCargo("en concurso", "designado")
+    Cargos -> SGGD : estadoCambiado()
+    SGGD -> Administrativo : mostrarMensajeExito()
+    SGGD -> SGGD : refrescarListaDesignaciones()
+else Datos Inválidos
+    SGGD -> Administrativo : mostrarMensajeError()
+end
+
+Administrativo -> SGGD : visualizarListaActualizada()
+SGGD -> Administrativo : mostrarListaActualizada()
+@enduml
+
+///eso era para plantuml
+@startuml
+@startuml
+class Administrativo {
+    +id: int
+    +nombre: String
+    +email: String
+}
+
+class "Sistema de Gestión de Designaciones" {
+    +nombreSistema: String
+}
+
+class Convocatoria {
+    +numeroExpediente: String
+    +cargo: String
+    
+}
+
+class Aspirante {
+    +id: int
+    +nombre: String
+    +dni: String
+}
+
+class Docente {
+    +id: int
+    +nombre: String
+    +dni: String
+}
+
+class Designacion {
+    +numeroResolucion: String
+    +urlResolucion: String
+}
+
+class Cargos {
+    +categoria: String
+    +materia: String
+    +carrera: String
+    +dedicacion: String
+    +condicion: String
+    +estado: String
+}
+
+Administrativo "1" -- "0..*" "Sistema de Gestión de Designaciones" : solicita >
+"Sistema de Gestión de Designaciones" "1" -- "0..*" Designacion : gestiona >
+Convocatoria "1" -- "0..*" Aspirante : contiene >
+Aspirante <|-- Docente : hereda >
+Aspirante "0..1" -- "1" Docente : designado >
+Designacion "1" -- "1" Docente : corresponde >
+Designacion "1" -- "1" Convocatoria : vinculado a >
+Cargos "1" -- "0..*" Designacion : asociado a >
+Cargos "1" -- "1" Convocatoria : cubierto por >
+@enduml
+
+@enduml
+///
+@startuml
+class Administrativo {
+    +id: int
+    +nombre: String
+    +email: String
+}
+
+class "Sistema de Gestión de Designaciones" {
+    +nombreSistema: String
+}
+
+class Convocatoria {
+    +numeroExpediente: String
+    +cargo: String
+    +materia: String
+    +carrera: String
+    +facultad: String
+}
+
+class Aspirante {
+    +id: int
+    +nombre: String
+    +dni: String
+}
+
+class Designación {
+    +numeroResolucion: String
+    +urlResolucion: String
+}
+
+Administrativo "1" -- "0..*" "Sistema de Gestión de Designaciones" : solicita >
+"Sistema de Gestión de Designaciones" "1" -- "0..*" Designación : gestiona >
+Convocatoria "1" -- "0..*" Aspirante : contiene >
+Aspirante "0..1" -- "1" Designación : designado >
+Designación "1" -- "1" Convocatoria : vinculado a >
+
+@enduml
