@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<IFMLModel xmlns="http://www.omg.org/spec/IFML/20131001">
+    <ViewContainer name="PaginaInicial">
+        <ViewElement name="MenuPrincipal" type="Menu">
+            <ViewComponent name="Inicio" type="MenuItem" />
+            <ViewComponent name="Prorrogas" type="MenuItem" />
+        </ViewElement>
+        <ViewElement name="ContentView" type="ContentView">
+            <ViewElement name="ListadoProrrogas" type="ListView">
+                <ViewComponent name="ListadoProrrogas" />
+            </ViewElement>
+            <ViewElement name="FormularioProrroga" type="Form" visible="false">
+                <ViewComponent name="NumeroExpediente" type="Input" />
+                <ViewComponent name="Cargo" type="Input" readonly="true" />
+                <ViewComponent name="Materia" type="Input" readonly="true" />
+                <ViewComponent name="Carrera" type="Input" readonly="true" />
+                <ViewComponent name="Resolucion" type="Input" />
+                <ViewComponent name="FechaProrroga" type="DateInput" />
+                <ViewComponent name="FinProrroga" type="DateInput" />
+                <ViewComponent name="Estado" type="Dropdown" />
+                <ViewComponent name="Confirmar" type="Button" />
+            </ViewElement>
+            <ViewElement name="MensajeExito" type="Message" visible="false" />
+            <ViewElement name="MensajeError" type="Message" visible="false" />
+        </ViewElement>
+    </ViewContainer>
+
+    <InteractionFlow name="NavegarAProrrogas">
+        <FlowElement source="MenuPrincipal" target="ListadoProrrogas">
+            <Event name="SeleccionarProrrogas" />
+            <Action name="MostrarListadoProrrogas" />
+        </FlowElement>
+    </InteractionFlow>
+
+    <InteractionFlow name="RegistrarNuevaProrroga">
+        <FlowElement source="ListadoProrrogas" target="FormularioProrroga">
+            <Event name="NuevaProrrogaSeleccionada" />
+        </FlowElement>
+        <FlowElement source="FormularioProrroga" target="Cargo">
+            <Event name="CompletarExpediente" />
+            <Action name="AutocompletarFormulario" />
+        </FlowElement>
+        <FlowElement source="FormularioProrroga" target="MensajeExito">
+            <Event name="Confirmar" />
+            <Action name="GuardarProrroga" />
+        </FlowElement>
+        <FlowElement source="FormularioProrroga" target="MensajeError">
+            <Event name="ErrorAlGuardar" />
+        </FlowElement>
+        <FlowElement source="MensajeExito" target="ListadoProrrogas">
+            <Event name="MostrarListadoActualizado" />
+        </FlowElement>
+    </InteractionFlow>
+
+    <UserInteraction name="Administrativo">
+        <InteractionFlow reference="NavegarAProrrogas" />
+        <InteractionFlow reference="RegistrarNuevaProrroga" />
+    </UserInteraction>
+</IFMLModel>

@@ -1,0 +1,146 @@
+@startuml
+actor Administrativo
+participant "Sistema" as Sistema
+participant "Cargos" as Cargos
+participant "Prorroga" as Prorroga
+
+== Flujo Principal ==
+
+Administrativo -> Sistema : accederAProrrogas()
+Sistema -> Prorroga : obtenerListadoProrrogas()
+Prorroga -> Sistema : listadoProrrogas()
+Sistema -> Administrativo : mostrarListado()
+
+Administrativo -> Sistema : seleccionarNuevaProrroga()
+Sistema -> Administrativo : mostrarFormulario()
+
+Administrativo -> Sistema : ingresarNumeroExpediente(expediente)
+Sistema -> Cargos : obtenerDatos(expediente)
+Cargos -> Sistema : datosRecuperados(materia, cargo, carrera)
+Sistema -> Administrativo : autocompletarDatos(materia, cargo, carrera)
+
+Administrativo -> Sistema : ingresarDatosResolucion(fecha, numResolucion, pdf)
+Sistema -> Prorroga : verificarDuplicados(expediente)
+Prorroga -> Sistema : prorrogaNoExiste()
+
+Sistema -> Administrativo : solicitarConfirmacion()
+
+Administrativo -> Sistema : confirmarRegistro()
+Sistema -> Prorroga : registrarProrroga()
+Prorroga -> Sistema : prorrogaRegistrada()
+Sistema -> Administrativo : mostrarMensajeExito()
+Sistema -> Prorroga : refrescarListado()
+
+== Flujo Alternativo ==
+
+Administrativo -> Sistema : ingresarNumeroExpediente(expediente)
+Sistema -> Cargos : obtenerDatos(expediente)
+Cargos -> Sistema : datosRecuperados(materia, cargo, carrera)
+Sistema -> Administrativo : autocompletarDatos(materia, cargo, carrera)
+
+Administrativo -> Sistema : ingresarDatosResolucion(fecha, numResolucion, pdf)
+Sistema -> Prorroga : verificarDuplicados(expediente)
+Prorroga -> Sistema : prorrogaYaExistente()
+Sistema -> Administrativo : mostrarMensajeError("La prórroga ya existe.")
+
+@enduml
+
+
+///clases conceptuales
+class Administrativo {
+    +id: int
+    +nombre: String
+    +email: String
+    +logueado: boolean
+}
+
+class Prorroga {
+    +id: int
+    +numeroExpediente: String
+    +resolucion: String
+    +fechaProrroga: Date
+    +finProrroga: Date
+    +estado: String  // (activa, pronta a vencer, vencida)
+    
+}
+
+class Cargos {
+    +id: int
+    +materia: String
+    +cargo: String
+    +carrera: String
+   
+}
+
+class Resolucion {
+    +id: int
+    +numeroResolucion: String
+    +fecha: Date
+    +pdf: File
+}
+
+Administrativo "1" -- "0..*" Prorroga : "realiza"
+Prorroga "1" -- "1" Cargos : "asocia"
+Prorroga "1" -- "1" Resolucion : "Documenta"
+
+@enduml
+//clases de diseño
+@startuml
+class Administrativo {
+    +id: int
+    +nombre: String
+    +email: String
+    +logueado: boolean
+    +accederAProrrogas(): List<Prorroga>
+    +seleccionarNuevaProrroga(): Prorroga
+}
+
+class Prorroga {
+    +id: int
+    +numeroExpediente: String
+    +resolucion: String
+    +fechaProrroga: Date
+    +finProrroga: Date
+    +estado: String  // (activa, pronta a vencer, vencida)
+    +registrar(): void
+    +verificarDuplicados(): boolean
+    +autocompletarDatos(expediente: String): void
+}
+
+class Cargos {
+    +id: int
+    +materia: String
+    +cargo: String
+    +carrera: String
+    +obtenerDatos(expediente: String): Cargo
+}
+
+class Resolucion {
+    +id: int
+    +numeroResolucion: String
+    +fecha: Date
+    +pdf: File
+    +guardar(): void
+}
+
+class Sistema {
+    +consultarProrrogas(): List<Prorroga>
+    +verificarProrrogaExistente(expediente: String): boolean
+    +mostrarMensajeError(mensaje: String): void
+    +mostrarMensajeExito(mensaje: String): void
+}
+
+class Auditoria {
+    +id: int
+    +usuario: String
+    +fecha: Date
+    +registrarAuditoria(usuario: String, fecha: Date, accion: String): void
+}
+
+Administrativo "1" -- "0..*" Prorroga : "realiza"
+Prorroga "1" -- "1" Cargos : "asocia"
+Prorroga "1" -- "1" Resolucion : "emite"
+Prorroga "1" -- "0..1" Auditoria : "registra"
+Sistema "1" -- "0..*" Prorroga : "gestiona"
+
+@enduml

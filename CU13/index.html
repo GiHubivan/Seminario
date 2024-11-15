@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Prorrogar Cargo</title>
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <ul class="menu">
+                <li onclick="showContent('inicio')">Inicio</li>
+                <li onclick="showContent('prorrogas')">Prorrogas</li>
+            </ul>
+        </nav>
+
+        <div id="contentView">
+            <div id="inicio" class="content hidden">
+                <h1>Bienvenido al Sistema de Gestión de Cargos</h1>
+                <p>Seleccione una opción en el menú.</p>
+            </div>
+
+            <div id="prorrogas" class="content hidden">
+                <h1>Listado de Prórrogas</h1>
+                <div id="listadoProrrogas">
+                    <!-- Listado dinámico de prórrogas -->
+                </div>
+                <button onclick="newProrroga()">Nueva Prórroga</button>
+            </div>
+
+            <div id="formularioProrroga" class="content hidden">
+                <h2>Registrar Nueva Prórroga</h2>
+                <label for="numeroExpediente">Número de Expediente:</label>
+                <input type="text" id="numeroExpediente" onblur="autocompletar()">
+                
+                <label for="cargo">Cargo:</label>
+                <input type="text" id="cargo" readonly>
+
+                <label for="materia">Materia:</label>
+                <input type="text" id="materia" readonly>
+
+                <label for="carrera">Carrera:</label>
+                <input type="text" id="carrera" readonly>
+
+                <label for="resolucion">Resolución:</label>
+                <input type="text" id="resolucion">
+
+                <label for="fechaProrroga">Fecha de Prórroga:</label>
+                <input type="date" id="fechaProrroga">
+
+                <label for="finProrroga">Fin de Prórroga:</label>
+                <input type="date" id="finProrroga">
+
+                <label for="estado">Estado:</label>
+                <select id="estado">
+                    <option value="activa">Activa</option>
+                    <option value="pronta a vencer">Pronta a Vencer</option>
+                    <option value="vencida">Vencida</option>
+                </select>
+
+                <button onclick="guardarProrroga()">Confirmar</button>
+                <button onclick="cancelarProrroga()">Cancelar</button>
+                <div id="mensaje" class="hidden"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
