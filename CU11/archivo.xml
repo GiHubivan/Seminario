@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ifml:ViewModel xmlns:ifml="http://www.omg.org/spec/IFML/20131001" 
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/spec/IFML/20131001 http://www.omg.org/spec/IFML/20131001/IFML.xsd">
+  
+    <!-- Pantalla Principal: Lista de tomas de posesión -->
+    <ifml:View name="Pantalla Principal">
+        <ifml:Action name="showTomasDePosesionList">
+            <ifml:InteractionEvent event="click"/>
+        </ifml:Action>
+        
+        <ifml:Action name="navigateToNuevoRegistro">
+            <ifml:InteractionEvent event="click"/>
+            <ifml:NavigationTarget target="Pantalla Nuevo Registro"/>
+        </ifml:Action>
+
+        <ifml:Action name="navigateToDetalleTomaPosesion">
+            <ifml:InteractionEvent event="click"/>
+            <ifml:NavigationTarget target="Pantalla Detalle de Toma de Posesión"/>
+        </ifml:Action>
+    </ifml:View>
+
+    <!-- Pantalla de Detalle de Toma de Posesión -->
+    <ifml:View name="Pantalla Detalle de Toma de Posesión">
+        <ifml:Action name="showTomaPosesionDetails">
+            <ifml:InteractionEvent event="load"/>
+        </ifml:Action>
+        
+        <ifml:Action name="navigateToLiberarCargo">
+            <ifml:InteractionEvent event="click"/>
+            <ifml:NavigationTarget target="Pantalla Principal"/>
+        </ifml:Action>
+        
+        <ifml:Action name="navigateToEditarTomaPosesion">
+            <ifml:InteractionEvent event="click"/>
+            <ifml:NavigationTarget target="Pantalla Nuevo Registro"/>
+        </ifml:Action>
+    </ifml:View>
+
+    <!-- Pantalla de Nuevo Registro: Registrar nueva toma de posesión -->
+    <ifml:View name="Pantalla Nuevo Registro">
+        <ifml:Action name="showExpedienteForm">
+            <ifml:InteractionEvent event="load"/>
+        </ifml:Action>
+        
+        <ifml:Action name="fillFormWithExpedienteData">
+            <ifml:InteractionEvent event="load"/>
+        </ifml:Action>
+        
+        <ifml:Action name="validateFormData">
+            <ifml:InteractionEvent event="blur"/>
+        </ifml:Action>
+        
+        <ifml:Action name="submitFormData">
+            <ifml:InteractionEvent event="click"/>
+            <ifml:NavigationTarget target="Pantalla Confirmación"/>
+        </ifml:Action>
+    </ifml:View>
+
+    <!-- Pantalla de Confirmación: Mensaje de éxito o error -->
+    <ifml:View name="Pantalla Confirmación">
+        <ifml:Action name="showSuccessMessage">
+            <ifml:InteractionEvent event="load"/>
+        </ifml:Action>
+        
+        <ifml:Action name="showErrorMessage">
+            <ifml:InteractionEvent event="load"/>
+        </ifml:Action>
+        
+        <ifml:Action name="navigateBackToMainScreen">
+            <ifml:InteractionEvent event="click"/>
+            <ifml:NavigationTarget target="Pantalla Principal"/>
+        </ifml:Action>
+    </ifml:View>
+
+    <!-- Relación entre vistas -->
+    <ifml:ViewElementConnection source="Pantalla Principal" target="Pantalla Detalle de Toma de Posesión" event="click" action="navigateToDetalleTomaPosesion"/>
+    <ifml:ViewElementConnection source="Pantalla Principal" target="Pantalla Nuevo Registro" event="click" action="navigateToNuevoRegistro"/>
+    <ifml:ViewElementConnection source="Pantalla Detalle de Toma de Posesión" target="Pantalla Principal" event="click" action="navigateToLiberarCargo"/>
+    <ifml:ViewElementConnection source="Pantalla Detalle de Toma de Posesión" target="Pantalla Nuevo Registro" event="click" action="navigateToEditarTomaPosesion"/>
+    <ifml:ViewElementConnection source="Pantalla Nuevo Registro" target="Pantalla Confirmación" event="click" action="submitFormData"/>
+    <ifml:ViewElementConnection source="Pantalla Confirmación" target="Pantalla Principal" event="click" action="navigateBackToMainScreen"/>
+
+</ifml:ViewModel>

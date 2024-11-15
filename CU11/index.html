@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Toma de Posesión</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+        .section {
+            margin-bottom: 30px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .section h2 {
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        input, select {
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Mostrar pantalla principal
+            function showPantallaPrincipal() {
+                document.getElementById('pantalla-principal').style.display = 'block';
+                document.getElementById('pantalla-detalle').style.display = 'none';
+                document.getElementById('pantalla-nuevo-registro').style.display = 'none';
+                document.getElementById('pantalla-confirmacion').style.display = 'none';
+            }
+
+            // Mostrar pantalla de Detalles
+            function showPantallaDetalle() {
+                document.getElementById('pantalla-principal').style.display = 'none';
+                document.getElementById('pantalla-detalle').style.display = 'block';
+                document.getElementById('pantalla-nuevo-registro').style.display = 'none';
+                document.getElementById('pantalla-confirmacion').style.display = 'none';
+            }
+
+            // Mostrar pantalla de Nuevo Registro
+            function showPantallaNuevoRegistro() {
+                document.getElementById('pantalla-principal').style.display = 'none';
+                document.getElementById('pantalla-detalle').style.display = 'none';
+                document.getElementById('pantalla-nuevo-registro').style.display = 'block';
+                document.getElementById('pantalla-confirmacion').style.display = 'none';
+            }
+
+            // Mostrar pantalla de Confirmación (éxito)
+            function showPantallaConfirmacion() {
+                document.getElementById('pantalla-principal').style.display = 'none';
+                document.getElementById('pantalla-detalle').style.display = 'none';
+                document.getElementById('pantalla-nuevo-registro').style.display = 'none';
+                document.getElementById('pantalla-confirmacion').style.display = 'block';
+            }
+
+            // Función para simular la validación y registro de la toma de posesión
+            function registrarTomaDePosesion(event) {
+                event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
+
+                // Validación de campos
+                const expediente = document.getElementById('expediente').value;
+                const fechaToma = document.getElementById('fechaToma').value;
+                const resolucion = document.getElementById('resolucion').value;
+                const candidato = document.getElementById('candidato').value;
+
+                if (!expediente || !fechaToma || !resolucion || !candidato) {
+                    alert("Por favor, complete todos los campos.");
+                    return;
+                }
+
+                // Simular el registro de los datos (en una implementación real, aquí iría la lógica de backend)
+                console.log("Toma de posesión registrada:", expediente, fechaToma, resolucion, candidato);
+
+                // Después de registrar, mostrar la pantalla de confirmación
+                showPantallaConfirmacion();
+            }
+
+            // Función para liberar el cargo y regresar a la pantalla principal
+            function liberarCargo() {
+                alert("Cargo liberado.");
+                showPantallaPrincipal();
+            }
+
+            // Función para volver a la pantalla principal desde la confirmación
+            function volverALaLista() {
+                showPantallaPrincipal();
+            }
+
+            // Configurar los manejadores de eventos
+            document.getElementById('ver-detalle').addEventListener('click', showPantallaDetalle);
+            document.getElementById('registrar-nueva-toma').addEventListener('click', showPantallaNuevoRegistro);
+            document.getElementById('registrar-form').addEventListener('submit', registrarTomaDePosesion);
+            document.getElementById('liberar-cargo').addEventListener('click', liberarCargo);
+            document.getElementById('volver-lista').addEventListener('click', volverALaLista);
+
+            // Mostrar la pantalla principal al cargar
+            showPantallaPrincipal();
+        });
+    </script>
+</head>
+<body>
+
+    <!-- Pantalla Principal -->
+    <div id="pantalla-principal" style="display:none;">
+        <div class="container">
+            <div class="section">
+                <h2>Lista de Tomadas de Posesión</h2>
+                <p>Aquí se mostrarán todas las tomas de posesión registradas.</p>
+                <button class="button" id="ver-detalle">Ver Detalle</button>
+                <button class="button" id="registrar-nueva-toma">Registrar Nueva Toma de Posesión</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla Detalle -->
+    <div id="pantalla-detalle" style="display:none;">
+        <div class="container">
+            <div class="section">
+                <h2>Detalles de la Toma de Posesión</h2>
+                <p>Aquí se mostrarán los detalles completos de la toma de posesión seleccionada.</p>
+                <button class="button" id="liberar-cargo">Liberar Cargo</button>
+                <button class="button" id="registrar-nueva-toma">Editar Toma de Posesión</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla de Nuevo Registro -->
+    <div id="pantalla-nuevo-registro" style="display:none;">
+        <div class="container">
+            <div class="section">
+                <h2>Registrar Nueva Toma de Posesión</h2>
+                <form id="registrar-form">
+                    <div class="form-group">
+                        <label for="expediente">Número de Expediente</label>
+                        <input type="text" id="expediente" name="expediente" placeholder="Ingrese el número de expediente" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="fechaToma">Fecha de Toma de Posesión</label>
+                        <input type="date" id="fechaToma" name="fechaToma" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="resolucion">Número de Resolución</label>
+                        <input type="text" id="resolucion" name="resolucion" placeholder="Ingrese el número de resolución" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="candidato">Seleccionar Candidato</label>
+                        <select id="candidato" name="candidato">
+                            <option value="1">Candidato 1</option>
+                            <option value="2">Candidato 2</option>
+                            <option value="3">Candidato 3</option>
+                        </select>
+                    </div>
+                    <button class="button" type="submit">Registrar Toma de Posesión</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla de Confirmación -->
+    <div id="pantalla-confirmacion" style="display:none;">
+        <div class="container">
+            <div class="section">
+                <h2>Confirmación</h2>
+                <p>La toma de posesión ha sido registrada correctamente.</p>
+                <button class="button" id="volver-lista">Volver a la Lista</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

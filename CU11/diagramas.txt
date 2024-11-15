@@ -1,0 +1,210 @@
+@startuml
+actor Administrativo
+participant "Sistema" as Sistema
+participant "TomaDePosesion" as TDP
+participant "Cargo" as Cargo
+participant "Designacion" as Designacion
+
+== Consulta de Toma de Posesión ==
+Administrativo -> Sistema : consultarTomasDePosesion()
+Sistema -> TDP : obtenerListado()
+TDP -> Sistema : listadoDeTomas()
+Sistema -> Administrativo : mostrarListado()
+
+== Selección de Toma de Posesión ==
+Administrativo -> Sistema : seleccionarDetalle(tomaId)
+Sistema -> TDP : obtenerDetalle(tomaId)
+TDP -> Sistema : detalleToma()
+Sistema -> Administrativo : mostrarDetalle()
+
+== Confirmar Cargo ==
+Administrativo -> Sistema : confirmarCargo(tomaId, numResolucion, expediente, dni, causa, pdf)
+Sistema -> Cargo : cambiarEstado(cargoId, "designado", "confirmado")
+Cargo -> Sistema : estadoCambiado()
+
+== Actualizar Designación ==
+Sistema -> Designacion : cambiarEstado(designacionId, "pendiente", "efectiva")
+Designacion -> Sistema : estadoCambiado()
+
+== Registro de Datos ==
+Sistema -> TDP : registrarDatos(tomaData)
+TDP -> Sistema : datosRegistrados()
+Sistema -> Administrativo : mostrarMensajeExito()
+Sistema -> TDP : refrescarListado()
+
+@enduml
+///Secuencias!!!!???
+@startuml
+actor Administrativo
+participant "Sistema de Tomas de Posesion" as Sistema
+participant "TomaDePosesion" as TomaDePosesion
+participant "Designaciones" as Designaciones
+participant "Cargo" as Cargo
+participant "Convocatoria" as Convocatoria
+
+== Acceso a la sección de tomas de posesión ==
+Administrativo -> Sistema : Accede a la sección "Tomas de Posesión"
+Sistema -> Sistema : Muestra listado de tomas de posesión (Expediente, DNI, Cargo)
+
+== Visualización de los detalles de una toma de posesión ==
+Administrativo -> Sistema : Selecciona "Detalle" de toma de posesión
+Sistema -> TomaDePosesion : Solicita detalles de la toma de posesión (ID)
+TomaDePosesion -> Designaciones : Solicita Designación asociada (Expediente)
+Designaciones -> Cargo : Obtiene Cargo asociado al expediente
+Cargo -> Designaciones : Devuelve detalles del Cargo
+Designaciones -> TomaDePosesion : Devuelve detalles de la designación (Expediente, Cargo, Fecha, etc.)
+TomaDePosesion -> Sistema : Devuelve detalles completos de la toma de posesión
+
+== Agregar una nueva toma de posesión ==
+Administrativo -> Sistema : Selecciona "Agregar Toma de Posesión"
+Sistema -> Sistema : Solicita número de expediente
+Administrativo -> Sistema : Ingresa número de expediente
+Sistema -> Designaciones : Busca Designación por número de expediente
+Designaciones -> Cargo : Obtiene Cargo asociado
+Cargo -> Designaciones : Devuelve detalles del Cargo
+Designaciones -> Sistema : Devuelve datos asociados al expediente (Categoría, Cargo, etc.)
+Sistema -> Administrativo : Completa formulario automáticamente
+
+Sistema -> Administrativo : Solicita fecha de toma de posesión
+Administrativo -> Sistema : Ingresa fecha de toma de posesión
+
+Sistema -> Administrativo : Solicita número de resolución
+Administrativo -> Sistema : Ingresa número de resolución
+
+Sistema -> Administrativo : Solicita enlace a la resolución
+Administrativo -> Sistema : Ingresa enlace al repositorio
+
+Sistema -> Convocatoria : Solicita lista de candidatos de la convocatoria asociada
+Convocatoria -> Sistema : Devuelve lista de candidatos
+
+Sistema -> Administrativo : Muestra lista de candidatos
+Administrativo -> Sistema : Selecciona candidato
+
+Sistema -> Administrativo : Confirma datos e ingresa "Confirmar"
+Administrativo -> Sistema : Confirma registro
+
+== Validación y registro de la toma de posesión ==
+Sistema -> Sistema : Valida datos ingresados (expediente, fecha, resolución, candidato)
+alt Si los datos son correctos
+    Sistema -> TomaDePosesion : Registra toma de posesión en TomaDePosesion
+    Sistema -> Sistema : Refresca listado de tomas de posesión
+    Sistema -> Administrativo : Muestra mensaje de éxito
+else Si los datos son incorrectos
+    Sistema -> Administrativo : Muestra mensaje de error
+end
+
+@enduml
+/// diagramas de clases 2.0
+@startuml
+' Definición de las clases principales
+
+class "TomaDePosesion" {
+    + String expediente
+    + String resolucion
+    + Date fechaTomaPosesion
+    + Date fechaFinPosesion
+    + String materia
+    + String carrera
+    + String categoria
+    + String dedicacion
+    + String cargo
+   
+}
+
+class "Designaciones" {
+    + String numeroDeExpediente
+    + String numeroConvocatoria
+}
+
+class "Cargo" {
+    + String nombreCargo
+    + String categoria
+    + String dedicacion
+    + String materia
+    + String carrera
+}
+
+class "Convocatoria" {
+    + String numeroConvocatoria
+    + List<Candidato> listaCandidatos
+    
+}
+
+class "Aspirante" {
+    + String nombre
+    + String dni
+    
+}
+
+TomaDePosesion --> "1" Designaciones : "Usa"
+Designaciones --> "1" Cargo : "Contiene"
+TomaDePosesion --> "1" Cargo : "Usa"
+TomaDePosesion --> "1" Convocatoria : "Consulta"
+Convocatoria --> "0..*" Aspirante : "Contiene"
+Convocatoria --> "1..*" TomaDePosesion : "Asocia"
+Designaciones --> "1..*" TomaDePosesion : "Asocia"
+
+@enduml
+ //Clases de diseño
+ @startuml
+' Definición de las clases de diseño con métodos según el proceso unificado (Larman)
+
+class "TomaDePosesion" {
+    - String expediente
+    - String resolucion
+    - Date fechaTomaPosesion
+    - Date fechaFinPosesion
+    - String materia
+    - String carrera
+    - String categoria
+    - String dedicacion
+    - String cargo
+    + void registrarTomaPosesion()
+    + boolean validarDatos()
+    + void asignarAspirante(Aspirante aspirante)
+    + void asignarConvocatoria(Convocatoria convocatoria)
+    + void registrarDatos()
+}
+
+class "Designaciones" {
+    - String numeroDeExpediente
+    - Cargo cargo
+    + Designaciones obtenerDesignacion(String expediente)
+    + void agregarDesignacion(String expediente, Cargo cargo)
+}
+
+class "Cargo" {
+    - String nombreCargo
+    - String categoria
+    - String dedicacion
+    - String materia
+    - String carrera
+    + Cargo(String nombreCargo, String categoria, String dedicacion, String materia, String carrera)
+}
+
+class "Convocatoria" {
+    - String numeroConvocatoria
+    - List<Candidato> listaCandidatos
+    + void agregarAspirante(Aspirante aspirante)
+    + List<Aspirante> obtenerListaAspirante()
+    + Candidato obtenerAspiranteSeleccionado(String dni)
+}
+
+class "Candidato" {
+    - String nombre
+    - String dni
+   
+    + Aspirante(String nombre, String dni)
+}
+
+' Relación entre clases y sus cardinalidades
+
+TomaDePosesion --> "1" Designaciones : "Usa"
+Designaciones --> "1" Cargo : "Contiene"
+TomaDePosesion --> "1" Cargo : "Usa"
+TomaDePosesion --> "1" Convocatoria : "Consulta"
+Convocatoria --> "0..*" Candidato : "Contiene"
+Convocatoria --> "1..*" TomaDePosesion : "Asocia"
+Designaciones --> "1..*" TomaDePosesion : "Asocia"
+
+@enduml
