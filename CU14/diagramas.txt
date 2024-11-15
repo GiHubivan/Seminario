@@ -1,0 +1,172 @@
+@startuml
+actor Administrativo
+participant Sistema
+participant Docente
+participant Titulo
+participant Curso
+participant Experiencia
+participant Investigación
+
+
+Administrativo -> Sistema : Solicitar información del docente (dni)
+Sistema -> Docente : Obtener detalles del docente (dni)
+Docente -> Titulo : Buscar títulos por dni
+Titulo -> Docente : Retornar títulos
+Docente -> Curso : Buscar cursos por dni
+Curso -> Docente : Retornar cursos
+Docente -> Experiencia : Buscar experiencias por dni
+Experiencia -> Docente : Retornar experiencias
+Docente -> Investigación : Buscar investigaciones por dni
+Investigación -> Docente : Retornar investigaciones
+Docente -> Sistema : Devolver todos los datos al sistema
+
+Sistema -> Administrativo : Mostrar resultados (títulos, cursos, experiencias, investigaciones)
+
+Administrativo -> Sistema : Seleccionar registro para validar
+Sistema -> Titulo : Mostrar imagen  y botón de aprobar
+Sistema -> Curso : Mostrar imagen  y botón de aprobar
+Sistema -> Experiencia : Mostrar imagen y botón de aprobar
+Sistema -> Investigación: Mostrar imagen  y botón de aprobar
+
+alt Estado documento: pendiente
+    Administrativo -> Sistema : Presionar aprobar
+    Sistema -> Administrativo : Solicitar confirmación
+    Administrativo -> Sistema : Confirmar aprobación
+    Sistema -> Titulo: Actualizar estado a "aceptado"
+    Sistema -> Curso: Actualizar estado a "aceptado"
+    Sistema -> Experiencia: Actualizar estado a "aceptado"
+    Sistema -> Investigación: Actualizar estado a "aceptado"
+    Sistema -> Administrativo : Guardar registro
+    Sistema -> Administrativo : Refrescar información
+else Estado documento: no pendiente
+    Sistema -> Administrativo : Botón de aprobar desactivado
+end
+@enduml
+ //Clases conceptuales
+ @startuml
+class Administrativo {
+}
+
+class Sistema_aprobación {
+}
+
+class Docente {
+    -dni: String
+}
+
+class Titulo {
+    -estado: String
+    +titulo:String
+    +institución:String
+}
+
+class Curso {
+    -estado: String
+    +nombre:String
+    +duración:integer
+}
+
+class Experiencia {
+    -estado: String
+     +año:date
+     +lugar:String
+     +función:String
+}
+
+class Investigacion {
+    -estado: String
+    +nombre: String
+    +lugar:String
+    +fecha:date
+}
+
+Administrativo --> Sistema : interactúa
+Sistema --> Docente : obtiene datos
+Docente "1" --> "0..*" Titulo : consulta
+Docente "1" --> "0..*" Curso : consulta
+Docente "1" --> "0..*" Experiencia : consulta
+Docente "1" --> "0..*" Investigacion : consulta
+Sistema --> Titulo : actualiza estado
+Sistema --> Curso : actualiza estado
+Sistema --> Experiencia : actualiza estado
+Sistema --> Investigacion : actualiza estado
+
+@enduml
+
+///
+@startuml
+class Administrativo {
+    - dni: String
+    - nombre: String
+    + loguearse(usuario: String, contraseña: String): Boolean
+    + navegarDocumentacionProbatoria(): List<Documento>
+    + seleccionarDocumento(id: String): Documento
+    + confirmarAprobacion(documento: Documento): Boolean
+}
+
+class Sistema_aprobación {
+    + mostrarDocumentos(): List<Documento>
+    + actualizarEstado(documento: Documento, estado: String): Boolean
+    + registrarAuditoria(auditoria: AuditoriaDocumentacion): void
+}
+
+class Docente {
+    - dni: String
+    + consultarDocumentos(): List<Documento>
+}
+
+class AuditoriaDocumentacion {
+    - nombreUsuario: String
+    - fecha: Date
+    - registro: String
+    + crearRegistro(): void
+}
+
+class Titulo {
+    - estado: String
+    + titulo: String
+    + institución: String
+    + mostrarVistaPrevia(): void
+    + verificarValidez(): Boolean
+}
+
+class Curso {
+    - estado: String
+    + nombre: String
+    + duración: integer
+    + mostrarVistaPrevia(): void
+    + verificarValidez(): Boolean
+}
+
+class Experiencia {
+    - estado: String
+    + año: date
+    + lugar: String
+    + función: String
+    + mostrarVistaPrevia(): void
+    + verificarValidez(): Boolean
+}
+
+class Investigacion {
+    - estado: String
+    + nombre: String
+    + lugar: String
+    + fecha: date
+    + mostrarVistaPrevia(): void
+    + verificarValidez(): Boolean
+}
+
+Administrativo --> Sistema_aprobación : interactúa
+Sistema_aprobación --> Docente : obtiene datos
+Docente "1" --> "0..*" Titulo : consulta
+Docente "1" --> "0..*" Curso : consulta
+Docente "1" --> "0..*" Experiencia : consulta
+Docente "1" --> "0..*" Investigacion : consulta
+Sistema_aprobación --> AuditoriaDocumentacion : registra
+Sistema_aprobación --> Titulo : actualiza estado
+Sistema_aprobación --> Curso : actualiza estado
+Sistema_aprobación --> Experiencia : actualiza estado
+Sistema_aprobación --> Investigacion : actualiza estado
+@enduml
+
+
