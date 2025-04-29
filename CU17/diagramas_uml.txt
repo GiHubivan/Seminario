@@ -1,0 +1,121 @@
+## diagrama de clases
+
+@startuml
+left to right direction
+
+class SistemaPAU {
+  +mostrarListadoConvocatorias()
+  +mostrarDetalleConvocatoria()
+  +mostrarFormularioInscripción()
+  +validarCurriculum()
+  +validarNota()
+  +registrarInscripción()
+}
+
+class Usuario {
+  -id: int
+  -nombre: string
+  -email: string
+  -telefono: string
+  +adjuntarCurriculum(archivo: File)
+  +adjuntarNota(archivo: File)
+}
+
+class ConvocatoriasPAU {
+  -convocatoriaId: int
+  -nombreConvocatoria: string
+  -fechaInicio: Date
+  -fechaFin: Date
+  +obtenerListadoConvocatorias(): List<Convocatoria>
+  +obtenerDetalleConvocatoria(id: int): Convocatoria
+}
+
+class DatosPersonales {
+  -usuarioId: int
+  -nombre: string
+  -apellido: string
+  -direccion: string
+  -telefono: string
+  +obtenerDatos(usuarioId: int): DatosPersonales
+}
+
+class Curriculum {
+  -archivoCurriculum: File
+  +validarCurriculum(archivo: File): bool
+}
+
+class NotaSolicitud {
+  -archivoNota: File
+  +validarNota(archivo: File): bool
+}
+
+class Aspirante {
+  -usuarioId: int
+  -convocatoriaId: int
+  -curriculum: File
+  -notaSolicitud: File
+  +registrarInscripción(): bool
+}
+
+SistemaPAU "1" -- "0..*" Usuario : "gestiona"
+SistemaPAU "1" -- "1..*" ConvocatoriasPAU : "muestra"
+ConvocatoriasPAU "1" -- "1..*" Aspirante : "inscribe"
+Usuario "1" -- "1" DatosPersonales : "tiene"
+Usuario "1" -- "0..1" Curriculum : "adjunta"
+Usuario "1" -- "0..1" NotaSolicitud : "adjunta"
+Aspirante "1" -- "1" Curriculum : "posee"
+Aspirante "1" -- "1" NotaSolicitud : "posee"
+Aspirante "1" -- "1" ConvocatoriasPAU : "inscritoEn"
+@enduml
+
+##diagrama de secuencias
+@startuml
+actor Usuario
+participant "Sistema PAU" as Sistema
+participant "ConvocatoriasPAU" as Convocatorias
+participant "DatosPersonales" as Datos
+participant "Curriculum" as Curriculum
+participant "NotaSolicitud" as Nota
+participant "Aspirante" as Aspirante
+
+== Navegación hacia convocatorias ==
+
+Usuario -> Sistema : seleccionar opción "Convocatorias PAU"
+Sistema -> Convocatorias : obtenerListadoConvocatorias()
+Convocatorias --> Sistema : listadoConvocatorias
+Sistema -> Usuario : mostrarListadoConvocatorias()
+
+== Selección de convocatoria ==
+
+Usuario -> Sistema : seleccionarConvocatoria(convocatoriaId)
+Sistema -> Convocatorias : obtenerDetalleConvocatoria(convocatoriaId)
+Convocatorias --> Sistema : datosConvocatoria
+Sistema -> Usuario : mostrarDetalleConvocatoria()
+
+== Iniciar inscripción ==
+
+Usuario -> Sistema : inscribirseAConvocatoria()
+Sistema -> Datos : obtenerDatos(usuarioId)
+Datos --> Sistema : datosPersonales
+
+Sistema -> Usuario : mostrarFormularioInscripción()
+
+== Carga de documentos ==
+
+Usuario -> Sistema : adjuntarCurriculum(archivo)
+Usuario -> Sistema : adjuntarNota(archivo)
+
+Sistema -> Curriculum : validarCurriculum(archivo)
+Curriculum --> Sistema : curriculumValido
+
+Sistema -> Nota : validarNota(archivo)
+Nota --> Sistema : notaValida
+
+== Registro de inscripción ==
+
+Sistema -> Aspirante : registrarInscripción(usuarioId, convocatoriaId, curriculum, nota)
+Aspirante --> Sistema : inscripciónConfirmada
+
+Sistema -> Usuario : mostrarConfirmación()
+
+@enduml
