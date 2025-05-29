@@ -37,3 +37,58 @@ UI -> Gestor : registrarConvocatoria(datos)
 Gestor -> Cargo : actualizarEstado(cargoID, "Convocado")
 Gestor --> UI : Mostrar mensaje "Convocatoria registrada exitosamente"
 @enduml
+@startuml
+class Convocatoria {
+  -numero: String
+  -fechaInicio: Date
+  -fechaCierre: Date
+  -resolucion: String
+  -cargo: Cargo
+  -fuente: Fuente
+  -docentes: List<Docente>
+
+  +setCargo(c: Cargo): void
+  +setFuente(f: Fuente): void
+  +setFechas(inicio: Date, cierre: Date): void
+  +setNumero(numero: String): void
+  +setResolucion(resolucion: String): void
+  +agregarDocente(d: Docente): boolean
+  +validar(): boolean
+  +registrar(): void
+  +generarAuditoria(usuario: String): Auditoria
+}
+
+
+
+class Cargo {
+  -id: int
+  -nombre: String
+  -estado: String
+}
+
+class Fuente {
+  -id: int
+  -descripcion: String
+}
+
+class Docente {
+  -id: int
+  -nombreCompleto: String
+  -dni: String
+}
+
+class Auditoria {
+  -fechaHora: DateTime
+  -operacion: String
+  -usuario: String
+}
+
+Convocatoria "1" --> "1" Cargo : seleccionadoPor
+Convocatoria "1" --> "1" Fuente : usaFuente
+Convocatoria "1" --> "0..7" Docente : incluyeDocente
+Convocatoria "1" --> "*" Auditoria : generaLog
+
+Cargo "1" --> "*" Convocatoria : usadoEn
+Fuente "1" --> "*" Convocatoria : asignadoA
+Docente "*" --> "*" Convocatoria : participaEn
+@enduml
