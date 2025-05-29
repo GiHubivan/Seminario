@@ -1,0 +1,39 @@
+@startuml
+actor Administrativo
+participant "UI: Sistema Web" as UI
+participant "Convocatorias" as Gestor
+participant "Cargo" as Cargo
+participant "Fuente" as Fuente
+participant "Docente" as Docente
+
+== Inicio ==
+Administrativo -> UI : Selecciona "Convocatorias"
+UI -> Gestor : cargarConvocatorias()
+Gestor -> Cargo : obtenerConvocatorias()
+Cargo --> Gestor : Lista de convocatorias
+Gestor --> UI : Mostrar tabla de convocatorias
+
+== Registro de convocatoria ==
+Administrativo -> UI : Clic en "Agregar Convocatoria"
+UI -> Gestor : obtenerDatosIniciales()
+Gestor -> Cargo : obtenerListado()
+Gestor -> Fuente : obtenerListado()
+Cargo --> Gestor : Lista de cargos
+Fuente --> Gestor : Lista de fuentes
+Gestor --> UI : Renderizar formulario
+
+Administrativo -> UI : Seleccionar cargo, ingresar resolución, seleccionar fuente
+UI -> Gestor : obtenerDetalleCargo(cargoID)
+Gestor -> Cargo : obtenerDetalle(cargoID)
+Cargo --> Gestor : Datos del cargo
+Gestor --> UI : Mostrar datos del cargo
+
+Administrativo -> UI : Seleccionar hasta 7 docentes
+UI -> Docente : obtenerListado()
+Docente --> UI : Lista de docentes
+
+Administrativo -> UI : Confirmar y guardar convocatoria
+UI -> Gestor : registrarConvocatoria(datos)
+Gestor -> Cargo : actualizarEstado(cargoID, "Convocado")
+Gestor --> UI : Mostrar mensaje "Convocatoria registrada exitosamente"
+@enduml
