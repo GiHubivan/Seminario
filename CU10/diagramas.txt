@@ -138,3 +138,76 @@ Aspirante "0..1" -- "1" Designación : designado >
 Designación "1" -- "1" Convocatoria : vinculado a >
 
 @enduml
+@startuml
+left to right direction
+scale 0.7
+skinparam classFontSize 10
+skinparam classAttributeIconSize 8
+skinparam Padding 2
+skinparam dpi 120
+
+class Administrativo {
+    +id
+    +nombre
+    +email
+}
+
+class "Sistema de Gestión de Designaciones" {
+    +nombreSistema
+    +mostrarListaDesignaciones(): void
+    +mostrarFormularioDesignacion(): void
+    +consultarConvocatoria(numeroExpediente: String): Convocatoria
+    +validarDatos(d: Designacion): boolean
+    +guardarDesignacion(d: Designacion): void
+    +refrescarLista(): void
+}
+
+class Convocatoria {
+    +numeroExpediente
+    +cargo
+    +obtenerDatosCargo(): Cargos
+    +obtenerAspirantes(): List<Aspirante>
+}
+
+class Aspirante {
+    +id
+    +nombre
+    +dni
+}
+
+class Docente {
+    +id
+    +nombre
+    +dni
+    +completarDesdeAspirante(a: Aspirante): void
+}
+
+class Designacion {
+    +numeroResolucion
+    +urlResolucion
+    +asociarDocente(d: Docente): void
+    +asociarConvocatoria(c: Convocatoria): void
+    +validar(): boolean
+}
+
+class Cargos {
+    +categoria
+    +materia
+    +carrera
+    +dedicacion
+    +condicion
+    +estado
+    +cambiarEstado(nuevoEstado: String): void
+}
+
+' Relaciones
+Administrativo "1" -- "0..*" "Sistema de Gestión de Designaciones" : solicita >
+"Sistema de Gestión de Designaciones" "1" -- "0..*" Designacion : gestiona >
+Convocatoria "1" -- "0..*" Aspirante : contiene >
+Aspirante <|-- Docente
+Aspirante "0..1" -- "1" Docente : designado >
+Designacion "1" -- "1" Docente : corresponde >
+Designacion "1" -- "1" Convocatoria : vinculado a >
+Cargos "1" -- "0..*" Designacion : asociado a >
+Cargos "1" -- "1" Convocatoria : cubierto por >
+@enduml
