@@ -144,3 +144,42 @@ Prorroga "1" -- "0..1" Auditoria : "registra"
 Sistema "1" -- "0..*" Prorroga : "gestiona"
 
 @enduml
+
+
+@startuml
+actor Administrativo
+participant "Sistema de Prórrogas" as Sistema
+participant "Prórroga" as Prorroga
+entity "Designaciones" as Designaciones
+
+Administrativo -> Sistema : Solicita nueva prórroga
+Sistema -> Administrativo : Muestra formulario
+
+Administrativo -> Sistema : Ingresa número de expediente
+Sistema -> Prorroga : Buscar cargos(expediente)
+Prorroga -> Designaciones : getCargos(expediente)
+Designaciones --> Prorroga : Lista de cargos
+Prorroga --> Sistema : Retorna cargos
+Sistema -> Administrativo : Muestra cargos
+
+Administrativo -> Sistema : Selecciona cargos y datos de resolución
+Sistema -> Prorroga : Enviar datos y cargos seleccionados
+
+loop Validación por cargo
+  Prorroga -> Prorroga : verificarDuplicado(cargo, resolución)
+end
+
+alt Sin duplicados
+  Sistema -> Administrativo : Solicita confirmación
+  Administrativo -> Sistema : Confirma
+  Sistema -> Prorroga : Confirmación recibida
+
+  loop Registro por cargo
+    Prorroga -> Prorroga : registrarProrroga(cargo, resolución)
+  end
+
+  Sistema -> Administrativo : Muestra mensaje de éxito
+else Con duplicados
+  Sistema -> Administrativo : Muestra error con cargos duplicados
+end
+@enduml
