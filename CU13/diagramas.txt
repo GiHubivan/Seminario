@@ -183,3 +183,58 @@ else Con duplicados
   Sistema -> Administrativo : Muestra error con cargos duplicados
 end
 @enduml
+@startuml
+left to right direction
+' Clases del modelo
+class Administrativo {
+  +solicitarNuevaProrroga()
+}
+
+class Sistema {
+  +mostrarFormulario()
+  +solicitarExpediente()
+  +mostrarCargos()
+  +solicitarConfirmacion()
+  +mostrarMensajeExito()
+  +mostrarErrorDuplicados()
+}
+
+class Prorroga {
+  -expediente
+  -resolucion
+  -estadoProrroga
+  -fechaProrroga
+  -fechaFin
+  -docente
+  +buscarCargos(expediente)
+  +registrarProrroga(cargo)
+}
+
+class Formulario {
+  +validarDuplicado(cargo)
+  +validarDatos(cargo)
+  +recogerDatos()
+}
+
+class Designaciones {
+  +getCargos(expediente)
+}
+
+class Cargo {
+  -id
+  -nombre
+  -resolucion
+  +getId()
+  +getNombre()
+  +getResolucion()
+}
+
+' Relaciones con nombres y cardinalidades
+
+Administrativo "1" --> "1" Sistema : usa
+Sistema "1" --> "1" Formulario : solicita
+Formulario "1" --> "0..*" Cargo : valida
+Prorroga "1" --> "0..*" Cargo : registra
+Prorroga "1" --> "0..*" Designaciones : consulta
+Designaciones "1" --> "0..*" Cargo : contiene
+@enduml
