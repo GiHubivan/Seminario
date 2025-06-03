@@ -1,1 +1,25 @@
-nuevo caso de uso
+@startuml
+actor Usuario
+participant "SistemaPAU"
+participant "ConvocatoriasPAU"
+
+== Flujo principal ==
+
+Usuario-> SistemaPAU : Ingresar al sistema
+SistemaPAU -> SistemaPAU : Mostrar menú principal
+Usuario -> SistemaPAU : Seleccionar "Convocatorias PAU"
+SistemaPAU -> ConvocatoriasPAU : obtenerConvocatoriasActivas()
+
+alt Convocatorias encontradas
+    ConvocatoriasPAU --> SistemaPAU : Listado de convocatorias
+    SistemaPAU -> Usuario : Mostrar listado (fecha inicio, cierre, categoría, etc.)
+else No hay convocatorias
+    ConvocatoriasPAU --> SistemaPAU : Lista vacía
+    SistemaPAU -> Usuario: Mostrar mensaje "No hay convocatorias disponibles"
+end
+
+== Excepción: error en la obtención ==
+alt Error en obtenerConvocatoriasActivas()
+    SistemaPAU -> Usuario : Mostrar mensaje "Error al obtener las convocatorias"
+end
+@enduml
