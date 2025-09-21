@@ -1,1 +1,54 @@
+@startuml
+actor Docente
+participant Sistema
+participant Autenticacion
+participant Convocatoria
+
+== Inicio de Sesión ==
+Docente -> Sistema : Ingresar credenciales
+Sistema -> Autenticacion : Verificar credenciales
+Autenticacion --> Sistema : Autenticación exitosa
+Sistema --> Docente : Mostrar menú principal
+
+== Acceso a Convocatorias ==
+Docente -> Sistema : Seleccionar "Convocatorias"
+Sistema -> Convocatoria : Obtener convocatorias del docente
+alt Docente con convocatorias
+    Convocatoria --> Sistema : Lista de convocatorias
+    Sistema --> Docente : Mostrar lista
+else Sin convocatorias
+    Convocatoria --> Sistema : Sin convocatorias
+    Sistema --> Docente : Mostrar mensaje "No hay convocatorias"
+end
+
+== Selección de Convocatoria ==
+Docente -> Sistema : Seleccionar convocatoria
+Sistema -> Convocatoria : Obtener detalles de convocatoria
+Convocatoria --> Sistema : Detalles de la convocatoria
+Sistema --> Docente : Mostrar detalles
+
+== Modificar o Cancelar Inscripción ==
+alt Convocatoria abierta
+    Docente -> Sistema : Seleccionar modificar/cancelar inscripción
+    Sistema -> Docente : Solicitar confirmación
+    Docente -> Sistema : Confirmar acción
+    Sistema -> Convocatoria : Procesar modificación/cancelación
+    alt Éxito
+        Convocatoria --> Sistema : Acción realizada correctamente
+        Sistema --> Docente : Confirmación de modificación/cancelación
+    else Error
+        Convocatoria --> Sistema : Error al procesar acción
+        Sistema --> Docente : Mostrar mensaje de error
+    end
+else Convocatoria cerrada
+    Convocatoria --> Sistema : Convocatoria cerrada
+    Sistema --> Docente : Mostrar mensaje "Convocatoria cerrada, no se permiten cambios"
+end
+
+== Flujo alternativo: Error de autenticación ==
+alt Credenciales incorrectas
+    Autenticacion --> Sistema : Error de autenticación
+    Sistema --> Docente : Mostrar mensaje de error
+end
+@enduml
 
