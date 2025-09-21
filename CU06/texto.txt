@@ -1,1 +1,49 @@
+@startuml
+actor PA
+participant Sis
+participant Auth
+participant OTP
+participant SMS
+participant Correo
+participant Log
+
+== Inicio de sesión ==
+PA -> Sis : ingresarCred()
+Sis -> Auth : verificarCred()
+alt Credenciales válidas
+    Auth --> Sis : ok
+    Sis -> Log : registrar("login ok")
+    
+    == Selección canal ==
+    Sis -> PA : mostrarOpciones()
+    PA -> Sis : elegirCanal()
+
+    == Generación y envío OTP ==
+    Sis -> OTP : generar()
+    alt Canal = SMS
+        Sis -> SMS : enviarOTP()
+    else Canal = Correo
+        Sis -> Correo : enviarOTP()
+    end
+
+    == Verificación OTP ==
+    PA -> Sis : ingresarOTP()
+    Sis -> OTP : verificar()
+
+    alt OTP válido
+        OTP --> Sis : ok
+        Sis -> Log : registrar("OTP ok")
+        Sis --> PA : accesoOk()
+    else OTP inválido
+        OTP --> Sis : error
+        Sis -> Log : registrar("OTP inválido")
+        Sis --> PA : mostrarError()
+    end
+
+else Credenciales inválidas
+    Auth --> Sis : error
+    Sis -> Log : registrar("login fail")
+    Sis --> PA : mostrarError()
+end
+@enduml
 
