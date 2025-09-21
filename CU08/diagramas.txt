@@ -123,3 +123,60 @@ classDiagram
     Sistema --> Cargo : interactúa
     Administrativo "1" --> "0..*" Cargo : agrega
     Cargo "1" --> "0..*" AuditoriaCargos : registra
+
+Diagrama 2025/09!!!!!!
+@startuml
+actor Adm as "Administrativo"
+participant Sis as "Sistema"
+participant Val as "Validador"
+participant Cargos as "Cargos"
+participant Msg as "Mensajes"
+
+== Inicio ==
+Adm -> Sis : acceder()
+Sis --> Adm : mostrarMenu()
+
+== Acceso a módulo de cargos ==
+Adm -> Sis : seleccionar("Cargos")
+Sis -> Cargos : obtenerLista()
+Cargos --> Sis : listaCargos
+Sis --> Adm : mostrarLista()
+
+== Registro de nuevo cargo ==
+Adm -> Sis : agregarCargo()
+Sis --> Adm : mostrarFormulario()
+
+Adm -> Sis : enviarFormulario()
+
+== Validaciones ==
+Sis -> Val : validarCampos()
+alt Campos inválidos o URL incorrecta
+    Val --> Sis : errorValidación
+    Sis -> Msg : mostrar("Corrija los campos")
+    Msg --> Adm : error()
+else Campos válidos
+    Val --> Sis : ok
+    Sis -> Cargos : verificarDuplicado()
+    alt Cargo duplicado
+        Cargos --> Sis : duplicado
+        Sis -> Msg : mostrar("Cargo duplicado")
+        Msg --> Adm : error()
+    else No duplicado
+        Cargos --> Sis : ok
+        Sis -> Cargos : guardarCargo()
+        alt Guardado exitoso
+            Cargos --> Sis : confirmado
+            Sis -> Msg : mostrar("Cargo registrado")
+            Msg --> Adm : éxito()
+            Sis -> Cargos : obtenerLista()
+            Cargos --> Sis : nuevaLista
+            Sis --> Adm : actualizarLista()
+        else Error técnico
+            Cargos --> Sis : errorGuardar
+            Sis -> Msg : mostrar("Error al guardar")
+            Msg --> Adm : reintentar()
+        end
+    end
+end
+@enduml
+
