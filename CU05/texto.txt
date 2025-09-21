@@ -51,4 +51,63 @@ alt Credenciales incorrectas
     Sistema --> Docente : Mostrar mensaje de error
 end
 @enduml
+///clases diagrama
+@startuml
+class Docente {
+  - id
+  - nombre
+  - correo
+  - contraseña
+
+  + iniciarSesion()
+  + verConvocatoriasInscrito()
+  + seleccionarConvocatoria()
+  + modificarInscripcion()
+  + cancelarInscripcion()
+}
+
+class Convocatoria {
+  - id
+  - titulo
+  - descripcion
+  - estado
+
+  + obtenerDetalles()
+  + estaAbierta()
+}
+
+class Inscripcion {
+  - id
+  - estado
+  - fechaInscripcion
+
+  + modificar()
+  + cancelar()
+  + confirmarAccion()
+}
+
+class Sistema {
+  + mostrarMenu()
+  + mostrarConvocatorias()
+  + procesarModificacion()
+  + procesarCancelacion()
+  + mostrarMensaje()
+}
+
+class Autenticacion {
+  + verificarCredenciales()
+  + mostrarErrorAutenticacion()
+}
+
+' Relaciones
+Docente "1" --> "0..*" Inscripcion : tiene
+Convocatoria "1" --> "0..*" Inscripcion : recibe
+Inscripcion "1" --> "1" Convocatoria : perteneceA
+Inscripcion "1" --> "1" Docente : perteneceA
+Sistema --> Docente : gestiona
+Sistema --> Autenticacion : utiliza
+Sistema --> Convocatoria : accede
+Sistema --> Inscripcion : controla
+
+@enduml
 
