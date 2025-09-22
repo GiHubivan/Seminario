@@ -1,1 +1,32 @@
+@startuml
+actor Docente
+participant "Sistema" as Sistema
+participant "Curriculum" as Ctrl
+participant "ServicioCurriculum" as Servicio
+database "BDCurriculum" as BD
+
+== Flujo común para agregar elemento al currículum ==
+Docente -> Sistema : seleccionar("Currículum")
+Sistema -> Ctrl : mostrarSubmenu()
+Ctrl -> Sistema : mostrarOpciones(["Datos", "Títulos", "Experiencia", "Investigación", "Cursos"])
+
+Docente -> Sistema : seleccionar("Agregar [Elemento]")
+Sistema -> Ctrl : mostrarFormulario([Elemento])
+Ctrl -> Sistema : enviarFormulario()
+
+Docente -> Sistema : enviarFormulario(datos)
+Sistema -> Ctrl : procesarAlta([Elemento], datos)
+Ctrl -> Servicio : validar(datos)
+alt datos válidos
+    Servicio -> BD : guardar([Elemento], datos)
+    BD --> Servicio : ok
+    Servicio --> Ctrl : éxito
+    Ctrl -> Sistema : mostrarConfirmación()
+    Sistema -> Docente : "[Elemento] agregado"
+else datos inválidos
+    Servicio --> Ctrl : errorValidación
+    Ctrl -> Sistema : mostrarErrores()
+    Sistema -> Docente : "Corrige los campos"
+end
+@enduml
 
