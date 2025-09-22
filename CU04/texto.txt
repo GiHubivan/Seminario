@@ -30,3 +30,54 @@ alt Documentación incompleta
     Sistema -> Docente : mostrarError("Regularice documentación")
 else Primera inscripción
 
+@startuml
+actor Docente
+participant Sistema
+participant ConvocatoriaControl
+database Convocatorias
+
+== Listar convocatorias abiertas ==
+Docente -> Sistema : verConvocatorias()
+Sistema -> ConvocatoriaControl : obtenerConvocatoriasAbiertas()
+ConvocatoriaControl -> Convocatorias : listarConvocatoriasAbiertas()
+Convocatorias --> ConvocatoriaControl : listaConvocatorias
+ConvocatoriaControl --> Sistema : listaConvocatorias
+Sistema -> Docente : mostrarConvocatorias(listaConvocatorias)
+
+== Seleccionar convocatoria ==
+Docente -> Sistema : seleccionarConvocatoria(idConvocatoria)
+Sistema -> ConvocatoriaControl : obtenerDetallesConvocatoria(idConvocatoria)
+ConvocatoriaControl -> Convocatorias : consultarConvocatoria(idConvocatoria)
+Convocatorias --> ConvocatoriaControl : detallesConvocatoria
+ConvocatoriaControl --> Sistema : detallesConvocatoria
+Sistema -> Docente : mostrarDetallesConvocatoria()
+
+== Inscripción ==
+Docente -> Sistema : inscribirse(idConvocatoria)
+Sistema -> ConvocatoriaControl : verificarDocumentacionDocente(idDocente)
+ConvocatoriaControl -> Convocatorias : obtenerDatosDocente(idDocente)
+Convocatorias --> ConvocatoriaControl : datosDocente
+
+alt Documentación incompleta
+    ConvocatoriaControl --> Sistema : error("Documentación incompleta")
+    Sistema -> Docente : mostrarMensajeError("Regularice su documentación")
+else Primera inscripción
+    ConvocatoriaControl -> Convocatorias : verificarInscripcionesPrevias(idDocente)
+    Convocatorias --> ConvocatoriaControl : ningunaInscripcion
+    ConvocatoriaControl --> Sistema : solicitarCurriculum()
+    Sistema -> Docente : pedirCargaCurriculum()
+    Docente -> Sistema : subirCurriculum(archivo)
+    Sistema -> ConvocatoriaControl : guardarCurriculum(archivo)
+    ConvocatoriaControl -> Convocatorias : anexarCurriculum(idConvocatoria, idDocente, archivo)
+    Convocatorias --> ConvocatoriaControl : confirmacionGuardado
+end
+
+== Confirmar inscripción ==
+Docente -> Sistema : confirmarInscripcion(idConvocatoria)
+Sistema -> ConvocatoriaControl : registrarInscripcion(idDocente, idConvocatoria)
+ConvocatoriaControl -> Convocatorias : guardarInscripcion(idDocente, idConvocatoria)
+Convocatorias --> ConvocatoriaControl : confirmacionInscripcion
+ConvocatoriaControl --> Sistema : inscripcionExitosa()
+Sistema -> Docente : mostrarMensajeConfirmacion("Inscripción exitosa")
+
+@enduml
