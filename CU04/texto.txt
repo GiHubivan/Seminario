@@ -1,1 +1,32 @@
+@startuml
+actor Docente
+participant Sistema
+participant ControlConvocatoria
+database Convocatorias
+
+== Ver convocatorias ==
+Docente -> Sistema : verConvocatorias()
+Sistema -> ControlConvocatoria : obtenerAbiertas()
+ControlConvocatoria -> Convocatorias : listarAbiertas()
+Convocatorias --> ControlConvocatoria : lista
+ControlConvocatoria --> Sistema : lista
+Sistema -> Docente : mostrar(lista)
+
+== Ver detalles e inscribirse ==
+Docente -> Sistema : seleccionarConvocatoria(id)
+Sistema -> ControlConvocatoria : obtenerDetalles(id)
+ControlConvocatoria -> Convocatorias : consultar(id)
+Convocatorias --> ControlConvocatoria : detalles
+ControlConvocatoria --> Sistema : detalles
+Sistema -> Docente : mostrar(detalles)
+
+Docente -> Sistema : inscribirse(id)
+Sistema -> ControlConvocatoria : validarDocumentacion(docenteId)
+ControlConvocatoria -> Convocatorias : obtenerDocente(docenteId)
+Convocatorias --> ControlConvocatoria : datos
+
+alt Documentación incompleta
+    ControlConvocatoria --> Sistema : error("Documentación faltante")
+    Sistema -> Docente : mostrarError("Regularice documentación")
+else Primera inscripción
 
