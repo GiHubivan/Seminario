@@ -1,1 +1,46 @@
+@startuml
+actor Administrativo
+participant Sistema
+participant Designacion
+participant Convocatoria
+participant Aspirante
 
+== Acceso al módulo ==
+Administrativo -> Sistema : abrirModuloDesignaciones()
+Sistema -> Designacion : obtenerTodas()
+Designacion --> Sistema : listaDesignaciones()
+Sistema -> Administrativo : mostrarDesignaciones()
+
+== Carga de nueva designación ==
+Administrativo -> Sistema : nuevaDesignacion()
+Sistema -> Administrativo : mostrarFormulario()
+
+Administrativo -> Sistema : ingresarExpediente(expediente)
+Sistema -> Convocatoria : buscarPorExpediente(expediente)
+Convocatoria --> Sistema : datosConvocatoria
+Sistema -> Administrativo : autocompletarDatos()
+
+Sistema -> Aspirante : obtenerPorConvocatoria()
+Aspirante --> Sistema : listaAspirantes
+Sistema -> Administrativo : mostrarAspirantes()
+
+Administrativo -> Sistema : seleccionarAspirante(aspiranteId)
+Sistema -> Aspirante : obtenerDatos(aspiranteId)
+Aspirante --> Sistema : nombre, dni
+Sistema -> Administrativo : mostrarDatosDocente()
+
+Administrativo -> Sistema : ingresarDatos(resolucion, url)
+Sistema -> Designacion : validarDatos()
+alt datos válidos
+  Designacion -> Designacion : verificarDuplicado()
+  alt no duplicado
+    Designacion -> Designacion : guardar()
+    Designacion --> Sistema : confirmacion
+    Sistema -> Administrativo : mostrarExito()
+  else duplicado
+    Sistema -> Administrativo : mostrarError("Designación duplicada")
+  end
+else error de validación
+  Sistema -> Administrativo : mostrarErrores()
+end
+@enduml
