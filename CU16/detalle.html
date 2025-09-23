@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Detalle Convocatoria</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <h1>Detalle de la Convocatoria PAU</h1>
+  <div id="detalle-container">
+    <p><strong>Alcance:</strong> <span id="alcance"></span></p>
+    <p><strong>Denominación:</strong> <span id="denominacion"></span></p>
+    <p><strong>Dependencia:</strong> <span id="dependencia"></span></p>
+    <p><strong>Estado:</strong> <span id="estado"></span></p>
+    <p><strong>Fecha Inicio:</strong> <span id="fecha-inicio"></span></p>
+    <p><strong>Fecha Fin:</strong> <span id="fecha-fin"></span></p>
+    <p><strong>Categoria:</strong> <span id="categoria"></span></p>
+  </div>
+
+  <button onclick="window.location.href='index.html'">Cerrar</button>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const index = params.get('index');
+
+    fetch('convocatorias.json')
+      .then(response => response.json())
+      .then(data => {
+        const convocatoria = data.data[parseInt(index)];
+        if (convocatoria) {
+          document.getElementById('alcance').textContent = convocatoria['Alcance'];
+          document.getElementById('denominacion').textContent = convocatoria['Denominación'];
+          document.getElementById('dependencia').textContent = convocatoria['Dependencia'];
+          document.getElementById('estado').textContent = convocatoria['Estado'];
+          document.getElementById('fecha-inicio').textContent = convocatoria['Fecha Inicio'];
+          document.getElementById('fecha-fin').textContent = convocatoria['Fecha Fin'];
+          document.getElementById('categoria').textContent = convocatoria['Categoria'];
+        } else {
+          document.getElementById('detalle-container').innerHTML = '<p>No se encontró la convocatoria.</p>';
+        }
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{
+  "data": [
+    {
+      "Cargo": "1",
+      "Categoria": "2",
+      "Denominación": "Director Administrativo",
+      "Grupo": "Administración",
+      "resolución": "SRO-301/2025",
+      "Alcance": "Cerrado",
+      "Dependencia": "Facultad Regional Orán",
+      "Estado": "Abierta",
+      "Fecha Inicio": "2025-06-01",
+      "Fecha Fin": "2025-06-30"
+    },
+    {
+      "Cargo": "2",
+      "Categoria": "7",
+      "Denominación": "Auxiliar de mantenimiento",
+      "Grupo": "Mantenimiento",
+      "resolución": "456-PAU-2024",
+      "Alcance": "Abierto",
+      "Dependencia": "Facultad Regional Orán",
+      "Estado": "Terminada",
+      "Fecha Inicio": "FRO-201/2025",
+      "Fecha Fin": "2025-05-31"
+    }
+  ]
+}

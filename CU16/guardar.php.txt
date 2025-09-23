@@ -1,0 +1,23 @@
+<?php
+// Leer los datos del POST
+$data = json_decode(file_get_contents('php://input'), true);
+
+// Ruta del archivo JSON
+$archivo = 'convocatorias.json';
+
+// Leer datos existentes
+$convocatorias = [];
+if (file_exists($archivo)) {
+    $contenido = file_get_contents($archivo);
+    $convocatorias = json_decode($contenido, true) ?? [];
+}
+
+// Agregar la nueva convocatoria
+$convocatorias[] = $data;
+
+// Guardar los datos actualizados
+file_put_contents($archivo, json_encode($convocatorias, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+
+// Respuesta al frontend
+header('Content-Type: application/json');
+echo json_encode(['success' => true, 'message' => 'Convocatoria guardada']);
