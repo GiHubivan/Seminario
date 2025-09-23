@@ -208,3 +208,61 @@ Convocatoria --> "1..*" TomaDePosesion : "Asocia"
 Designaciones --> "1..*" TomaDePosesion : "Asocia"
 
 @enduml
+
+////el nuevo dss
+@startuml
+actor Administrativo
+participant Sistema
+participant TomasPosesion
+participant Designacion
+participant Convocatoria
+participant Candidato
+
+== Inicio del registro ==
+Administrativo -> Sistema : abrirTomasPosesion()
+Sistema -> TomasPosesion : obtenerTodas()
+TomasPosesion --> Sistema : listaTomas()
+Sistema -> Administrativo : mostrarTomas()
+
+== Ver detalle ==
+Administrativo -> Sistema : verDetalleToma(id)
+Sistema -> TomasPosesion : obtenerDetalle(id)
+TomasPosesion --> Sistema : datosCompletos()
+Sistema -> Administrativo : mostrarDetalle()
+
+== Nueva toma ==
+Administrativo -> Sistema : nuevaToma()
+Sistema -> Administrativo : solicitarExpediente()
+
+Administrativo -> Sistema : ingresarExpediente(numExpediente)
+Sistema -> Designacion : buscarPorExpediente(numExpediente)
+alt expediente válido
+  Designacion --> Sistema : datosDesignacion()
+  Sistema -> Administrativo : autocompletarCampos()
+  Sistema -> Administrativo : solicitarFecha()
+
+  Administrativo -> Sistema : ingresarFechaYResolucion(fecha, resolucion)
+  Sistema -> Administrativo : solicitarURL()
+
+  Administrativo -> Sistema : ingresarURL(url)
+  Sistema -> Convocatoria : obtenerCandidatos(numExpediente)
+  Convocatoria --> Sistema : listaCandidatos()
+  Sistema -> Administrativo : mostrarCandidatos()
+
+  Administrativo -> Sistema : seleccionarCandidato(idCandidato)
+  Sistema -> Candidato : obtenerDatos(idCandidato)
+  Candidato --> Sistema : datosDocente()
+
+  Administrativo -> Sistema : confirmarToma()
+  Sistema -> TomasPosesion : validarDatos()
+  alt datos válidos
+    TomasPosesion -> TomasPosesion : registrar()
+    TomasPosesion --> Sistema : exito()
+    Sistema -> Administrativo : mostrarExito()
+  else error en validación
+    Sistema -> Administrativo : mostrarErrorValidacion()
+  end
+else expediente inválido
+  Sistema -> Administrativo : mostrarErrorExpediente()
+end
+@enduml
